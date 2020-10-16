@@ -5,7 +5,7 @@
 (** ADT representing a tile*)
 type t
 (** Represents the location of the tile*)
-type coord = (int * int)
+type coord
 (** Raised when a coordinate does not type correctly*)
 exception BadCoord of coord
 
