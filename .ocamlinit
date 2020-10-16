@@ -1,7 +1,7 @@
 #require "ounit2";;
-#require "yojson";;
 #require "ANSITerminal";;
+#require "Graphics";;
 #directory "_build";;
-#load "adventure.cmo";;
-#load "command.cmo";;
-#load "state.cmo";;
+#load "board.cmo";;
+#load "shapes.cmo";;
+#load "tile.cmo";;
