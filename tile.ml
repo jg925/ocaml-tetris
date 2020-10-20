@@ -7,6 +7,7 @@ type t = {
   location : coord;
   color : string
 }
+exception BadTile of t
 
 let get_x tile = 
   match tile.location with 
