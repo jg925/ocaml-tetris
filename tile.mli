@@ -5,11 +5,8 @@
 (** ADT representing a tile*)
 type t
 
-(** Represents the location of the tile*)
-type coord
-
-(** Raised when a coordinate does not type correctly*)
-exception BadCoord of coord
+(** Raised when a tile does not type correctly*)
+exception BadTile of t
 
 val get_x : t -> int
 
