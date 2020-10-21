@@ -10,7 +10,7 @@ For installing the Graphics package:
 
 For installing and running Xming:
 
-1. Download and install the [Xming X Server]<https://sourceforge.net/projects/xming/>
+1. Download and install the [Xming X Server][https://sourceforge.net/projects/xming/]
 
 2. Run XLaunch and don't change any of the default settings, specifically
   - Select "Multiple windows"
