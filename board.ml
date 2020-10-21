@@ -7,11 +7,12 @@ type t = int
 
 (** [setup] opens a Graphics window and draws the board outline for Tetris.
     The board is 10x20 blocks where each block is 50x50 pixels.*)
-let setup = 
+let setup =  
+  let increment = Tile.set_tile_length in
   let lower = 70 in 
-  let upper = lower + (20*Tile.set_tile_length) in 
+  let upper = lower + (20 * increment) in 
   let left = 100 in
-  let right = left + (10*Tile.set_tile_length) in
+  let right = left + (10 * increment) in
   Graphics.open_graph " 700x1000";
   Graphics.set_window_title "Tetris";
   Graphics.set_line_width 2;
