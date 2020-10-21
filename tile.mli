@@ -8,10 +8,13 @@ type t
 (** Raised when a tile does not type correctly*)
 exception BadTile of t
 
+val set_tile_length : int
+
 val get_x : t -> int
 
 val get_y : t -> int
 
+val get_length : t -> int
 (** when called the tile will naturally 
     move one tile-length down the board, no user input required*)
 val fall : t -> t
