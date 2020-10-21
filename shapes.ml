@@ -1,4 +1,5 @@
 (*insert shapes defs here*)
+open Tile
 type t = int
 
 type anchor_tile = Tile.t

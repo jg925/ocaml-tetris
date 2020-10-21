@@ -9,9 +9,9 @@ type t = int
     The board is 10x20 blocks where each block is 50x50 pixels.*)
 let setup = 
   let lower = 70 in 
-  let upper = lower + (20 * Tile.set_tile_length) in 
+  let upper = lower + (20*Tile.set_tile_length) in 
   let left = 100 in
-  let right = left + (10 * Tile.set_tile_length) in
+  let right = left + (10*Tile.set_tile_length) in
   Graphics.open_graph " 700x1000";
   Graphics.set_window_title "Tetris";
   Graphics.set_line_width 2;
