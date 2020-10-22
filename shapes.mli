@@ -3,7 +3,7 @@
 open Tile
 
 (** ADT representing the shape*)
-type t
+type t 
 
 (** every shape has its own "anchor tile"
     which dictates how the shape will rotate.*)
