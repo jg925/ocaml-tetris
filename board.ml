@@ -7,8 +7,8 @@ type t = int
 
 (** [setup] opens a Graphics window and draws the board outline for Tetris.
     The board is 10x20 blocks where each block is 50x50 pixels.*)
+let increment = Tile.set_tile_length
 let setup =  
-  let increment = Tile.set_tile_length in
   let lower = 70 in 
   let upper = lower + (20 * increment) in 
   let left = 100 in
