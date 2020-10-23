@@ -8,7 +8,7 @@ type t
 (** Raised when a tile does not type correctly*)
 exception BadTile of t
 
-val set_tile_length : int
+(*val set_tile_length : int*)
 
 val get_x : t -> int
 
