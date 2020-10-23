@@ -8,6 +8,8 @@ type t
 (** Raised when a tile does not type correctly*)
 exception BadTile of t
 
+val create_tile : Graphics.color -> (int * int) -> t
+
 val get_x : t -> int
 
 val get_y : t -> int

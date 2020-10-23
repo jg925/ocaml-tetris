@@ -9,6 +9,12 @@ type t = {
 }
 exception BadTile of t
 
+let create_tile color coords = 
+  {
+    location = coords;
+    color = color
+  }
+
 let get_x tile = 
   match tile.location with 
   | (x,_) -> x
