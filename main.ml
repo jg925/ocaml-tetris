@@ -1,5 +1,7 @@
 (*insert main code here*)
-let start () = Board.setup ()
+open Board
+
+let start = Board.setup
 
 let display_score () = ()
 

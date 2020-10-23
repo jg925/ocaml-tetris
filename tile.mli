@@ -1,6 +1,7 @@
 (** 
    Representation of tile data, including its location.
 *)
+type coord
 
 (** ADT representing a tile*)
 type t
@@ -8,7 +9,7 @@ type t
 (** Raised when a tile does not type correctly*)
 exception BadTile of t
 
-val create_tile : Graphics.color -> (int * int) -> t
+val create_tile : int * int * int -> coord -> t
 
 val get_x : t -> int
 

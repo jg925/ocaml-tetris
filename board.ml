@@ -1,3 +1,5 @@
+open Tile
+
 let scale = 50
 
 (** [setup] opens a Graphics window and draws the board outline for Tetris.
