@@ -1,21 +1,16 @@
-(*insert board code here*)
-(*open Tile*)
-
-(**The board should be a mutable array of tiles,
-   in which any rows of the board that are empty 
-   are removed from the array to save space.*)
-type t = int
+let scale = 50
 
 (** [setup] opens a Graphics window and draws the board outline for Tetris.
-    The board is 10x20 blocks where each block is 50x50 pixels.*)
-let length = 50 (*Tile.set_tile_length*)
-
-let setup =  
-  let lower = 70 in 
-  let upper = lower + (20 * length) in 
-  let left = 100 in
-  let right = left + (10 * length) in
-  Graphics.open_graph " 700x1000";
+    The board is 10x20 blocks where each block is a square with width and 
+    height both equal to [scale] pixels.*)
+let setup () =  
+  let lower = 2 * scale in 
+  let upper = lower + (20 * scale) in 
+  let left = 2 * scale in
+  let right = left + (10 * scale) in
+  let width = right + 2 * scale in
+  let height = upper + 2*scale in 
+  " " ^ (string_of_int width) ^ "x" ^ (string_of_int height) |> Graphics.open_graph;
   Graphics.set_window_title "Tetris";
   Graphics.set_line_width 2;
   Graphics.moveto left lower;
@@ -24,9 +19,12 @@ let setup =
   Graphics.lineto left upper;
   Graphics.lineto left lower
 
+let display_tile tile = 
+  Graphics.set_color (Tile.get_color tile);
+  Graphics.fill_rect (Tile.get_x tile) (Tile.get_y tile) scale scale
 
-let delete_rows board = 
-  failwith "unimplemented"
+let display_shape shape = failwith "unimplemented"
 
-let refresh = failwith "unimplemented"
-(*Graphics.close_graph (); setup*)
+let delete_rows () = failwith "unimplemented"
+
+let refresh () = Graphics.close_graph (); setup ()

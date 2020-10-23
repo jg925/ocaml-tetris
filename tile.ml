@@ -5,11 +5,9 @@ type coord = (int * int)
 (* a tile should be an x, y representing lower left corner and a color*)
 type t = {
   location : coord;
-  color : string
+  color : (int * int * int)
 }
 exception BadTile of t
-
-let set_tile_length = 50
 
 let get_x tile = 
   match tile.location with 
@@ -19,15 +17,17 @@ let get_y tile =
   match tile.location with 
   | (_,y) -> y
 
+let get_color tile = 
+  match tile.color with 
+  | (r,g,b) -> Graphics.rgb r g b
+
 let move_to tile x y = {tile with location = (x, y)}
 
-(* TODO: right now I wrote -1 but the actual size of a tile is 50 pixels.
-   We'll probably want to abstract this out in some way so we can change the 
-   size of tiles, I just wasn't sure how to do that rn. *)
-let fall tile = move_to tile (get_x tile) (get_y tile - (1*set_tile_length))
+let fall tile size = move_to tile (get_x tile) (get_y tile - size)
 
-let move_left tile = move_to tile (get_x tile - (1*set_tile_length)) (get_y tile)
+let move_left tile size = move_to tile (get_x tile - size) (get_y tile)
 
-let move_right tile = move_to tile (get_x tile + (1*set_tile_length)) (get_y tile)
+let move_right tile size = move_to tile (get_x tile + size) (get_y tile)
 
-let drop tile = failwith "unimplemented"
+let drop tile size = failwith "unimplemented"
+
