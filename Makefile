@@ -15,6 +15,9 @@ build:
 test:
 	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST)
 
+zip:
+	zip tetris.zip *.ml* _tags Makefile
+
 play:
 	$(OCAMLBUILD) $(MAIN) && ./$(MAIN)
 
