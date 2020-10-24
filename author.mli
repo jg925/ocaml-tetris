@@ -11,4 +11,4 @@
 
 (** [hours_worked] is the combined number of hours we worked on this 
     assignment *)
-val hours_worked : int
+val total_hours_worked : int
