@@ -1,9 +1,9 @@
-
+(* [scale] defines the size of the game board and the tiles *)
 let scale = 50
 
-(** [setup] opens a Graphics window and draws the board outline for Tetris.
-    The board is 10x20 blocks where each block is a square with width and 
-    height both equal to [scale] pixels.*)
+(* [setup ()] opens a Graphics window and draws the board outline for Tetris.
+   The board is 10x20 blocks where each block is a square with width and 
+   height both equal to [scale] pixels.*)
 let setup () =  
   let lower = 2 * scale in 
   let upper = lower + (20 * scale) in 
@@ -26,6 +26,8 @@ let display_tile tile =
 
 let display_shape shape = failwith "unimplemented"
 
+(* NOTE: I think delete rows will eventually need to take in a parameter, 
+   probably the y-coordinate of the row it's deleting*)
 let delete_rows () = failwith "unimplemented"
 
 let refresh () = Graphics.close_graph (); setup ()
