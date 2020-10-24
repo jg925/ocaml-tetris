@@ -29,7 +29,11 @@ For installing and running Xming:
 
 3. Run `utop`
 
-4. Run `#load "main.cmo" "board.cmo" "tile.cmo";;`
+4. Run `#load "tile.cmo";;`
+
+5. Run `#load "board.cmo";;`
+
+6. Run `#load "main.cmo";;`
 
 5. Run `Main.start ();;` and a window should pop up with the basic game board drawn
 
