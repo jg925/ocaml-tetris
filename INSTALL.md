@@ -19,3 +19,18 @@ For installing and running Xming:
   - Select "Clipboard"
 
 3. In terminal, enter `export DISPLAY=:0`, making sure not to have spaces around the equals
+
+
+# Instructions to run Tetris
+
+1. If on Windows follow the above instructions to start an Xming window and set the export display
+
+2. In terminal navigate to the directory with the project and run `make build`
+
+3. Run `utop`
+
+4. Run `#load "main.cmo" "board.cmo" "tile.cmo";;`
+
+5. Run `Main.start ();;` and a window should pop up with the basic game board drawn
+
+6. When you want to close, do not "x out" of the window, instead run `#quit;;` in utop which will quit the program cleanly.
