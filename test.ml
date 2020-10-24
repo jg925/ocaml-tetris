@@ -3,7 +3,6 @@ open Main
 open Tile
 open Shapes
 open Board
-(*insert tests here*)
 
 let tile_tests = 
   [
