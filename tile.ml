@@ -1,12 +1,17 @@
-
+(* [coord] is an (x,y) tuple representing the lower left corner of the tile 
+   RI: [x] is between 1 and 10 inclusive and [y] is between 1 and 20
+   inclusive *)
 type coord = (int * int)
+
+(* [color] is an (r,g,b) tuple representing the red, green, and blue values 
+   of the tile color *)
 type color = (int * int * int)
 
-(* a tile should be an x, y representing lower left corner and a color*)
 type t = {
   location : coord;
   color : color
 }
+
 exception BadTile of t
 
 let make_coord x y = (x, y)
@@ -33,11 +38,11 @@ let get_color tile =
 
 let move_to tile x y = {tile with location = (x, y)}
 
-let fall tile size = move_to tile (get_x tile) (get_y tile - size)
+let fall tile = move_to tile (get_x tile) (get_y tile - 1)
 
-let move_left tile size = move_to tile (get_x tile - size) (get_y tile)
+let move_left tile = move_to tile (get_x tile - 1) (get_y tile)
 
-let move_right tile size = move_to tile (get_x tile + size) (get_y tile)
+let move_right tile = move_to tile (get_x tile + 1) (get_y tile)
 
-let drop tile size = failwith "unimplemented"
+let drop tile = failwith "unimplemented"
 
