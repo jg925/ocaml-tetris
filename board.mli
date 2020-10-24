@@ -1,9 +1,7 @@
-(*insert board abstraction here*)
-type t
 
-val setup : unit
+val setup : unit -> unit
 
-val delete_rows : t -> t
+val delete_rows : unit -> unit
 
 (** refreshes the board, and gets it ready for the next frame.*)
-val refresh : unit
+val refresh : unit -> unit

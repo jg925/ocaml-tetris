@@ -1,7 +1,9 @@
 (*insert shapes defs here*)
+open Tile
 type t = int
 
 type anchor_tile = Tile.t
+
 
 let get_anchor_tile shape = failwith "unimplemented"
 
