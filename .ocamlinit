@@ -2,6 +2,8 @@
 #require "ANSITerminal";;
 #require "graphics";;
 #directory "_build";;
-#load "board.cmo";;
-#load "shapes.cmo";;
 #load "tile.cmo";;
+#load "shapes.cmo";;
+#load "board.cmo";;
+#load "main.cmo";;
+Main.start ();;
