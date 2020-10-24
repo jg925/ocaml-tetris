@@ -7,10 +7,15 @@ type t
 
 (** every shape has its own "anchor tile"
     which dictates how the shape will rotate.*)
-type anchor_tile = Tile.t
+type anchor = (int * int)
+
+(** [makeShape] creates a Tetris shape of type [t] and *)
+val make_shape : char -> anchor -> t
+
+exception BadName of char
 
 (**Returns the anchor tile of the shape. *)
-val get_anchor_tile : t -> anchor_tile
+val get_anchor_tile : t -> Tile.t
 
 val get_x : t -> int
 

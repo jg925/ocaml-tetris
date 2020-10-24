@@ -1,17 +1,18 @@
 (*insert shapes defs here*)
-type anchor_tile = Tile.t
+type anchor = (int * int)
 (** [type t] is a generic type for each tetris block with a name and a list 
     of Tiles to create the desired tetris block.
     The [name] can be one of the following chars: I, J, L, T, Z, S, O
     The [orientation] is one of 0, 90, 180, 270 *)
 type t = {
   name : char;
-  anchor : anchor_tile;
+  anchor : anchor;
   tile_list : Tile.t list;
   orientation : int;
 }
 
 exception BadName of char
+exception BadShape of t
 
 let rec gen_tile_list (coords : (int * int) list) (r : int) (g : int) (b : int) tile_list = 
   match coords with
@@ -79,9 +80,8 @@ let gen_coord_list name anchor_coords orientation =
       | x -> []
     end
 
-let makeShape (name : char) (anchor : anchor_tile) = 
-  let anchor_coords = (Tile.get_x anchor, Tile.get_y anchor) in
-  let coord_list = gen_coord_list name anchor_coords 0 in
+let make_shape (name : char) (anchor : anchor) = 
+  let coord_list = gen_coord_list name anchor 0 in
   let tile_list : Tile.t list = 
     match name with
     | 'I' -> gen_tile_list coord_list 5 240 241 []
@@ -99,7 +99,13 @@ let makeShape (name : char) (anchor : anchor_tile) =
     orientation = 0
   }
 
-let get_anchor_tile shape = shape.anchor 
+let get_anchor_tile shape = 
+  let rec helper tile_list anchor = 
+    match tile_list with
+    | [] -> raise (BadShape shape)
+    | h :: t -> begin
+        if (Tile.get_x h, Tile.get_y h) = anchor then h else helper t anchor
+      end in helper shape.tile_list shape.anchor
 
 let get_x shape = get_anchor_tile shape |> Tile.get_x
 
