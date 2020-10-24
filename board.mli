@@ -1,5 +1,3 @@
-(*insert board abstraction here*)
-(*type t*)
 
 val setup : unit -> unit
 

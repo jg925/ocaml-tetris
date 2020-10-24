@@ -1,4 +1,3 @@
-open Tile
 
 let scale = 50
 
@@ -22,7 +21,7 @@ let setup () =
   Graphics.lineto left lower
 
 let display_tile tile = 
-  Graphics.set_color (Tile.get_color tile);
+  (*Graphics.set_color (Tile.get_color tile);*)
   Graphics.fill_rect (Tile.get_x tile) (Tile.get_y tile) scale scale
 
 let display_shape shape = failwith "unimplemented"

@@ -1,17 +1,17 @@
-(* insert tile code here*)
 
 type coord = (int * int)
+type color = (int * int * int)
 
 (* a tile should be an x, y representing lower left corner and a color*)
 type t = {
   location : coord;
-  color : (int * int * int)
+  color : color
 }
 exception BadTile of t
 
-let create_tile color coords = 
+let create_tile coord color = 
   {
-    location = coords;
+    location = coord;
     color = color
   }
 
