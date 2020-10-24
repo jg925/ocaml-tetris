@@ -26,6 +26,11 @@ To install the Graphics package:
 
 1. Run `opam install graphics` in terminal, and install any missing dependencies.
 
+2. Choose one of the following display methods:
+    - Download [XQuartz](https://www.xquartz.org/) to setup displaying from xterm, the terminal in XQuartz.
+    - In `~/.bashrc` in terminal, set `if [ -z $DISPLAY ]; then export DISPLAY=:0.0; fi`. Make sure, the `.bashrc` file has been sourced with `source ~/.bashrc` after updating.
+
+
 # Instructions to run Tetris
 
 1. If on Windows follow the above instructions to start an Xming window and set the export display
@@ -34,12 +39,6 @@ To install the Graphics package:
 
 3. Run `utop`
 
-4. Run `#load "tile.cmo";;`
+4. Run `Main.start ();;` and a window should pop up with the basic game board drawn
 
-5. Run `#load "board.cmo";;`
-
-6. Run `#load "main.cmo";;`
-
-5. Run `Main.start ();;` and a window should pop up with the basic game board drawn
-
-6. When you want to close, do not "x out" of the window, instead run `#quit;;` in utop which will quit the program cleanly.
+5. When you want to close, do not "x out" of the window, instead run `#quit;;` in utop which will quit the program cleanly.
