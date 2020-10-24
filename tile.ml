@@ -1,4 +1,6 @@
-(* [coord] is an (x,y) tuple representing the lower left corner of the tile *)
+(* [coord] is an (x,y) tuple representing the lower left corner of the tile 
+   RI: [x] is between 1 and 10 inclusive and [y] is between 1 and 20
+   inclusive *)
 type coord = (int * int)
 
 (* [color] is an (r,g,b) tuple representing the red, green, and blue values 
@@ -36,11 +38,11 @@ let get_color tile =
 
 let move_to tile x y = {tile with location = (x, y)}
 
-let fall tile scale = move_to tile (get_x tile) (get_y tile - scale)
+let fall tile = move_to tile (get_x tile) (get_y tile - 1)
 
-let move_left tile scale = move_to tile (get_x tile - scale) (get_y tile)
+let move_left tile = move_to tile (get_x tile - 1) (get_y tile)
 
-let move_right tile scale = move_to tile (get_x tile + scale) (get_y tile)
+let move_right tile = move_to tile (get_x tile + 1) (get_y tile)
 
 let drop tile = failwith "unimplemented"
 
