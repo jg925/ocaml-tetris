@@ -10,7 +10,7 @@ type t
 (** Raised when a tile does not type correctly*)
 exception BadTile of t
 
-val create_tile : coord -> color -> t
+val create_tile : int -> int -> int -> int -> int -> t
 
 val get_x : t -> int
 

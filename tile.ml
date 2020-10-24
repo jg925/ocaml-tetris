@@ -9,10 +9,14 @@ type t = {
 }
 exception BadTile of t
 
-let create_tile coord color = 
+let make_coord x y = (x, y)
+
+let make_color r g b = (r, g, b)
+
+let create_tile x y r g b = 
   {
-    location = coord;
-    color = color
+    location = make_coord x y;
+    color = make_color r g b
   }
 
 let get_x tile = 
