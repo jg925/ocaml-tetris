@@ -25,17 +25,14 @@ val get_color : t -> Graphics.color
     be a hidden helper function not exposed in the mli*)
 val move_to : t -> int -> int -> t
 
-(** [fall tile scale] moves the tile down the game board by the [scale] of 
-    one tile *)
-val fall : t -> int -> t
+(** [fall tile] moves the tile down the game board by 1 *)
+val fall : t -> t
 
-(** [move_left tile scale] moves the tile to the left on the game board by 
-    the [scale] of one tile *)
-val move_left : t -> int -> t
+(** [move_left tile] moves the tile to the left on the game board by 1 *)
+val move_left : t -> t
 
-(** [move_right tile scale] moves the tile to the right on the game board by 
-    the [scale] of one tile *)
-val move_right : t -> int -> t
+(** [move_right tile] moves the tile to the right on the game board by 1 *)
+val move_right : t -> t
 
 (** [drop tile] drops the tile to the lowest available position on the 
     game board
