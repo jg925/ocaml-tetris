@@ -20,6 +20,11 @@ For installing and running Xming:
 
 3. In terminal, enter `export DISPLAY=:0`, making sure not to have spaces around the equals
 
+## Mac instructions
+
+To install the Graphics package:
+
+1. Run `opam install graphics` in terminal, and install any missing dependencies.
 
 # Instructions to run Tetris
 
