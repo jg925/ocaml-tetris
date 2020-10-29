@@ -1,7 +1,6 @@
 (* [scale] defines the size of the game board and the tiles *)
 
-let scale = 50 (*Tile.tile_length*)
-
+let scale =Tile.tile_length
 (* [left_offset] defines the width between the left side of the window and 
    left side of the board *)
 let left_offset = 70
