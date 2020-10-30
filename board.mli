@@ -7,5 +7,9 @@ val setup : unit -> unit
     NOTE: CURRENTLY UNIMPLEMENTED*)
 val delete_rows : unit -> unit
 
+
+val display_tile: Tile.t -> unit
+
+val display_shape: Shapes.t -> unit
 (** [refresh ()] clears the game board and draws a new game board *)
 val refresh : unit -> unit

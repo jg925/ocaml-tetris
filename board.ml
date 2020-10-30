@@ -1,6 +1,6 @@
 (* [scale] defines the size of the game board and the tiles *)
-let scale = 50
 
+let scale =Tile.tile_length
 (* [left_offset] defines the width between the left side of the window and 
    left side of the board *)
 let left_offset = 70
@@ -39,7 +39,7 @@ let setup () =
 let display_tile tile = 
   let x = left_offset + scale * (Tile.get_x tile) in
   let y = bottom_offset + scale * (Tile.get_y tile) in
-  (*Graphics.set_color (Tile.get_color tile);*)
+  Graphics.set_color (Tile.get_color tile);
   Graphics.fill_rect x y scale scale
 
 let display_shape shape = failwith "unimplemented"
