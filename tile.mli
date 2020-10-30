@@ -19,6 +19,8 @@ val get_y : t -> int
     r, g, b values of [tile] *)
 val get_color : t -> Graphics.color
 
+val tile_length: int
+
 (** [move_to tile x y] creates a tile with the same attributes as [tile] 
     except the x and y coordinates are changed to [x] and [y] 
     NOTE: in the future I think we might want to change this function to 
