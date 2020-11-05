@@ -10,7 +10,7 @@ type t
 type anchor = (int * int)
 
 (** [makeShape] creates a Tetris shape of type [t] and *)
-val make_shape : char -> anchor -> t
+val make_shape : char -> anchor -> int -> t
 
 exception BadName of char
 

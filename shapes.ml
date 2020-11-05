@@ -28,6 +28,7 @@ let rec gen_tile_list (coords : (int * int) list) (r : int) (g : int) (b : int) 
     end
 
 let gen_coord_list name anchor_coords orientation =
+  let orientation = orientation mod 360 in
   match anchor_coords with
   | (a,b) -> begin
       let x = a in
@@ -80,8 +81,8 @@ let gen_coord_list name anchor_coords orientation =
       | x -> []
     end
 
-let make_shape (name : char) (anchor : anchor) = 
-  let coord_list = gen_coord_list name anchor 0 in
+let make_shape (name : char) (anchor : anchor) (orientation : int) = 
+  let coord_list = gen_coord_list name anchor orientation in
   let tile_list : Tile.t list = 
     match name with
     | 'I' -> gen_tile_list coord_list 5 240 241 []
@@ -96,7 +97,7 @@ let make_shape (name : char) (anchor : anchor) =
     name = name;
     anchor = anchor;
     tile_list = tile_list;
-    orientation = 0
+    orientation = orientation
   }
 
 let get_anchor_tile shape = 
@@ -111,13 +112,23 @@ let get_x shape = get_anchor_tile shape |> Tile.get_x
 
 let get_y shape = get_anchor_tile shape |> Tile.get_y
 
-let move_l shape = failwith "unimplemented"
+let move_lr shape dir = 
+  let new_anchor =
+    match shape.anchor with
+    | (x,y) -> begin 
+        if dir = "l" then (x - 1, y) 
+        else if dir = "r" then (x + 1, y)
+        else raise (Failure "improper direction")
+      end
+  in make_shape shape.name new_anchor shape.orientation
 
-let move_r shape = failwith "unimplemented"
+let move_l shape = move_lr shape "l"
 
-let rotate_l shape = failwith "unimplemented"
+let move_r shape = move_lr shape "r"
 
-let rotate_r shape = failwith "unimplemented"
+let rotate_l shape = make_shape shape.name shape.anchor (shape.orientation - 90)
+
+let rotate_r shape = make_shape shape.name shape.anchor (shape.orientation + 90)
 
 let fall shape = failwith "unimplemented"
 
