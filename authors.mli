@@ -5,7 +5,7 @@
 
    Academic Integrity Statement
 
-   All work in this assignment is entirely our own.ANSITerminal
+   All work in this assignment is entirely our own.
 
  ************************************************************)  
 

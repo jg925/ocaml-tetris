@@ -112,9 +112,19 @@ let get_x shape = get_anchor_tile shape |> Tile.get_x
 
 let get_y shape = get_anchor_tile shape |> Tile.get_y
 
-let move_l shape = failwith "unimplemented"
+let move_lr shape dir = 
+  let new_anchor =
+    match shape.anchor with
+    | (x,y) -> begin 
+        if dir = "l" then (x - 1, y) 
+        else if dir = "r" then (x + 1, y)
+        else raise (Failure "improper direction")
+      end
+  in make_shape shape.name new_anchor shape.orientation
 
-let move_r shape = failwith "unimplemented"
+let move_l shape = move_lr shape "l"
+
+let move_r shape = move_lr shape "r"
 
 let rotate_l shape = make_shape shape.name shape.anchor (shape.orientation - 90)
 

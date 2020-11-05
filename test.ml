@@ -23,6 +23,9 @@ let tetris_I_180 = Shapes.make_shape 'I' (0,0) 180
 let tetris_I_90 = Shapes.make_shape 'I' (0,0) 90
 let tetris_I_360 = Shapes.make_shape 'I' (0,0) 360
 
+let tetris_I_l = Shapes.make_shape 'I' (-1,0) 0
+let tetris_I_r = Shapes.make_shape 'I' (1,0) 0
+
 let get_x_test name shape expected_output : test =
   name >:: (fun _ ->
       assert_equal expected_output (Shapes.get_x shape) ~printer:string_of_int)
@@ -35,6 +38,14 @@ let make_shape_invalid test_name name anchor orientation : test =
   test_name >:: (fun _ ->
       assert_raises (Shapes.BadName name) 
         (fun _ -> Shapes.make_shape name anchor orientation))
+
+let move_l_test name shape expected_output : test =
+  name >:: (fun _ ->
+      assert_equal expected_output (Shapes.move_l shape))
+
+let move_r_test name shape expected_output : test =
+  name >:: (fun _ -> 
+      assert_equal expected_output (Shapes.move_r shape))
 
 let rotate_l_test name shape expected_output : test =
   name >:: (fun _ ->
@@ -69,6 +80,9 @@ let shapes_tests =
     rotate_r_test "I 90 + 90" tetris_I_90 tetris_I_180;
     rotate_r_test "I 180 + 90" tetris_I_180 tetris_I_270;
     rotate_r_test "I 270 + 90" tetris_I_270 tetris_I_360;
+    move_l_test "I shift left 1" tetris_I tetris_I_l;
+    move_r_test "I shift right 1" tetris_I tetris_I_r;
+
   ]
 
 let suite = 
