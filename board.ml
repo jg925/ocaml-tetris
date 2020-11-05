@@ -7,7 +7,7 @@ let left_offset = 70
 
 (* [bottom_offset] defines the height between the bottom of the window and 
    bottom of the board *)
-let bottom_offset = 100
+let bottom_offset = 70
 
 (* [right_offset] defines the width between the right side of the board and 
    right side of the window *)
@@ -15,16 +15,18 @@ let right_offset = 70
 
 (* [top_offset] defines the height between the top of the board and the 
    top of the window *)
-let top_offset = 100
+let top_offset = 70
 
 (* [setup ()] opens a Graphics window and draws the board outline for Tetris.
    The board is 10x20 blocks where each block is a square with width and 
    height both equal to [scale] pixels.*)
-let setup () =  
+let setup () = 
+  let tile_spaces_vert = 20 in
+  let tile_spaces_horiz = 15 in
   let lower = bottom_offset in 
-  let upper = lower + 20 * scale in 
+  let upper = lower + tile_spaces_vert * scale in 
   let left = left_offset in
-  let right = left + 10 * scale in
+  let right = left + tile_spaces_horiz * scale in
   let width = right + right_offset in
   let height = upper + top_offset in 
   " " ^ (string_of_int width) ^ "x" ^ (string_of_int height) |> Graphics.open_graph;
@@ -36,12 +38,12 @@ let setup () =
   Graphics.lineto left upper;
   Graphics.lineto left lower;
   Graphics.set_line_width 1;
-  for i = 1 to 10 do 
+  for i = 1 to tile_spaces_horiz do 
     let x = left + i * scale in
     Graphics.moveto x lower;
     Graphics.lineto x upper
   done;
-  for i = 1 to 20 do 
+  for i = 1 to tile_spaces_vert do 
     let y = lower + i * scale in
     Graphics.moveto left y;
     Graphics.lineto right y

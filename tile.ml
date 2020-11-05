@@ -24,7 +24,7 @@ let create_tile x y r g b =
     color = make_color r g b
   }
 
-let tile_length = 50 (*sets the tile length *)
+let tile_length = 35 (*sets the tile length *)
 
 let get_x tile = 
   match tile.location with 
