@@ -22,7 +22,7 @@ let top_offset = 70
    height both equal to [scale] pixels.*)
 let setup () = 
   let tile_spaces_vert = 20 in
-  let tile_spaces_horiz = 15 in
+  let tile_spaces_horiz = 10 in
   let lower = bottom_offset in 
   let upper = lower + tile_spaces_vert * scale in 
   let left = left_offset in
