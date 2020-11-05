@@ -2,6 +2,9 @@
     be drawn *)
 val setup : unit -> unit
 
+val top_offset : int
+
+val left_offset : int
 (** [delete rows ()] removes any completed rows of 
     tiles from the gameboard and drops down tiles above it by a row 
     NOTE: CURRENTLY UNIMPLEMENTED*)
