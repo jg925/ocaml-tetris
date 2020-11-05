@@ -1,6 +1,6 @@
 (* [scale] defines the size of the game board and the tiles *)
 
-let scale =Tile.tile_length
+let scale = Tile.tile_length
 (* [left_offset] defines the width between the left side of the window and 
    left side of the board *)
 let left_offset = 70
@@ -22,19 +22,30 @@ let top_offset = 100
    height both equal to [scale] pixels.*)
 let setup () =  
   let lower = bottom_offset in 
-  let upper = lower + (20 * scale) in 
+  let upper = lower + 20 * scale in 
   let left = left_offset in
-  let right = left + (10 * scale) in
+  let right = left + 10 * scale in
   let width = right + right_offset in
   let height = upper + top_offset in 
   " " ^ (string_of_int width) ^ "x" ^ (string_of_int height) |> Graphics.open_graph;
   Graphics.set_window_title "Tetris";
-  Graphics.set_line_width 2;
+  Graphics.set_line_width 3;
   Graphics.moveto left lower;
   Graphics.lineto right lower;
   Graphics.lineto right upper;
   Graphics.lineto left upper;
-  Graphics.lineto left lower
+  Graphics.lineto left lower;
+  Graphics.set_line_width 1;
+  for i = 1 to 10 do 
+    let x = left + i * scale in
+    Graphics.moveto x lower;
+    Graphics.lineto x upper
+  done;
+  for i = 1 to 20 do 
+    let y = lower + i * scale in
+    Graphics.moveto left y;
+    Graphics.lineto right y
+  done
 
 let display_tile tile = 
   let x = left_offset + scale * (Tile.get_x tile) in
