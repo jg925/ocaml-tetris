@@ -9,6 +9,7 @@ let display_score () =
 let start () = 
   Board.setup (); 
   Board.display_tile test_tile;
-  display_score (); ()
+  display_score (); 
+  Board.refresh (); ()
 
 let pause () = ()
