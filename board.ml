@@ -26,6 +26,7 @@ let y_dim = 20
 
 let tile_array = Array.make y_dim (Array.make x_dim None)
 
+let highest_y = Array.make x_dim 0
 
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.
     The board is 10x20 blocks where each block is a square with width and 
