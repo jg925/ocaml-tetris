@@ -69,8 +69,11 @@ let display_tile tile =
   Graphics.set_color (Tile.get_color tile);
   Graphics.fill_rect x y scale scale
 
+let rec display_each_tile = function
+  | [] -> ()
+  | tile::t -> display_tile tile; display_each_tile t
 
-let display_shape shape = failwith "unimplemented"
+let display_shape shape = shape |> Shapes.get_tiles |> display_each_tile
 
 
 let display_score score = 

@@ -21,6 +21,8 @@ val get_x : t -> int
 
 val get_y : t -> int 
 
+val get_tiles : t -> Tile.t list
+
 (** Moves the entire shape one tile-length to the left*)
 val move_l : t -> t
 
