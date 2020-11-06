@@ -136,6 +136,6 @@ let rec fall_each_tile acc= function
   |[] -> acc
   |h::t -> fall_each_tile (Tile.fall h :: acc) t
 
-let fall (shape:t) = {shape with tile_list= (fall_each_tile shape.tile_list)}
+let fall (shape:t) = {shape with tile_list= (fall_each_tile shape.tile_list) []}
 
 let drop shape = failwith "unimplemented"
