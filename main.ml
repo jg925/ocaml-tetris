@@ -34,8 +34,23 @@ let test_O_270 = Shapes.make_shape 'O' (5, 15) 270
 
 let start () = 
   let score = 0 in
+  let poss_shape_type = 
+    [('I', (1, 2));
+     ('J',(1, 5));
+     ('L', (1, 10));
+     ('T', (1, 15));
+     ('Z', (5, 1));
+     ('S', (5, 7));
+     ('O', (5, 15))] in
+  let poss_orie = [0; 90; 270; 360] in 
   Board.setup ();
-  let crnt_shape = ref test_Z_90 in
+  let crnt_shape = 
+    let decided_shape_type = List.hd poss_shape_type in
+    ref 
+      (Shapes.make_shape 
+         (fst decided_shape_type) 
+         (snd decided_shape_type) 
+         (List.hd poss_orie)) in
   Board.display_shape (Shapes.fall !crnt_shape);
   crnt_shape := (Shapes.fall !crnt_shape);
 
