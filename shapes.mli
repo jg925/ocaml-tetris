@@ -9,17 +9,19 @@ type t
     which dictates how the shape will rotate.*)
 type anchor = (int * int)
 
-(** [makeShape] creates a Tetris shape of type [t] and *)
+(** [make_shape] creates a Tetris shape of type [t] and *)
 val make_shape : char -> anchor -> int -> t
 
 exception BadName of char
 
-(**Returns the anchor tile of the shape. *)
+(** [get_anchor_tile] is the anchor tile of the shape. *)
 val get_anchor_tile : t -> Tile.t
 
 val get_x : t -> int
 
 val get_y : t -> int 
+
+val get_tiles : t -> Tile.t list
 
 (** Moves the entire shape one tile-length to the left*)
 val move_l : t -> t

@@ -4,10 +4,10 @@
     represented by two ints, x and y*)
 type t
 
-(** [create_tile x y r g b] takes in five ints representing the x and y 
+(** [make_tile x y r g b] takes in five ints representing the x and y 
     coordinates and red, green, and blue values of the tile and creates a 
     tile *)
-val create_tile : int -> int -> int -> int -> int -> t
+val make_tile : int -> int -> int -> int -> int -> t
 
 (** [get_x tile] is the x-coordinate of [tile] *)
 val get_x : t -> int

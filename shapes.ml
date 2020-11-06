@@ -22,7 +22,7 @@ let rec gen_tile_list (coords : (int * int) list) (r : int) (g : int) (b : int) 
       | (a,b) -> begin 
           let x = a in
           let y = b in 
-          let tile = Tile.create_tile x y r g b
+          let tile = Tile.make_tile x y r g b
           in gen_tile_list t r g b (tile :: tile_list)
         end
     end
@@ -37,11 +37,11 @@ let gen_coord_list name anchor_coords orientation =
       | 0 -> begin
           match name with
           | 'I' -> [(x - 2, y); (x - 1, y); (x, y); (x + 1, y)]
-          | 'J' -> [(x - 1, y + 1); (x + 1, y); (x, y); (x + 1, y)]
+          | 'J' -> [(x - 1, y + 1); (x - 1, y); (x, y); (x + 1, y)]
           | 'L' -> [(x + 1, y + 1); (x + 1, y); (x, y); (x - 1, y)]
           | 'T' -> [(x, y + 1); (x - 1, y); (x, y); (x + 1, y)]
           | 'Z' -> [(x - 1, y + 1); (x, y + 1); (x, y); (x + 1, y)]
-          | 'S' -> [(x - 1, y - 1); (x, y); (x, y + 1); (x + 1, y + 1)]
+          | 'S' -> [(x - 1, y); (x, y); (x, y + 1); (x + 1, y + 1)]
           | 'O' -> [(x, y); (x + 1, y); (x + 1, y - 1); (x, y - 1)]
           | _ -> raise (BadName name)
         end
@@ -111,6 +111,8 @@ let get_anchor_tile shape =
 let get_x shape = get_anchor_tile shape |> Tile.get_x
 
 let get_y shape = get_anchor_tile shape |> Tile.get_y
+
+let get_tiles shape = shape.tile_list
 
 let move_lr shape dir = 
   let new_anchor =
