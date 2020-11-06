@@ -132,6 +132,10 @@ let rotate_l shape = make_shape shape.name shape.anchor (shape.orientation - 90)
 
 let rotate_r shape = make_shape shape.name shape.anchor (shape.orientation + 90)
 
-let fall shape = failwith "unimplemented"
+let rec fall_each_tile acc= function
+  |[] -> acc
+  |h::t -> fall_each_tile (Tile.fall h :: acc) t
+
+let fall (shape:t) = {shape with tile_list= (fall_each_tile shape.tile_list)}
 
 let drop shape = failwith "unimplemented"
