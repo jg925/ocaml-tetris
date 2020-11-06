@@ -1,5 +1,5 @@
 (* [coord] is an (x,y) tuple representing the lower left corner of the tile 
-   RI: [x] is between 1 and 10 inclusive and [y] is between 1 and 20
+   RI: [x] is between 1 and x_dim inclusive and [y] is between 1 and y_dim
    inclusive *)
 type coord = (int * int)
 
@@ -18,7 +18,7 @@ let make_coord x y = (x, y)
 
 let make_color r g b = (r, g, b)
 
-let create_tile x y r g b = 
+let make_tile x y r g b = 
   {
     location = make_coord x y;
     color = make_color r g b

@@ -22,7 +22,7 @@ let rec gen_tile_list (coords : (int * int) list) (r : int) (g : int) (b : int) 
       | (a,b) -> begin 
           let x = a in
           let y = b in 
-          let tile = Tile.create_tile x y r g b
+          let tile = Tile.make_tile x y r g b
           in gen_tile_list t r g b (tile :: tile_list)
         end
     end
