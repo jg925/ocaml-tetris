@@ -62,12 +62,14 @@ let setup () =
 
 (* Functions for displaying different assets of the game *)
 
+let draw_square color tile_x tile_y = 
+  let x = left_offset + scale * tile_x in
+  let y = bottom_offset + scale * tile_y in
+  Graphics.set_color color;
+  Graphics.fill_rect x y scale scale
 
 let display_tile tile = 
-  let x = left_offset + scale * (Tile.get_x tile) in
-  let y = bottom_offset + scale * (Tile.get_y tile) in
-  Graphics.set_color (Tile.get_color tile);
-  Graphics.fill_rect x y scale scale
+  draw_square (Tile.get_color tile) (Tile.get_x tile) (Tile.get_y tile)
 
 let rec display_each_tile = function
   | [] -> ()
@@ -75,6 +77,14 @@ let rec display_each_tile = function
 
 let display_shape shape = shape |> Shapes.get_tiles |> display_each_tile
 
+let erase_tile tile = 
+  draw_square (Graphics.rgb 255 255 255) (Tile.get_x tile) (Tile.get_y tile)
+
+let rec erase_each_tile = function
+  | [] -> ()
+  | tile::t -> erase_tile tile; erase_each_tile t
+
+let erase_shape shape = shape |> Shapes.get_tiles |> erase_each_tile
 
 let display_score score = 
   Graphics.moveto (top_offset + 20) (left_offset + 20);

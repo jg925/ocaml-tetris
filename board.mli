@@ -20,6 +20,10 @@ val display_tile : Tile.t -> unit
 
 val display_shape : Shapes.t -> unit
 
+val erase_tile : Tile.t -> unit
+
+val erase_shape : Shapes.t -> unit
+
 val display_score : int -> unit
 
 

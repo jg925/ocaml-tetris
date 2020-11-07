@@ -32,9 +32,17 @@ let test_Z_270 = Shapes.make_shape 'Z' (5, 1) 270
 let test_S_270 = Shapes.make_shape 'S' (5, 7) 270
 let test_O_270 = Shapes.make_shape 'O' (5, 15) 270
 
+
+let erase_previous previous_shape = 
+  match previous_shape with
+  | None -> ()
+  | Some shape -> shape |> Board.erase_shape
+
 let start () = 
   let score = 0 in
   Board.setup ();
+
+
   (*Board.display_tile test_tile;*)
   (*
   Board.display_shape test_I_0;
@@ -73,10 +81,17 @@ let start () =
   Board.display_shape test_O_270;
   *)
 
-  Board.display_score score
-(*let rec game_loop ()=
 
-  Board.refresh () in
-  failwith "unimplemented"*)
 
+  Board.display_score score;
+  let rec game_loop loops current_shape previous_shape =
+    match loops with 
+    | 0 -> ()
+    | _ -> 
+      erase_previous previous_shape;
+      current_shape |> Board.display_shape;
+      Unix.sleep 1;
+      game_loop (loops - 1) (Shapes.fall current_shape) (Some current_shape)
+  in 
+  game_loop 20 test_T_90 None
 let pause () = ()
