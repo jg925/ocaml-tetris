@@ -34,6 +34,8 @@ let test_O_270 = Shapes.make_shape 'O' (5, 15) 270
 
 let start () = 
   let score = 0 in
+  let randelm lst =
+    let n = Random.int (List.length lst) in List.nth lst n in
   let poss_shape_type = 
     [('I', (1, 2));
      ('J',(1, 5));
@@ -45,12 +47,12 @@ let start () =
   let poss_orie = [0; 90; 270; 360] in 
   Board.setup ();
   let crnt_shape = 
-    let decided_shape_type = List.hd poss_shape_type in
+    let decided_shape_type = randelm poss_shape_type in
     ref 
       (Shapes.make_shape 
          (fst decided_shape_type) 
          (snd decided_shape_type) 
-         (List.hd poss_orie)) in
+         (randelm poss_orie)) in
   Board.display_shape (Shapes.fall !crnt_shape);
   crnt_shape := (Shapes.fall !crnt_shape);
 
