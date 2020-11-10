@@ -34,6 +34,7 @@ let gridline_width = 1
 
 let tile_array = Array.make y_dim (Array.make x_dim None)
 
+let highest_y = Array.make x_dim 0
 
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.
     The board is 10x20 blocks where each block is a square with width and 
@@ -101,7 +102,7 @@ let rec erase_each_tile = function
 let erase_shape shape = shape |> Shapes.get_tiles |> erase_each_tile
 
 let display_score score = 
-  Graphics.moveto (top_offset + 20) (left_offset + 20);
+  Graphics.moveto (bottom_offset + 20) (left_offset + 20);
   Graphics.draw_string ("Score: " ^ string_of_int score)
 
 

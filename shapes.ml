@@ -122,15 +122,15 @@ let move_lr shape dir =
         else if dir = "r" then (x + 1, y)
         else raise (Failure "improper direction")
       end
-  in make_shape shape.name new_anchor shape.orientation
+  in {shape with anchor=new_anchor}
 
 let move_l shape = move_lr shape "l"
 
 let move_r shape = move_lr shape "r"
 
-let rotate_l shape = make_shape shape.name shape.anchor (shape.orientation - 90)
+let rotate_l shape = {shape with orientation= shape.orientation - 90}
 
-let rotate_r shape = make_shape shape.name shape.anchor (shape.orientation + 90)
+let rotate_r shape = {shape with orientation= shape.orientation + 90}
 
 let fall shape = {shape with tile_list = List.map Tile.fall shape.tile_list}
 
