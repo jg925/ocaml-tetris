@@ -2,11 +2,15 @@
 
 ## Windows instructions
 
-For installing the Graphics package:
+For installing necessary packages:
 
 1. Run `sudo apt install pkg-config`
 
 2. Run `opam install graphics`
+
+3. Run `sudo apt install libsdl2-dev`
+
+4. Run `opam install ocamlsdl2`
 
 For installing and running Xming:
 

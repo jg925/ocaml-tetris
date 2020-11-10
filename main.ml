@@ -32,35 +32,48 @@ let test_Z_270 = Shapes.make_shape 'Z' (5, 1) 270
 let test_S_270 = Shapes.make_shape 'S' (5, 7) 270
 let test_O_270 = Shapes.make_shape 'O' (5, 15) 270
 
+
+let erase_previous previous_shape = 
+  match previous_shape with
+  | None -> ()
+  | Some shape -> shape |> Board.erase_shape
+
 let start () = 
   let score = 0 in
-  let randelm lst =
-    Random.self_init();
+  let rand_element lst =
+    Random.self_init ();
     let n = Random.int (List.length lst) in List.nth lst n in
   let poss_shape_type = 
-    [('I', (1, 2));
-     ('J',(1, 5));
-     ('L', (1, 10));
-     ('T', (1, 15));
-     ('Z', (5, 1));
-     ('S', (5, 7));
-     ('O', (5, 15))] in
-  let poss_orie = [0; 90; 270; 360] in 
+    [('I', (5, 17));
+     ('J', (5, 17));
+     ('L', (5, 17));
+     ('T', (5, 17));
+     ('Z', (5, 17));
+     ('S', (5, 17));
+     ('O', (5, 17))] in
+  let poss_orient = [0; 90; 270; 360] in 
   Board.setup ();
-  let crnt_shape = 
-    let decided_shape_type = randelm poss_shape_type in
+
+
+  let current_shape = 
+    let decided_shape_type = rand_element poss_shape_type in
     ref 
       (Shapes.make_shape 
          (fst decided_shape_type) 
          (snd decided_shape_type) 
-         (randelm poss_orie)) in
-  Board.display_shape (Shapes.fall !crnt_shape);
-  crnt_shape := (Shapes.fall !crnt_shape);
+         (rand_element poss_orient)) in
 
-  Board.display_score score
-(*let rec game_loop ()=
 
-  Board.refresh () in
-  failwith "unimplemented"*)
+  Board.display_score score;
+  let rec game_loop loops current_shape previous_shape =
+    match loops with 
+    | 0 -> ()
+    | _ -> 
+      erase_previous previous_shape;
+      current_shape |> Board.display_shape;
+      Unix.sleep 1;
+      game_loop (loops - 1) (Shapes.fall current_shape) (Some current_shape)
+  in 
+  game_loop 15 !current_shape None
 
 let pause () = ()
