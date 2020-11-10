@@ -35,6 +35,7 @@ let test_O_270 = Shapes.make_shape 'O' (5, 15) 270
 let start () = 
   let score = 0 in
   let randelm lst =
+    Random.self_init();
     let n = Random.int (List.length lst) in List.nth lst n in
   let poss_shape_type = 
     [('I', (1, 2));
