@@ -93,5 +93,5 @@ let start () =
       Unix.sleep 1;
       game_loop (loops - 1) (Shapes.fall current_shape) (Some current_shape)
   in 
-  game_loop 20 test_T_90 None
+  game_loop 15 test_T_90 None
 let pause () = ()

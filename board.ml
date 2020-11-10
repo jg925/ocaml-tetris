@@ -23,6 +23,14 @@ let x_dim = 10
 (* [y_dim] is the height of the tetris board *)
 let y_dim = 20
 
+(* [outline_width] is the width of the line drawing the outline of the board. 
+   In order for coordinates to work out perfectly in edge tiles 
+   [outline_width] should be an even number.*)
+let outline_width = 4
+
+(* [gridline_width] is the width of the line drawing the inside grid of 
+   the board *)
+let gridline_width = 1
 
 let tile_array = Array.make y_dim (Array.make x_dim None)
 
@@ -33,28 +41,31 @@ let tile_array = Array.make y_dim (Array.make x_dim None)
 let setup () = 
   (* Draws the board outline *)
   let lower = bottom_offset in 
-  let upper = lower + y_dim * scale in 
+  let upper = lower + y_dim * scale + 
+              (y_dim - 1) * gridline_width + outline_width in 
   let left = left_offset in
-  let right = left + x_dim * scale in
+  let right = left + x_dim * scale + 
+              (x_dim - 1) * gridline_width + outline_width in
   let width = right + right_offset in
   let height = upper + top_offset in 
-  " " ^ (string_of_int width) ^ "x" ^ (string_of_int height) |> Graphics.open_graph;
+  " " ^ (string_of_int width) ^ "x" ^ (string_of_int height) 
+  |> Graphics.open_graph;
   Graphics.set_window_title "Tetris";
-  Graphics.set_line_width 3;
+  Graphics.set_line_width outline_width;
   Graphics.moveto left lower;
   Graphics.lineto right lower;
   Graphics.lineto right upper;
   Graphics.lineto left upper;
   Graphics.lineto left lower;
   (* Draws the board grid *)
-  Graphics.set_line_width 1;
-  for i = 1 to x_dim do 
-    let x = left + i * scale in
+  Graphics.set_line_width gridline_width;
+  for i = 1 to x_dim - 1 do 
+    let x = left + i * (scale + gridline_width) + outline_width / 2 in
     Graphics.moveto x lower;
     Graphics.lineto x upper
   done;
-  for i = 1 to y_dim do 
-    let y = lower + i * scale in
+  for i = 1 to y_dim - 1 do 
+    let y = lower + i * (scale + gridline_width) + outline_width / 2 in
     Graphics.moveto left y;
     Graphics.lineto right y
   done
@@ -63,22 +74,25 @@ let setup () =
 (* Functions for displaying different assets of the game *)
 
 let draw_square color tile_x tile_y = 
-  let x = left_offset + scale * tile_x in
-  let y = bottom_offset + scale * tile_y in
+  let x = left_offset + tile_x * scale + 
+          (tile_x + 1) * gridline_width  + outline_width / 2 in
+  let y = bottom_offset + tile_y * scale + 
+          (tile_y + 1) * gridline_width + outline_width / 2 in
   Graphics.set_color color;
-  Graphics.fill_rect x y scale scale
+  let fit_scale = scale - gridline_width in
+  Graphics.fill_rect x y fit_scale fit_scale
 
 let display_tile tile = 
   draw_square (Tile.get_color tile) (Tile.get_x tile) (Tile.get_y tile)
+
+let erase_tile tile = 
+  draw_square (Graphics.rgb 255 255 255) (Tile.get_x tile) (Tile.get_y tile)
 
 let rec display_each_tile = function
   | [] -> ()
   | tile::t -> display_tile tile; display_each_tile t
 
 let display_shape shape = shape |> Shapes.get_tiles |> display_each_tile
-
-let erase_tile tile = 
-  draw_square (Graphics.rgb 255 255 255) (Tile.get_x tile) (Tile.get_y tile)
 
 let rec erase_each_tile = function
   | [] -> ()
