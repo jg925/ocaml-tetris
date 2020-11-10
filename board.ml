@@ -78,6 +78,7 @@ let display_shape shape = shape |> Shapes.get_tiles |> display_each_tile
 
 
 let display_score score = 
+  Graphics.set_color 0;
   Graphics.moveto (left_offset / 2) (bottom_offset + 20 * scale + scale / 2);
   Graphics.draw_string ("Score: " ^ string_of_int score)
 
