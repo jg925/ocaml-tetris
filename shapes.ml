@@ -14,7 +14,8 @@ type t = {
 exception BadName of char
 exception BadShape of t
 
-let rec gen_tile_list (coords : (int * int) list) (r : int) (g : int) (b : int) tile_list = 
+let rec gen_tile_list (coords : (int * int) list) (r : int) (g : int) 
+    (b : int) tile_list = 
   match coords with
   | [] -> tile_list
   | h :: t -> begin 
@@ -108,11 +109,20 @@ let get_anchor_tile shape =
         if (Tile.get_x h, Tile.get_y h) = anchor then h else helper t anchor
       end in helper shape.tile_list shape.anchor
 
+(* couldn't these two functions be written without having to match on the whole
+   tile list? *)
 let get_x shape = get_anchor_tile shape |> Tile.get_x
 
 let get_y shape = get_anchor_tile shape |> Tile.get_y
 
 let get_tiles shape = shape.tile_list
+
+let rec move_each_tile acc dir = function
+  | [] -> acc
+  | tile :: t -> let f = (if dir = "l" 
+                          then Tile.move_left 
+                          else Tile.move_right) in
+    move_each_tile (acc @ [f tile]) dir t
 
 let move_lr shape dir = 
   let new_anchor =
@@ -122,15 +132,16 @@ let move_lr shape dir =
         else if dir = "r" then (x + 1, y)
         else raise (Failure "improper direction")
       end
-  in {shape with anchor=new_anchor}
+  in {shape with anchor = new_anchor; 
+                 tile_list = move_each_tile [] dir shape.tile_list}
 
 let move_l shape = move_lr shape "l"
 
 let move_r shape = move_lr shape "r"
 
-let rotate_l shape = {shape with orientation= shape.orientation - 90}
+let rotate_l shape = {shape with orientation = shape.orientation - 90}
 
-let rotate_r shape = {shape with orientation= shape.orientation + 90}
+let rotate_r shape = {shape with orientation = shape.orientation + 90}
 
 let fall shape = {shape with tile_list = List.map Tile.fall shape.tile_list}
 
