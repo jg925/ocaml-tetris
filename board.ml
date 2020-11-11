@@ -84,10 +84,18 @@ let draw_square color tile_x tile_y =
   Graphics.fill_rect x y fit_scale fit_scale
 
 let display_tile tile = 
-  draw_square (Tile.get_color tile) (Tile.get_x tile) (Tile.get_y tile)
+  let x = Tile.get_x tile in
+  let y = Tile.get_y tile in
+  draw_square (Tile.get_color tile) x y;
+  let row = Array.get tile_array y in
+  row.(x) <- Some Tile.t
 
 let erase_tile tile = 
-  draw_square (Graphics.rgb 255 255 255) (Tile.get_x tile) (Tile.get_y tile)
+  let x = Tile.get_x tile in
+  let y = Tile.get_y tile in
+  draw_square (Graphics.rgb 255 255 255) x y;
+  let row = Array.get tile_array y in
+  row.(x) <- None
 
 let rec display_each_tile = function
   | [] -> ()
@@ -103,12 +111,29 @@ let erase_shape shape = shape |> Shapes.get_tiles |> erase_each_tile
 
 let display_score score = 
   Graphics.set_color 0;
-  Graphics.moveto (left_offset / 2) (bottom_offset + 20 * scale + scale / 2);
+  Graphics.moveto (left_offset / 2) (bottom_offset + 21 * scale + scale / 2);
   Graphics.draw_string ("Score: " ^ string_of_int score)
+
+let rec full_row row sum =
+  match row with
+  | [] -> sum
+  | h::t -> begin
+      match h with 
+      | None -> full_row t sum
+      | Some Tile.t -> full_row t sum + 1
+    end
+
+let erase_row row y = failwith "unimplemented"
 
 
 (* NOTE: I think delete rows will eventually need to take in a parameter, 
    probably the y-coordinate of the row it's deleting*)
-let delete_rows () = failwith "unimplemented"
+let delete_rows board = 
+  for y = 0 to y_dim - 1 do
+    let row = board.(y) in
+    let sum = full_row row 0 in
+    match sum with
+    | x_dim -> erase_row row y
+  done
 
 let refresh () = Graphics.close_graph (); setup ()

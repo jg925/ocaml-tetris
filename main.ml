@@ -38,6 +38,16 @@ let erase_previous previous_shape =
   | None -> ()
   | Some shape -> shape |> Board.erase_shape
 
+let update_score score level rows =
+  let row_score =
+    match rows with
+    | 1 -> 40
+    | 2 -> 100
+    | 3 -> 300
+    | 4 -> 1200
+    | x -> 0
+  in score + row_score * level
+
 let start () = 
   let score = 0 in
   let rand_element lst =
@@ -62,7 +72,6 @@ let start () =
          (fst decided_shape_type) 
          (snd decided_shape_type) 
          (rand_element poss_orient)) in
-
 
   Board.display_score score;
   let rec game_loop loops current_shape previous_shape =
