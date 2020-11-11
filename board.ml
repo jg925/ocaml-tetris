@@ -125,15 +125,21 @@ let rec full_row row sum =
 
 let erase_row row y = failwith "unimplemented"
 
-
-(* NOTE: I think delete rows will eventually need to take in a parameter, 
-   probably the y-coordinate of the row it's deleting*)
-let delete_rows board = 
+(** [check_rows board] checks each row in [board] to see if any are full.
+    		Returns a list of ints representing the indices at which the rows are full.*)
+let check_rows board =
+  let rows = ref mutable [] in
   for y = 0 to y_dim - 1 do
     let row = board.(y) in
     let sum = full_row row 0 in
     match sum with
-    | x_dim -> erase_row row y
-  done
+    | x_dim -> rows := y :: !rows
+  done;
+  !rows
+
+
+(* NOTE: I think delete rows will eventually need to take in a parameter, 
+   probably the y-coordinate of the row it's deleting*)
+let delete_rows rows = failwith "unimplemented"
 
 let refresh () = Graphics.close_graph (); setup ()
