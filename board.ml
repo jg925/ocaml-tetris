@@ -105,7 +105,6 @@ let display_score score =
   Graphics.moveto (bottom_offset + 20) (left_offset + 20);
   Graphics.draw_string ("Score: " ^ string_of_int score)
 
-
 (* NOTE: I think delete rows will eventually need to take in a parameter, 
    probably the y-coordinate of the row it's deleting*)
 let delete_rows () = failwith "unimplemented"
