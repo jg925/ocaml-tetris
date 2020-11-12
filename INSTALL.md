@@ -27,7 +27,7 @@ To install the Graphics package:
 1. Run `opam install graphics` in terminal, and install any missing dependencies.
 
 2. Choose one of the following display methods.
-  - Download [XQuartz](https://www.xquartz.org/) and run Tetris in xterm.
+  - Download [XQuartz](https://www.xquartz.org/) and run Tetris in xterm or terminal with the command below.
   - Update `~/.bashrc` in the Mac terminal with the line `if [ -z $DISPLAY ]; then export DISPLAY=:0.0; fi` and make sure to run `source ~/.bashrc` afterwards. 
 
 # Instructions to run Tetris
