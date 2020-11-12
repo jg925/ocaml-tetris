@@ -93,7 +93,7 @@ let f_end () = ()
 
 let main () = 
   try
-    Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape);
+    ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape));
     ignore (Unix.alarm 1);
     while true do
       try
