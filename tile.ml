@@ -47,4 +47,3 @@ let move_left tile = move_to tile (get_x tile - 1) (get_y tile)
 let move_right tile = move_to tile (get_x tile + 1) (get_y tile)
 
 let drop tile = failwith "unimplemented"
-

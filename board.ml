@@ -86,16 +86,12 @@ let draw_square color tile_x tile_y =
 let display_tile tile = 
   let x = Tile.get_x tile in
   let y = Tile.get_y tile in
-  draw_square (Tile.get_color tile) x y;
-  let row = Array.get tile_array y in
-  row.(x) <- Some Tile.t
+  draw_square (Tile.get_color tile) x y 
 
 let erase_tile tile = 
   let x = Tile.get_x tile in
   let y = Tile.get_y tile in
-  draw_square (Graphics.rgb 255 255 255) x y;
-  let row = Array.get tile_array y in
-  row.(x) <- None
+  draw_square (Graphics.rgb 255 255 255) x y 
 
 let rec display_each_tile = function
   | [] -> ()
@@ -114,13 +110,24 @@ let display_score score =
   Graphics.moveto (left_offset / 2) (bottom_offset + 21 * scale + scale / 2);
   Graphics.draw_string ("Score: " ^ string_of_int score)
 
+let check_if_fallen shape =
+  let tile_list = Shapes.get_tiles shape in
+  let rec helper_check = function
+    | [] -> false
+    | h :: t -> begin
+        match (Tile.get_x h, Tile.get_y h) with
+        | (x, 1) -> true
+        | (x, y) -> helper_check t
+      end
+  in helper_check tile_list
+
 let rec full_row row sum =
   match row with
   | [] -> sum
   | h::t -> begin
       match h with 
       | None -> full_row t sum
-      | Some Tile.t -> full_row t sum + 1
+      | Some h -> full_row t sum + 1
     end
 
 let erase_row row y = failwith "unimplemented"
@@ -128,7 +135,7 @@ let erase_row row y = failwith "unimplemented"
 (** [check_rows board] checks each row in [board] to see if any are full.
     		Returns a list of ints representing the indices at which the rows are full.*)
 let check_rows board =
-  let rows = ref mutable [] in
+  let rows = ref [] in
   for y = 0 to y_dim - 1 do
     let row = board.(y) in
     let sum = full_row row 0 in

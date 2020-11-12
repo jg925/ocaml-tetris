@@ -124,6 +124,17 @@ let rec move_each_tile acc dir = function
                           else Tile.move_right) in
     move_each_tile (acc @ [f tile]) dir t
 
+let rec check_shape_tiles tiles =
+  match tiles with
+  | [] -> true
+  | h :: t -> begin
+      let x = Tile.get_x h - 1 in 
+      let y = Tile.get_y h - 1 in 
+      let row = Array.get Board.tile_array y in 
+      if Array.get row x = None then check_shape_tiles t 
+      else false
+    end
+
 let move_lr shape dir = 
   let new_anchor =
     match shape.anchor with
@@ -131,9 +142,11 @@ let move_lr shape dir =
         if dir = "l" then (x - 1, y) 
         else if dir = "r" then (x + 1, y)
         else raise (Failure "improper direction")
-      end
-  in {shape with anchor = new_anchor; 
-                 tile_list = move_each_tile [] dir shape.tile_list}
+      end in 
+  let new_tile_list = move_each_tile [] dir shape.tile_list in
+  if check_shape_tiles new_tile_list = false then shape
+  else {shape with anchor = new_anchor; 
+                   tile_list = new_tile_list}
 
 let move_l shape = move_lr shape "l"
 
@@ -150,8 +163,10 @@ let rotate_l shape = make_shape shape.name shape.anchor
 let rotate_r shape = make_shape shape.name shape.anchor 
     (shape.orientation + 90 |> modulo_360)
 
-let fall shape = {shape with 
-                  anchor = (match shape.anchor with (x, y) -> (x, y - 1));
-                  tile_list = List.map Tile.fall shape.tile_list}
+let fall shape = 
+  let new_tile_list = List.map Tile.fall shape.tile_list in  
+  if check_shape_tiles new_tile_list = false then shape
+  else {shape with anchor = (match shape.anchor with (x, y) -> (x, y - 1));
+         tile_list = new_tile_list}
 
 let drop shape = failwith "unimplemented"
