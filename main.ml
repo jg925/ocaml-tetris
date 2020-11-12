@@ -55,9 +55,7 @@ let generate_new_shape () =
     (snd decided_shape_type) 
     (rand_element poss_orient)
 
-
 let shape_ref = ref (generate_new_shape ())
-
 
 
 let erase_previous previous_shape = 
@@ -69,46 +67,41 @@ let draw_shape previous_shape current_shape =
   erase_previous previous_shape;
   current_shape |> Board.display_shape
 
-let move_shape current_shape key_press = 
-  match current_shape with
-  | None -> () 
-  | Some shape -> 
+let move_shape key_press = 
+  let current_shape = !shape_ref in
+  let next_shape = 
     match key_press with 
-    | 'f' -> draw_shape current_shape (Shapes.move_l shape)
-    | 'h' -> draw_shape current_shape (Shapes.move_r shape)
-    | 't' -> draw_shape current_shape (Shapes.rotate_l shape)
-    | _ -> ()
+    | 'f' -> Shapes.move_l current_shape
+    | 'h' -> Shapes.move_r current_shape
+    | 't' -> Shapes.rotate_l current_shape
+    | _ -> current_shape
+  in draw_shape (Some current_shape) next_shape;
+  shape_ref := next_shape
 
 let fall_shape _ = 
   let current_shape = !shape_ref in
   let next_shape = Shapes.fall current_shape in
   draw_shape (Some current_shape) next_shape;
-  shape_ref := next_shape
-
-
-
+  shape_ref := next_shape;
+  ignore (Unix.alarm 1)
 
 
 let f_end () = ()
 
 
-
 let main () = 
   try
     Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape);
+    ignore (Unix.alarm 1);
     while true do
       try
         let shape_falling = true in
         shape_ref := (generate_new_shape ());
         draw_shape None !shape_ref;
-
         while shape_falling do
-          (*Unix.setitimer Unix.ITIMER_REAL Unix.it*)
-
-
-          Unix.alarm 1
+          let s = Graphics.wait_next_event [Graphics.Key_pressed] in
+          move_shape s.Graphics.key;
         done
-
       with 
       | End -> raise End
     done
@@ -120,23 +113,6 @@ let start () =
   Board.setup ();
   Board.display_score 0;
   main ()
-  (*
-  let rec game_loop loops current_shape previous_shape =
-    match loops with 
-    | 0 -> ()
-    | _ -> 
-      draw_shape previous_shape current_shape;
-
-      let s = Graphics.wait_next_event [Graphics.Key_pressed] in
-      move_shape (Some current_shape) s.Graphics.key;
-
-      (*Unix.sleep 1;*)
-
-      (*game_loop (loops - 1) (Shapes.fall current_shape) (Some current_shape)*)
-  in 
-  game_loop 15 current_shape None
-  *)
-
 
 
 
