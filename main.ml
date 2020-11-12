@@ -74,6 +74,8 @@ let move_shape key_press =
     | 'f' -> Shapes.move_l current_shape
     | 'h' -> Shapes.move_r current_shape
     | 't' -> Shapes.rotate_l current_shape
+    | 'y' -> Shapes.rotate_r current_shape
+    | 'b' -> Shapes.fall current_shape
     | _ -> current_shape
   in draw_shape (Some current_shape) next_shape;
   shape_ref := next_shape

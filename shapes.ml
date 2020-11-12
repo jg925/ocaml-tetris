@@ -71,7 +71,7 @@ let gen_coord_list name anchor_coords orientation =
       | 270 -> begin
           match name with 
           | 'I' -> [(x, y - 2); (x, y - 1); (x, y); (x, y + 1)]
-          | 'J' -> [(x - 1, y); (x, y - 1); (x, y); (x, y + 1)]
+          | 'J' -> [(x - 1, y - 1); (x, y - 1); (x, y); (x, y + 1)]
           | 'L' -> [(x - 1, y + 1); (x, y + 1); (x, y); (x, y - 1)]
           | 'T' -> [(x - 1, y); (x, y - 1); (x, y); (x, y + 1)]
           | 'Z' -> [(x - 1, y - 1); (x - 1, y); (x, y); (x, y + 1)]
@@ -139,10 +139,19 @@ let move_l shape = move_lr shape "l"
 
 let move_r shape = move_lr shape "r"
 
-let rotate_l shape = {shape with orientation = shape.orientation - 90}
+let modulo_360 orient = let modded_orient = orient mod 360 in 
+  if modded_orient < 0 
+  then modded_orient + 360 
+  else modded_orient
 
-let rotate_r shape = {shape with orientation = shape.orientation + 90}
+let rotate_l shape = make_shape shape.name shape.anchor 
+    (shape.orientation - 90 |> modulo_360)
 
-let fall shape = {shape with tile_list = List.map Tile.fall shape.tile_list}
+let rotate_r shape = make_shape shape.name shape.anchor 
+    (shape.orientation + 90 |> modulo_360)
+
+let fall shape = {shape with 
+                  anchor = (match shape.anchor with (x, y) -> (x, y - 1));
+                  tile_list = List.map Tile.fall shape.tile_list}
 
 let drop shape = failwith "unimplemented"
