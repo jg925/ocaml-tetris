@@ -32,8 +32,6 @@ let outline_width = 4
    the board *)
 let gridline_width = 1
 
-let tile_array = Array.make y_dim (Array.make x_dim None)
-
 let highest_y = Array.make x_dim 0
 
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.

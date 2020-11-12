@@ -1,6 +1,7 @@
 open OUnit2
 open Main
 open Tile
+open Tilearray
 open Shapes
 open Board
 

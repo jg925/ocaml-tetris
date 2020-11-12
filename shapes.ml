@@ -128,10 +128,11 @@ let rec check_shape_tiles tiles =
   match tiles with
   | [] -> true
   | h :: t -> begin
-      let x = Tile.get_x h - 1 in 
-      let y = Tile.get_y h - 1 in 
-      let row = Array.get Board.tile_array y in 
-      if Array.get row x = None then check_shape_tiles t 
+      let x = Tile.get_x h in 
+      let y = Tile.get_y h in
+      if x < 0 || x > Tilearray.x_dim-1 || y < 0 then false
+      else if Tilearray.get x y = None then
+        check_shape_tiles t 
       else false
     end
 
@@ -157,11 +158,17 @@ let modulo_360 orient = let modded_orient = orient mod 360 in
   then modded_orient + 360 
   else modded_orient
 
-let rotate_l shape = make_shape shape.name shape.anchor 
-    (shape.orientation - 90 |> modulo_360)
+let rotate_l shape = 
+  let new_shape = make_shape shape.name shape.anchor 
+      (shape.orientation - 90 |> modulo_360) in 
+  if check_shape_tiles new_shape.tile_list = false then shape
+  else new_shape
 
-let rotate_r shape = make_shape shape.name shape.anchor 
-    (shape.orientation + 90 |> modulo_360)
+let rotate_r shape = 
+  let new_shape = make_shape shape.name shape.anchor 
+      (shape.orientation + 90 |> modulo_360) in 
+  if check_shape_tiles new_shape.tile_list = false then shape
+  else new_shape
 
 let fall shape = 
   let new_tile_list = List.map Tile.fall shape.tile_list in  
