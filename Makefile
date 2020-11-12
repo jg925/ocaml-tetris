@@ -1,4 +1,4 @@
-MODULES=board main shapes test tile
+MODULES=board main shapes test tile tilearray
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)

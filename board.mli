@@ -2,15 +2,9 @@
     be drawn *)
 val setup : unit -> unit
 
-val x_dim : int
-
-val y_dim : int
-
 val top_offset : int
 
 val left_offset : int
-
-val tile_array : Tile.t option array array
 
 (** [delete rows ()] removes any completed rows of 
     tiles from the gameboard and drops down tiles above it by a row 

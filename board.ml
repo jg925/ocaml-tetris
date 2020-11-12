@@ -32,8 +32,6 @@ let outline_width = 4
    the board *)
 let gridline_width = 1
 
-let tile_array = Array.make y_dim (Array.make x_dim None)
-
 let highest_y = Array.make x_dim 0
 
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.
@@ -84,10 +82,14 @@ let draw_square color tile_x tile_y =
   Graphics.fill_rect x y fit_scale fit_scale
 
 let display_tile tile = 
-  draw_square (Tile.get_color tile) (Tile.get_x tile) (Tile.get_y tile)
+  let x = Tile.get_x tile in
+  let y = Tile.get_y tile in
+  draw_square (Tile.get_color tile) x y 
 
 let erase_tile tile = 
-  draw_square (Graphics.rgb 255 255 255) (Tile.get_x tile) (Tile.get_y tile)
+  let x = Tile.get_x tile in
+  let y = Tile.get_y tile in
+  draw_square (Graphics.rgb 255 255 255) x y 
 
 let rec display_each_tile = function
   | [] -> ()
@@ -102,11 +104,47 @@ let rec erase_each_tile = function
 let erase_shape shape = shape |> Shapes.get_tiles |> erase_each_tile
 
 let display_score score = 
-  Graphics.moveto (bottom_offset + 20) (left_offset + 20);
+  Graphics.set_color 0;
+  Graphics.moveto (left_offset / 2) (bottom_offset + 21 * scale + scale / 2);
   Graphics.draw_string ("Score: " ^ string_of_int score)
+
+let check_if_fallen shape =
+  let tile_list = Shapes.get_tiles shape in
+  let rec helper_check = function
+    | [] -> false
+    | h :: t -> begin
+        match (Tile.get_x h, Tile.get_y h) with
+        | (x, 1) -> true
+        | (x, y) -> helper_check t
+      end
+  in helper_check tile_list
+
+let rec full_row row sum =
+  match row with
+  | [] -> sum
+  | h::t -> begin
+      match h with 
+      | None -> full_row t sum
+      | Some h -> full_row t sum + 1
+    end
+
+let erase_row row y = failwith "unimplemented"
+
+(** [check_rows board] checks each row in [board] to see if any are full.
+    		Returns a list of ints representing the indices at which the rows are full.*)
+let check_rows board =
+  let rows = ref [] in
+  for y = 0 to y_dim - 1 do
+    let row = board.(y) in
+    let sum = full_row row 0 in
+    match sum with
+    | x_dim -> rows := y :: !rows
+  done;
+  !rows
+
 
 (* NOTE: I think delete rows will eventually need to take in a parameter, 
    probably the y-coordinate of the row it's deleting*)
-let delete_rows () = failwith "unimplemented"
+let delete_rows rows = failwith "unimplemented"
 
 let refresh () = Graphics.close_graph (); setup ()
