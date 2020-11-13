@@ -36,4 +36,4 @@ To install the Graphics package:
 
 2. In terminal navigate to the directory with the project and run `make` to launch Tetris.
 
-3. When you want to close, do not "x out" of the window, instead run `#quit;;` in utop which will quit the program cleanly.
+3. When you want to close, do not "x out" of the window, instead do a keyboard interrupt and then run `#quit;;` in utop which will quit the program cleanly.
