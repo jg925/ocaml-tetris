@@ -87,13 +87,13 @@ let make_shape (name : char) (anchor : anchor) (orientation : int) =
   let coord_list = gen_coord_list name anchor orientation in
   let tile_list : Tile.t list = 
     match name with
-    | 'I' -> gen_tile_list coord_list 255 0 0 []
-    | 'J' -> gen_tile_list coord_list 100 100 100 []
-    | 'L' -> gen_tile_list coord_list 128 0 128 []
-    | 'T' -> gen_tile_list coord_list 255 255 0 [] 
-    | 'Z' -> gen_tile_list coord_list 0 255 255 []
-    | 'S' -> gen_tile_list coord_list 0 128 0 []
-    | 'O' -> gen_tile_list coord_list 0 0 255 []
+    | 'I' -> gen_tile_list coord_list 25 206 230 []
+    | 'J' -> gen_tile_list coord_list 25 39 230 []
+    | 'L' -> gen_tile_list coord_list 230 138 25 []
+    | 'T' -> gen_tile_list coord_list 155 25 230 [] 
+    | 'Z' -> gen_tile_list coord_list 230 25 25 []
+    | 'S' -> gen_tile_list coord_list 39 230 25 []
+    | 'O' -> gen_tile_list coord_list 230 230 25 []
     | _ -> raise (BadName name)
   in {
     name = name;
