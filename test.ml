@@ -5,6 +5,8 @@ open Tilearray
 open Shapes
 open Board
 
+(* For the purposes of this test file, (5,5) is considered to be the origin. *)
+
 let test_tile_origin = Tile.make_tile 5 5 0 0 0
 let test_tile_down1 = Tile.make_tile 5 4 0 0 0
 let test_tile_left1 = Tile.make_tile 4 5 0 0 0
@@ -46,29 +48,41 @@ let tile_tests =
   ]
 
 
-let tetris_I = Shapes.make_shape 'I' (0,0) 0
-let tetris_J = Shapes.make_shape 'J' (0,0) 0
-let tetris_L = Shapes.make_shape 'L' (0,0) 0
-let tetris_T = Shapes.make_shape 'T' (0,0) 0
-let tetris_S = Shapes.make_shape 'S' (0,0) 0
-let tetris_Z = Shapes.make_shape 'Z' (0,0) 0
-let tetris_O = Shapes.make_shape 'O' (0,0) 0
+let tetris_I = Shapes.make_shape 'I' (5,5) 0
+let tetris_J = Shapes.make_shape 'J' (5,5) 0
+let tetris_L = Shapes.make_shape 'L' (5,5) 0
+let tetris_T = Shapes.make_shape 'T' (5,5) 0
+let tetris_S = Shapes.make_shape 'S' (5,5) 0
+let tetris_Z = Shapes.make_shape 'Z' (5,5) 0
+let tetris_O = Shapes.make_shape 'O' (5,5) 0
 
-let tetris_I_neg90 = Shapes.make_shape 'I' (0,0) ~-90
-let tetris_I_270 = Shapes.make_shape 'I' (0,0) 270
-let tetris_I_180 = Shapes.make_shape 'I' (0,0) 180
-let tetris_I_90 = Shapes.make_shape 'I' (0,0) 90
-let tetris_I_360 = Shapes.make_shape 'I' (0,0) 360
+let tetris_I_neg90 = Shapes.make_shape 'I' (5,5) ~-90
+let tetris_I_270 = Shapes.make_shape 'I' (5,5) 270
+let tetris_I_180 = Shapes.make_shape 'I' (5,5) 180
+let tetris_I_90 = Shapes.make_shape 'I' (5,5) 90
+let tetris_I_360 = Shapes.make_shape 'I' (5,5) 360
 
-let tetris_J_neg90 = Shapes.make_shape 'J' (0,0) ~-90
-let tetris_J_270 = Shapes.make_shape 'J' (0,0) 270
-let tetris_J_180 = Shapes.make_shape 'J' (0,0) 180
-let tetris_J_90 = Shapes.make_shape 'J' (0,0) 90
-let tetris_J_360 = Shapes.make_shape 'J' (0,0) 360
+let tetris_J_neg90 = Shapes.make_shape 'J' (5,5) ~-90
+let tetris_J_270 = Shapes.make_shape 'J' (5,5) 270
+let tetris_J_180 = Shapes.make_shape 'J' (5,5) 180
+let tetris_J_90 = Shapes.make_shape 'J' (5,5) 90
+let tetris_J_360 = Shapes.make_shape 'J' (5,5) 360
+
+let tetris_L_neg90 = Shapes.make_shape 'L' (5,5) ~-90
+let tetris_L_270 = Shapes.make_shape 'L' (5,5) 270
+let tetris_L_180 = Shapes.make_shape 'L' (5,5) 180
+let tetris_L_90 = Shapes.make_shape 'L' (5,5) 90
+let tetris_L_360 = Shapes.make_shape 'L' (5,5) 360
+
+let tetris_T_neg90 = Shapes.make_shape 'T' (5,5) ~-90
+let tetris_T_270 = Shapes.make_shape 'T' (5,5) 270
+let tetris_T_180 = Shapes.make_shape 'T' (5,5) 180
+let tetris_T_90 = Shapes.make_shape 'T' (5,5) 90
+let tetris_T_360 = Shapes.make_shape 'T' (5,5) 360
 
 
-let tetris_I_l = Shapes.make_shape 'I' (-1,0) 0
-let tetris_I_r = Shapes.make_shape 'I' (1,0) 0
+let tetris_I_l = Shapes.make_shape 'I' (4,5) 0
+let tetris_I_r = Shapes.make_shape 'I' (6,5) 0
 
 let get_x_test name shape expected_output : test =
   name >:: (fun _ ->
@@ -91,23 +105,6 @@ let move_r_test name shape expected_output : test =
   name >:: (fun _ -> 
       assert_equal expected_output (Shapes.move_r shape))
 
-(*
-let rec get_x_list acc = function
-  | [] -> acc
-  | tile::t -> get_x_list ((Tile.get_x tile)::acc) t
-
-let rec get_y_list acc = function
-  | [] -> acc
-  | tile::t -> get_y_list ((Tile.get_y tile)::acc) t
-
-let rotate_l_test name shape expected_output : test =
-  name >:: (fun _ ->
-      let output = Shapes.rotate_l shape in 
-      assert_equal 
-        (get_x_list [] (Shapes.get_tiles expected_output))
-        (get_x_list [] (Shapes.get_tiles output)))
-*)
-
 let rotate_l_test name shape expected_output : test =
   name >:: (fun _ ->
       assert_equal expected_output (Shapes.rotate_l shape))
@@ -118,41 +115,60 @@ let rotate_r_test name shape expected_output : test =
 
 let shapes_tests = 
   [
-    get_x_test "I origin" tetris_I 0;
-    get_x_test "J origin" tetris_J 0;
-    get_x_test "L origin" tetris_L 0;
-    get_x_test "T origin" tetris_T 0;
-    get_x_test "O origin" tetris_O 0;
-    get_x_test "Z origin" tetris_Z 0;
-    get_x_test "S origin" tetris_S 0;
-    get_y_test "I origin" tetris_I 0;
-    get_y_test "J origin" tetris_J 0;
-    get_y_test "L origin" tetris_L 0;
-    get_y_test "T origin" tetris_T 0;
-    get_y_test "O origin" tetris_O 0;
-    get_y_test "Z origin" tetris_Z 0;
-    get_y_test "S origin" tetris_S 0;
-    make_shape_invalid "nonexistent shape" 'A' (0,0) 0;
-    (*rotate_l_test "I 0 - 90" tetris_I tetris_I_neg90;
-      rotate_l_test "I 270 - 90" tetris_I_270 tetris_I_180;
-      rotate_l_test "I 180 - 90" tetris_I_180 tetris_I_90;
-      rotate_l_test "I 360 - 90" tetris_I_360 tetris_I_270;
-      rotate_r_test "I 0 + 90" tetris_I tetris_I_90;
-      rotate_r_test "I 90 + 90" tetris_I_90 tetris_I_180;
-      rotate_r_test "I 180 + 90" tetris_I_180 tetris_I_270;
-      rotate_r_test "I 270 + 90" tetris_I_270 tetris_I_360;*)
+    get_x_test "I origin" tetris_I 5;
+    get_x_test "J origin" tetris_J 5;
+    get_x_test "L origin" tetris_L 5;
+    get_x_test "T origin" tetris_T 5;
+    get_x_test "O origin" tetris_O 5;
+    get_x_test "Z origin" tetris_Z 5;
+    get_x_test "S origin" tetris_S 5;
+    get_y_test "I origin" tetris_I 5;
+    get_y_test "J origin" tetris_J 5;
+    get_y_test "L origin" tetris_L 5;
+    get_y_test "T origin" tetris_T 5;
+    get_y_test "O origin" tetris_O 5;
+    get_y_test "Z origin" tetris_Z 5;
+    get_y_test "S origin" tetris_S 5;
+    make_shape_invalid "nonexistent shape" 'A' (5,5) 0;
 
-    (*rotate_l_test "J 0 - 90" tetris_J tetris_J_neg90;
-      rotate_l_test "J 270 - 90" tetris_J_270 tetris_J_180;
-      rotate_l_test "J 180 - 90" tetris_J_180 tetris_J_90;
-      rotate_l_test "J 360 - 90" tetris_J_360 tetris_J_270;
-      rotate_r_test "J 0 + 90" tetris_J tetris_J_90;
-      rotate_r_test "J 90 + 90" tetris_J_90 tetris_J_180;
-      rotate_r_test "J 180 + 90" tetris_J_180 tetris_J_270;
-      rotate_r_test "J 270 + 90" tetris_J_270 tetris_J_360;
+    rotate_l_test "I 0 - 90" tetris_I tetris_I_neg90;
+    rotate_l_test "I 270 - 90" tetris_I_270 tetris_I_180;
+    rotate_l_test "I 180 - 90" tetris_I_180 tetris_I_90;
+    rotate_l_test "I 360 - 90" tetris_I_360 tetris_I_270;
+    rotate_r_test "I 0 + 90" tetris_I tetris_I_90;
+    rotate_r_test "I 90 + 90" tetris_I_90 tetris_I_180;
+    rotate_r_test "I 180 + 90" tetris_I_180 tetris_I_270;
+    rotate_r_test "I 270 + 90" tetris_I_270 tetris_I_360;
 
-      move_l_test "I shift left 1" tetris_I tetris_I_l;
-      move_r_test "I shift right 1" tetris_I tetris_I_r;*)
+    rotate_l_test "J 0 - 90" tetris_J tetris_J_neg90;
+    rotate_l_test "J 270 - 90" tetris_J_270 tetris_J_180;
+    rotate_l_test "J 180 - 90" tetris_J_180 tetris_J_90;
+    rotate_l_test "J 360 - 90" tetris_J_360 tetris_J_270;
+    rotate_r_test "J 0 + 90" tetris_J tetris_J_90;
+    rotate_r_test "J 90 + 90" tetris_J_90 tetris_J_180;
+    rotate_r_test "J 180 + 90" tetris_J_180 tetris_J_270;
+    rotate_r_test "J 270 + 90" tetris_J_270 tetris_J_360;
+
+    rotate_l_test "L 0 - 90" tetris_L tetris_L_neg90;
+    rotate_l_test "L 270 - 90" tetris_L_270 tetris_L_180;
+    rotate_l_test "L 180 - 90" tetris_L_180 tetris_L_90;
+    rotate_l_test "L 360 - 90" tetris_L_360 tetris_L_270;
+    rotate_r_test "L 0 + 90" tetris_L tetris_L_90;
+    rotate_r_test "L 90 + 90" tetris_L_90 tetris_L_180;
+    rotate_r_test "L 180 + 90" tetris_L_180 tetris_L_270;
+    rotate_r_test "L 270 + 90" tetris_L_270 tetris_L_360;
+
+    rotate_l_test "T 0 - 90" tetris_T tetris_T_neg90;
+    rotate_l_test "T 270 - 90" tetris_T_270 tetris_T_180;
+    rotate_l_test "T 180 - 90" tetris_T_180 tetris_T_90;
+    rotate_l_test "T 360 - 90" tetris_T_360 tetris_T_270;
+    rotate_r_test "T 0 + 90" tetris_T tetris_T_90;
+    rotate_r_test "T 90 + 90" tetris_T_90 tetris_T_180;
+    rotate_r_test "T 180 + 90" tetris_T_180 tetris_T_270;
+    rotate_r_test "T 270 + 90" tetris_T_270 tetris_T_360;
+
+    move_l_test "I shift left 1" tetris_I tetris_I_l;
+    move_r_test "I shift right 1" tetris_I tetris_I_r;
 
   ]
 
@@ -167,7 +183,6 @@ let _ = run_test_tt_main suite
 
 
 (*
-
 let test_I_0 = Shapes.make_shape 'I' (1, 1) 0
 let test_J_0 = Shapes.make_shape 'J' (1, 5) 0
 let test_L_0 = Shapes.make_shape 'L' (1, 10) 0

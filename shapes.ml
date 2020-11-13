@@ -34,8 +34,9 @@ let modulo_360 orient = let modded_orient = orient mod 360 in
   then modded_orient + 360 
   else modded_orient
 
+
+(* RI: orientation must be 0, 60, 180, or 270 *)
 let gen_coord_list name anchor_coords orientation =
-  let orientation = orientation |> modulo_360 in
   match anchor_coords with
   | (a,b) -> begin
       let x = a in
@@ -89,7 +90,8 @@ let gen_coord_list name anchor_coords orientation =
     end
 
 let make_shape (name : char) (anchor : anchor) (orientation : int) = 
-  let coord_list = gen_coord_list name anchor orientation in
+  let orient = orientation |> modulo_360 in
+  let coord_list = gen_coord_list name anchor orient in
   let tile_list : Tile.t list = 
     match name with
     | 'I' -> gen_tile_list coord_list 25 206 230 []
@@ -104,7 +106,7 @@ let make_shape (name : char) (anchor : anchor) (orientation : int) =
     name = name;
     anchor = anchor;
     tile_list = tile_list;
-    orientation = orientation
+    orientation = orient
   }
 
 
