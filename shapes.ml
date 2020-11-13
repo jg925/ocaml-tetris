@@ -29,8 +29,13 @@ let rec gen_tile_list (coords : (int * int) list) (r : int) (g : int)
         end
     end
 
+let modulo_360 orient = let modded_orient = orient mod 360 in 
+  if modded_orient < 0 
+  then modded_orient + 360 
+  else modded_orient
+
 let gen_coord_list name anchor_coords orientation =
-  let orientation = orientation mod 360 in
+  let orientation = orientation |> modulo_360 in
   match anchor_coords with
   | (a,b) -> begin
       let x = a in
@@ -152,10 +157,6 @@ let move_l shape = move_lr shape "l"
 
 let move_r shape = move_lr shape "r"
 
-let modulo_360 orient = let modded_orient = orient mod 360 in 
-  if modded_orient < 0 
-  then modded_orient + 360 
-  else modded_orient
 
 let rotate_l shape = 
   let new_shape = make_shape shape.name shape.anchor 
