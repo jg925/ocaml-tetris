@@ -1,4 +1,4 @@
-(** CS 3110 Fall 2020 Tetris MS1: Alpha
+(** CS 3110 Fall 2020 Tetris MS2: Beta
     @author Jinny Gui (jg925), Jacob Kraizman (jk2327), Carrie Rucker (cmr284) *)
 
 (************************************************************ 
@@ -9,6 +9,6 @@
 
  ************************************************************)  
 
-(** [hours_worked] is the combined number of hours we worked on this 
+(** [hours_worked] is the number of hours we worked on this 
     assignment *)
-val hours_worked : int
+val hours_worked : int list

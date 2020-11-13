@@ -14,6 +14,9 @@ type t = {
 
 exception BadTile of t
 
+
+(* functions for generating tiles *)
+
 let make_coord x y = (x, y)
 
 let make_color r g b = (r, g, b)
@@ -26,6 +29,9 @@ let make_tile x y r g b =
 
 let tile_length = 35 (*sets the tile length *)
 
+
+(* functions for getting properties of tiles *)
+
 let get_x tile = 
   match tile.location with 
   | (x,_) -> x
@@ -37,6 +43,9 @@ let get_y tile =
 let get_color tile = 
   match tile.color with 
   | (r,g,b) -> Graphics.rgb r g b
+
+
+(* functions for generating new tiles from old ones *)
 
 let move_to tile x y = {tile with location = (x, y)}
 

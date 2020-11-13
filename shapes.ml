@@ -1,9 +1,6 @@
-(*insert shapes defs here*)
+
 type anchor = (int * int)
-(** [type t] is a generic type for each tetris block with a name and a list 
-    of Tiles to create the desired tetris block.
-    The [name] can be one of the following chars: I, J, L, T, Z, S, O
-    The [orientation] is one of 0, 90, 180, 270 *)
+
 type t = {
   name : char;
   anchor : anchor;
@@ -13,6 +10,10 @@ type t = {
 
 exception BadName of char
 exception BadShape of t
+
+
+
+(* functions for generating shapes *)
 
 let rec gen_tile_list (coords : (int * int) list) (r : int) (g : int) 
     (b : int) tile_list = 
@@ -86,13 +87,13 @@ let make_shape (name : char) (anchor : anchor) (orientation : int) =
   let coord_list = gen_coord_list name anchor orientation in
   let tile_list : Tile.t list = 
     match name with
-    | 'I' -> gen_tile_list coord_list 5 240 241 []
-    | 'J' -> gen_tile_list coord_list 17 0 241 []
-    | 'L' -> gen_tile_list coord_list 239 160 1 []
-    | 'T' -> gen_tile_list coord_list 160 0 241 [] 
-    | 'Z' -> gen_tile_list coord_list 240 0 1 []
-    | 'S' -> gen_tile_list coord_list 2 240 0 []
-    | 'O' -> gen_tile_list coord_list 240 240 0 []
+    | 'I' -> gen_tile_list coord_list 255 0 0 []
+    | 'J' -> gen_tile_list coord_list 100 100 100 []
+    | 'L' -> gen_tile_list coord_list 128 0 128 []
+    | 'T' -> gen_tile_list coord_list 255 255 0 [] 
+    | 'Z' -> gen_tile_list coord_list 0 255 255 []
+    | 'S' -> gen_tile_list coord_list 0 128 0 []
+    | 'O' -> gen_tile_list coord_list 0 0 255 []
     | _ -> raise (BadName name)
   in {
     name = name;
@@ -101,21 +102,19 @@ let make_shape (name : char) (anchor : anchor) (orientation : int) =
     orientation = orientation
   }
 
-let get_anchor_tile shape = 
-  let rec helper tile_list anchor = 
-    match tile_list with
-    | [] -> raise (BadShape shape)
-    | h :: t -> begin
-        if (Tile.get_x h, Tile.get_y h) = anchor then h else helper t anchor
-      end in helper shape.tile_list shape.anchor
 
-(* couldn't these two functions be written without having to match on the whole
-   tile list? *)
-let get_x shape = get_anchor_tile shape |> Tile.get_x
 
-let get_y shape = get_anchor_tile shape |> Tile.get_y
+(* functions for getting properties of shapes *)
+
+let get_x shape = fst shape.anchor 
+
+let get_y shape = snd shape.anchor 
 
 let get_tiles shape = shape.tile_list
+
+
+
+(* functions for generating new shapes from old ones *)
 
 let rec move_each_tile acc dir = function
   | [] -> acc

@@ -70,7 +70,7 @@ let setup () =
   done
 
 
-(* Functions for displaying different assets of the game *)
+(* functions for displaying different assets of the game *)
 
 let draw_square color tile_x tile_y = 
   let x = left_offset + tile_x * scale + 
@@ -131,7 +131,8 @@ let rec full_row row sum =
 let erase_row row y = failwith "unimplemented"
 
 (** [check_rows board] checks each row in [board] to see if any are full.
-    		Returns a list of ints representing the indices at which the rows are full.*)
+    Returns a list of ints representing the indices at which the rows are 
+    full. *)
 let check_rows board =
   let rows = ref [] in
   for y = 0 to y_dim - 1 do
@@ -141,7 +142,6 @@ let check_rows board =
     | x_dim -> rows := y :: !rows
   done;
   !rows
-
 
 (* NOTE: I think delete rows will eventually need to take in a parameter, 
    probably the y-coordinate of the row it's deleting*)
