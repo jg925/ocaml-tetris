@@ -53,24 +53,26 @@ let fall_shape _ =
   shape_ref := next_shape;
   ignore (Unix.alarm 1)
 
+let new_falling_shape () = 
+  ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape));
+  ignore (Unix.alarm 1);
+  shape_ref := (generate_new_shape ());
+  draw_shape None !shape_ref
+
 
 let f_end () = ()
 
 
 let main () = 
   try
-    ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape));
-    ignore (Unix.alarm 1);
+    new_falling_shape ();
     while true do
       try
-        let shape_falling = true in
-        shape_ref := (generate_new_shape ());
-        draw_shape None !shape_ref;
-        while shape_falling do
-          let s = Graphics.wait_next_event [Graphics.Key_pressed] in
-          move_shape s.Graphics.key;
-        done
+        let s = Graphics.wait_next_event [Graphics.Key_pressed] in
+        move_shape s.Graphics.key;
       with 
+      | Shapes.DoneFalling -> 
+        new_falling_shape ();
       | End -> raise End
     done
   with
