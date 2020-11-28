@@ -7,19 +7,17 @@ let generate_new_shape () =
     Random.self_init ();
     let n = Random.int (List.length lst) in List.nth lst n in
   let poss_shape_type = 
-    [('I', (5, 17));
-     ('J', (5, 17));
-     ('L', (5, 17));
-     ('T', (5, 17));
-     ('Z', (5, 17));
-     ('S', (5, 17));
-     ('O', (5, 17))] in
-  let poss_orient = [0; 90; 270; 360] in 
+    ['I'; 'J'; 'L'; 'T'; 'Z'; 'S'; 'O'] in
   let decided_shape_type = rand_element poss_shape_type in
-  Shapes.make_shape 
-    (fst decided_shape_type) 
-    (snd decided_shape_type) 
-    (rand_element poss_orient)
+  let x = Tilearray.x_dim/2 - 1 in
+  let y = Tilearray.y_dim - 3 in
+  let coords = 
+    if decided_shape_type = 'I' 
+    then (x + 1, y + 1)
+    else if decided_shape_type = 'O'
+    then (x, y + 1)
+    else (x, y) in
+  Shapes.make_shape decided_shape_type coords 0
 
 let shape_ref = ref (generate_new_shape ())
 

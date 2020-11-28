@@ -30,7 +30,8 @@ let rec gen_tile_list (coords : (int * int) list) (r : int) (g : int)
         end
     end
 
-let modulo_360 orient = let modded_orient = orient mod 360 in 
+let modulo_360 orient = 
+  let modded_orient = orient mod 360 in 
   if modded_orient < 0 
   then modded_orient + 360 
   else modded_orient

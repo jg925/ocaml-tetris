@@ -1,6 +1,6 @@
 let x_dim = 10
 
-let y_dim = 20
+let y_dim = 24
 
 (** [tile_array] is a Tile.t option array that keeps track of which coordinates 
     of the board have a tile in them.*)
