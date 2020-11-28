@@ -4,12 +4,16 @@ let y_dim = 20
 
 (** [tile_array] is a Tile.t option array that keeps track of which coordinates 
     of the board have a tile in them.*)
-let tile_array = Array.make y_dim (Array.make x_dim None)
+let tile_array = Array.make (y_dim * x_dim) None
+
+let array_index x y = y * x_dim + x
 
 let set x y value = 
-  let row = Array.get tile_array y in
-  Array.set row x value
+  let index = array_index x y in
+  tile_array.(index) <- value
+
 
 let get x y = 
-  let row = Array.get tile_array y in 
-  Array.get row x
+  let index = array_index x y in
+  tile_array.(index)
+

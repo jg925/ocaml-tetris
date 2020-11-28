@@ -18,10 +18,10 @@ let right_offset = 70
 let top_offset = 70
 
 (* [x_dim] is the width of the tetris board *)
-let x_dim = 10
+let x_dim = Tilearray.x_dim
 
 (* [y_dim] is the height of the tetris board *)
-let y_dim = 20
+let y_dim = Tilearray.y_dim
 
 (* [outline_width] is the width of the line drawing the outline of the board. 
    In order for coordinates to work out perfectly in edge tiles 

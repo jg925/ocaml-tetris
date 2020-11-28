@@ -131,15 +131,15 @@ let rec move_each_tile acc dir = function
                           else Tile.move_right) in
     move_each_tile (acc @ [f tile]) dir t
 
-let rec check_shape_tiles tiles =
-  match tiles with
+let rec check_shape_tiles = function
   | [] -> true
   | h :: t -> begin
       let x = Tile.get_x h in 
       let y = Tile.get_y h in
-      if x < 0 || x > Tilearray.x_dim-1 || y < 0 then false
-      else if Tilearray.get x y = None then
-        check_shape_tiles t 
+      if x < 0 || x > Tilearray.x_dim - 1 || y < 0 
+      then false
+      else if Tilearray.get x y = None 
+      then check_shape_tiles t 
       else false
     end
 
@@ -152,7 +152,8 @@ let move_lr shape dir =
         else raise (Failure "improper direction")
       end in 
   let new_tile_list = move_each_tile [] dir shape.tile_list in
-  if check_shape_tiles new_tile_list = false then shape
+  if check_shape_tiles new_tile_list = false 
+  then shape
   else {shape with anchor = new_anchor; 
                    tile_list = new_tile_list}
 
@@ -164,18 +165,27 @@ let move_r shape = move_lr shape "r"
 let rotate_l shape = 
   let new_shape = make_shape shape.name shape.anchor 
       (shape.orientation - 90 |> modulo_360) in 
-  if check_shape_tiles new_shape.tile_list = false then shape
+  if check_shape_tiles new_shape.tile_list = false 
+  then shape
   else new_shape
 
 let rotate_r shape = 
   let new_shape = make_shape shape.name shape.anchor 
       (shape.orientation + 90 |> modulo_360) in 
-  if check_shape_tiles new_shape.tile_list = false then shape
+  if check_shape_tiles new_shape.tile_list = false 
+  then shape
   else new_shape
+
+let rec set_tile_array = function
+  | [] -> raise DoneFalling
+  | tile :: t -> 
+    Tilearray.set (Tile.get_x tile) (Tile.get_y tile) (Some tile);
+    set_tile_array t
 
 let fall shape = 
   let new_tile_list = List.map Tile.fall shape.tile_list in  
-  if check_shape_tiles new_tile_list = false then raise DoneFalling
+  if check_shape_tiles new_tile_list = false 
+  then set_tile_array shape.tile_list
   else {shape with anchor = (match shape.anchor with (x, y) -> (x, y - 1));
          tile_list = new_tile_list}
 
