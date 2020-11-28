@@ -1,3 +1,5 @@
+exception End
+
 let x_dim = 10
 
 let y_dim = 24
@@ -9,8 +11,11 @@ let tile_array = Array.make (y_dim * x_dim) None
 let array_index x y = y * x_dim + x
 
 let set x y value = 
-  let index = array_index x y in
-  tile_array.(index) <- value
+  if y > y_dim - 4 
+  then raise End
+  else
+    let index = array_index x y in
+    tile_array.(index) <- value
 
 
 let get x y = 

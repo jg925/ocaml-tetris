@@ -1,3 +1,6 @@
+
+exception End
+
 (** [x_dim] is the number of columns on the Tetris board. *)
 val x_dim : int
 

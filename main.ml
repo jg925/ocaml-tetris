@@ -1,5 +1,4 @@
 
-exception End
 
 
 let generate_new_shape () =
@@ -71,10 +70,10 @@ let main () =
       with 
       | Shapes.DoneFalling -> 
         new_falling_shape ();
-      | End -> raise End
+      | Tilearray.End -> raise Tilearray.End
     done
   with
-  | End -> f_end ()
+  | Tilearray.End -> f_end ()
 
 
 let start () = 
