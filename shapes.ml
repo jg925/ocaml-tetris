@@ -137,7 +137,7 @@ let rec check_shape_tiles = function
   | h :: t -> begin
       let x = Tile.get_x h in 
       let y = Tile.get_y h in
-      if x < 0 || x > Tilearray.x_dim - 1 || y < 0 
+      if x < 0 || x > Tilearray.x_dim - 1 || y < 0 || y >= Tilearray.y_dim
       then false
       else if Tilearray.get x y = None 
       then check_shape_tiles t 
@@ -180,7 +180,9 @@ let rotate_r shape =
 let rec set_tile_array = function
   | [] -> raise DoneFalling
   | tile :: t -> 
-    Tilearray.set (Tile.get_x tile) (Tile.get_y tile) (Some tile);
+    let x = Tile.get_x tile in
+    let y = Tile.get_y tile in
+    Tilearray.set x y (Some tile);
     set_tile_array t
 
 let fall shape = 

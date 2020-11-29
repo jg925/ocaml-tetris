@@ -56,6 +56,26 @@ let new_falling_shape () =
   shape_ref := (generate_new_shape ());
   draw_shape None !shape_ref
 
+let rec get_tile_ys acc = function
+  | [] -> acc
+  | tile :: t -> get_tile_ys (Tile.get_y tile :: acc) t
+
+let get_ys shape = get_tile_ys [] (Shapes.get_tiles shape)
+
+
+let redraw_tiles () = 
+  for ind = 0 to (Tilearray.y_dim * Tilearray.x_dim) - 1 do
+    let entry = Tilearray.tile_array.(ind) in 
+    match entry with
+    | None -> 
+      let x = ind mod Tilearray.x_dim in 
+      let y = (ind - x)/Tilearray.x_dim in 
+      Board.erase_coords x y
+    | Some tile -> Board.display_tile tile
+  done
+
+
+
 
 let f_end () = ()
 
@@ -69,6 +89,9 @@ let main () =
         move_shape s.Graphics.key;
       with 
       | Shapes.DoneFalling -> 
+        let ys = get_ys !shape_ref in
+        Tilearray.delete_rows ys;
+        redraw_tiles ();
         new_falling_shape ();
       | Tilearray.End -> raise Tilearray.End
     done

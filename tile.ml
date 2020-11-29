@@ -45,6 +45,9 @@ let get_color tile =
   | (r,g,b) -> Graphics.rgb r g b
 
 
+let set_y tile y = 
+  {tile with location = ((get_x tile), y)}
+
 (* functions for generating new tiles from old ones *)
 
 let move_to tile x y = {tile with location = (x, y)}

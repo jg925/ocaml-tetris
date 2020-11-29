@@ -91,6 +91,9 @@ let erase_tile tile =
   let y = Tile.get_y tile in
   draw_square (Graphics.rgb 255 255 255) x y 
 
+let erase_coords x y = 
+  draw_square (Graphics.rgb 255 255 255) x y 
+
 let rec display_each_tile = function
   | [] -> ()
   | tile::t -> display_tile tile; display_each_tile t
