@@ -27,3 +27,6 @@ val delete_rows : int list -> unit
     array. 
     Requires: [x] and [y] to be within the bounds of the board. *)
 val get : int -> int -> Tile.t option
+
+
+val clear : unit -> unit

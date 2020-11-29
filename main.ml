@@ -53,7 +53,7 @@ let fall_shape _ =
 let new_falling_shape () = 
   ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape));
   ignore (Unix.alarm 1);
-  shape_ref := (generate_new_shape ());
+  shape_ref := generate_new_shape ();
   draw_shape None !shape_ref
 
 let rec get_tile_ys acc = function
@@ -77,16 +77,15 @@ let redraw_tiles () =
 
 
 
-let f_end () = ()
 
 
-let main () = 
+let rec main () = 
   try
     new_falling_shape ();
     while true do
       try
-        let s = Graphics.wait_next_event [Graphics.Key_pressed] in
-        move_shape s.Graphics.key;
+        let k = Graphics.read_key () in
+        move_shape k;
       with 
       | Shapes.DoneFalling -> 
         let ys = get_ys !shape_ref in
@@ -97,7 +96,19 @@ let main () =
       | Tilearray.End -> raise Tilearray.End
     done
   with
-  | Tilearray.End -> f_end ()
+  | Tilearray.End -> 
+    while true do 
+      let k = Graphics.read_key () in
+      if k = 'm' then 
+        begin
+          Board.refresh ();
+          Tilearray.score := 0;
+          Board.display_score !Tilearray.score;
+          Tilearray.clear ();
+          main ()
+        end
+      else ()
+    done
 
 
 let start () = 

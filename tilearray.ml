@@ -82,3 +82,7 @@ let get x y =
   let index = array_index x y in
   tile_array.(index)
 
+let clear () = 
+  for x = 0 to y_dim * x_dim - 1 do
+    tile_array.(x) <- None
+  done
