@@ -7,7 +7,14 @@ val x_dim : int
 (** [y_dim] is the number of rows on the Tetris board.*)
 val y_dim : int
 
+
 val tile_array : Tile.t option array
+
+
+val score : int ref
+
+
+val level : int ref
 
 (** [set x y value] sets the value in tile_array at row [y] column [x] to 
     [value]. 

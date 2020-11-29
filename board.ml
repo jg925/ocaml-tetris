@@ -3,7 +3,7 @@ let scale = Tile.tile_length
 
 (* [left_offset] defines the width between the left side of the window and 
    left side of the board *)
-let left_offset = 70
+let left_offset = 150
 
 (* [bottom_offset] defines the height between the bottom of the window and 
    bottom of the board *)
@@ -107,8 +107,11 @@ let rec erase_each_tile = function
 let erase_shape shape = shape |> Shapes.get_tiles |> erase_each_tile
 
 let display_score score = 
+  Graphics.set_color (Graphics.rgb 255 255 255);
+  Graphics.fill_rect 0 bottom_offset 
+    (left_offset - outline_width) (y_dim * scale + top_offset);
   Graphics.set_color 0;
-  Graphics.moveto (left_offset / 2) (bottom_offset + 21 * scale + scale / 2);
+  Graphics.moveto (left_offset / 5) (bottom_offset + y_dim * scale);
   Graphics.draw_string ("Score: " ^ string_of_int score)
 
 let check_if_fallen shape =

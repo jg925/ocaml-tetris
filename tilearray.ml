@@ -8,6 +8,9 @@ let y_dim = 24
     of the board have a tile in them.*)
 let tile_array = Array.make (y_dim * x_dim) None
 
+let score = ref 0
+let level = ref 1
+
 let array_index x y = y * x_dim + x
 
 let set x y value = 
@@ -53,10 +56,25 @@ let rec shift_rows = function
     reassign_array (array_index 0 y) entries_to_shift;
     shift_rows t
 
+let update_score rows = 
+  let num_rows = List.length rows in 
+  let points = 
+    if num_rows = 1
+    then 40
+    else if num_rows = 2
+    then 100
+    else if num_rows = 3
+    then 300
+    else if num_rows = 4
+    then 1200
+    else 0 in 
+  score := !score + !level * points
+
 
 let delete_rows ys = 
   let uniq_ys = List.sort_uniq compare ys in
   let rows_to_delete = find_completed_rows [] uniq_ys in
+  update_score rows_to_delete;
   shift_rows rows_to_delete
 
 

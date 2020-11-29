@@ -92,6 +92,7 @@ let main () =
         let ys = get_ys !shape_ref in
         Tilearray.delete_rows ys;
         redraw_tiles ();
+        Board.display_score !Tilearray.score;
         new_falling_shape ();
       | Tilearray.End -> raise Tilearray.End
     done
@@ -101,7 +102,7 @@ let main () =
 
 let start () = 
   Board.setup ();
-  Board.display_score 0;
+  Board.display_score !Tilearray.score;
   main ()
 
 
