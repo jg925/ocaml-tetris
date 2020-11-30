@@ -39,6 +39,7 @@ let move_shape key_press =
     | 't' -> Shapes.rotate_l current_shape
     | 'y' -> Shapes.rotate_r current_shape
     | 'b' -> Shapes.fall current_shape
+    | 'p' -> Shapes.drop current_shape
     | _ -> current_shape
   in draw_shape (Some current_shape) next_shape;
   shape_ref := next_shape

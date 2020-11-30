@@ -192,4 +192,5 @@ let fall shape =
   else {shape with anchor = (match shape.anchor with (x, y) -> (x, y - 1));
          tile_list = new_tile_list}
 
-let drop shape = failwith "unimplemented"
+let rec drop shape = 
+  drop (fall shape)
