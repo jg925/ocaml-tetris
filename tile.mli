@@ -35,7 +35,3 @@ val move_left : t -> t
 (** [move_right tile] is [tile] moved one tile-length to the right. *)
 val move_right : t -> t
 
-(** [drop tile] is [tile] moved to the lowest available position on the 
-    board directly below it. 
-    NOTE: CURRENTLY UNIMPLEMENTED *)
-val drop : t -> t
