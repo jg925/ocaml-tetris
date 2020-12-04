@@ -1,6 +1,7 @@
 
 exception End
 
+let key_array = [|'f'; 'h'; 't'; 'y'; 'b'|]
 
 let generate_new_shape () =
   let rand_element lst =
@@ -37,11 +38,11 @@ let move_shape key_press =
   let current_shape = !shape_ref in
   let next_shape = 
     match key_press with 
-    | 'f' -> Shapes.move_l current_shape
-    | 'h' -> Shapes.move_r current_shape
-    | 't' -> Shapes.rotate_l current_shape
-    | 'y' -> Shapes.rotate_r current_shape
-    | 'b' -> Shapes.fall current_shape
+    | lk when lk = key_array.(0) -> Shapes.move_l current_shape
+    | rk when rk = key_array.(1) -> Shapes.move_r current_shape
+    | rot_lk when rot_lk = key_array.(2) -> Shapes.rotate_l current_shape
+    | rot_rk when rot_rk = key_array.(3) -> Shapes.rotate_r current_shape
+    | fk when fk = key_array.(4) -> Shapes.fall current_shape
     | _ -> current_shape
   in draw_shape (Some current_shape) next_shape;
   shape_ref := next_shape
