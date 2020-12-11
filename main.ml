@@ -1,6 +1,5 @@
 
 
-
 let generate_new_shape () =
   let rand_element lst =
     Random.self_init ();
@@ -30,16 +29,15 @@ let draw_shape previous_shape current_shape =
   erase_previous previous_shape;
   current_shape |> Board.display_shape
 
-let move_shape key_press = 
+let move_shape key_press key_array = 
   let current_shape = !shape_ref in
   let next_shape = 
     match key_press with 
-    | 'f' -> Shapes.move_l current_shape
-    | 'h' -> Shapes.move_r current_shape
-    | 't' -> Shapes.rotate_l current_shape
-    | 'y' -> Shapes.rotate_r current_shape
-    | 'b' -> Shapes.fall current_shape
-    | 'p' -> Shapes.drop current_shape
+    | lk when lk = key_array.(0) -> Shapes.move_l current_shape
+    | rk when rk = key_array.(1) -> Shapes.move_r current_shape
+    | rot_lk when rot_lk = key_array.(2) -> Shapes.rotate_l current_shape
+    | rot_rk when rot_rk = key_array.(3) -> Shapes.rotate_r current_shape
+    | fk when fk = key_array.(4) -> Shapes.fall current_shape
     | _ -> current_shape
   in draw_shape (Some current_shape) next_shape;
   shape_ref := next_shape
@@ -75,18 +73,13 @@ let redraw_tiles () =
     | Some tile -> Board.display_tile tile
   done
 
-
-
-
-
-
 let rec main () = 
   try
     new_falling_shape ();
     while true do
       try
         let k = Graphics.read_key () in
-        move_shape k;
+        move_shape k !Board.key_array;
       with 
       | Shapes.DoneFalling -> 
         let ys = get_ys !shape_ref in
@@ -110,14 +103,12 @@ let rec main () =
         end
       else ()
     done
-
-
 let start () = 
   ANSITerminal.(print_string [red] "\n\nWelcome to Tetris for Ocaml!\n
   Please enter settings to have the game most suited toward your preferences.");
   Board.setup ();
   Board.display_score !Tilearray.score;
-  main ()
+  main () 
 
 
 
