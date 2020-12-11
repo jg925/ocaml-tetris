@@ -23,6 +23,9 @@ val get_color : t -> Graphics.color
     of the game board. *)
 val tile_length : int
 
+
+val set_y : t -> int -> t
+
 (** [fall tile] is [tile] moved one tile-length down the board. *)
 val fall : t -> t
 
@@ -32,7 +35,3 @@ val move_left : t -> t
 (** [move_right tile] is [tile] moved one tile-length to the right. *)
 val move_right : t -> t
 
-(** [drop tile] is [tile] moved to the lowest available position on the 
-    board directly below it. 
-    NOTE: CURRENTLY UNIMPLEMENTED *)
-val drop : t -> t

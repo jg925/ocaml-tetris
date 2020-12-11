@@ -12,6 +12,7 @@ type anchor = (int * int)
 val make_shape : char -> anchor -> int -> t
 
 exception BadName of char
+exception DoneFalling
 
 (** [get_x shape] is the x coordinate of the anchor tile of [shape]. *)
 val get_x : t -> int

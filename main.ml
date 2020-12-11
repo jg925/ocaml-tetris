@@ -1,5 +1,4 @@
 
-exception End
 
 let key_array = [|'f'; 'h'; 't'; 'y'; 'b'|]
 
@@ -8,19 +7,17 @@ let generate_new_shape () =
     Random.self_init ();
     let n = Random.int (List.length lst) in List.nth lst n in
   let poss_shape_type = 
-    [('I', (5, 17));
-     ('J', (5, 17));
-     ('L', (5, 17));
-     ('T', (5, 17));
-     ('Z', (5, 17));
-     ('S', (5, 17));
-     ('O', (5, 17))] in
-  let poss_orient = [0; 90; 270; 360] in 
+    ['I'; 'J'; 'L'; 'T'; 'Z'; 'S'; 'O'] in
   let decided_shape_type = rand_element poss_shape_type in
-  Shapes.make_shape 
-    (fst decided_shape_type) 
-    (snd decided_shape_type) 
-    (rand_element poss_orient)
+  let x = Tilearray.x_dim/2 - 1 in
+  let y = Tilearray.y_dim - 3 in
+  let coords = 
+    if decided_shape_type = 'I' 
+    then (x + 1, y + 1)
+    else if decided_shape_type = 'O'
+    then (x, y + 1)
+    else (x, y) in
+  Shapes.make_shape decided_shape_type coords 0
 
 let shape_ref = ref (generate_new_shape ())
 
@@ -38,11 +35,20 @@ let move_shape key_press =
   let current_shape = !shape_ref in
   let next_shape = 
     match key_press with 
+<<<<<<< HEAD
     | lk when lk = key_array.(0) -> Shapes.move_l current_shape
     | rk when rk = key_array.(1) -> Shapes.move_r current_shape
     | rot_lk when rot_lk = key_array.(2) -> Shapes.rotate_l current_shape
     | rot_rk when rot_rk = key_array.(3) -> Shapes.rotate_r current_shape
     | fk when fk = key_array.(4) -> Shapes.fall current_shape
+=======
+    | 'f' -> Shapes.move_l current_shape
+    | 'h' -> Shapes.move_r current_shape
+    | 't' -> Shapes.rotate_l current_shape
+    | 'y' -> Shapes.rotate_r current_shape
+    | 'b' -> Shapes.fall current_shape
+    | 'p' -> Shapes.drop current_shape
+>>>>>>> 9e39071f77e841e8cd702793956315e1e11fc130
     | _ -> current_shape
   in draw_shape (Some current_shape) next_shape;
   shape_ref := next_shape
@@ -54,33 +60,72 @@ let fall_shape _ =
   shape_ref := next_shape;
   ignore (Unix.alarm 1)
 
+let new_falling_shape () = 
+  ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape));
+  ignore (Unix.alarm 1);
+  shape_ref := generate_new_shape ();
+  draw_shape None !shape_ref
 
-let f_end () = ()
+let rec get_tile_ys acc = function
+  | [] -> acc
+  | tile :: t -> get_tile_ys (Tile.get_y tile :: acc) t
+
+let get_ys shape = get_tile_ys [] (Shapes.get_tiles shape)
 
 
-let main () = 
+let redraw_tiles () = 
+  for ind = 0 to (Tilearray.y_dim * Tilearray.x_dim) - 1 do
+    let entry = Tilearray.tile_array.(ind) in 
+    match entry with
+    | None -> 
+      let x = ind mod Tilearray.x_dim in 
+      let y = (ind - x)/Tilearray.x_dim in 
+      Board.erase_coords x y
+    | Some tile -> Board.display_tile tile
+  done
+
+
+
+
+
+
+let rec main () = 
   try
-    ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape));
-    ignore (Unix.alarm 1);
+    new_falling_shape ();
     while true do
       try
-        let shape_falling = true in
-        shape_ref := (generate_new_shape ());
-        draw_shape None !shape_ref;
-        while shape_falling do
-          let s = Graphics.wait_next_event [Graphics.Key_pressed] in
-          move_shape s.Graphics.key;
-        done
+        let k = Graphics.read_key () in
+        move_shape k;
       with 
-      | End -> raise End
+      | Shapes.DoneFalling -> 
+        let ys = get_ys !shape_ref in
+        Tilearray.delete_rows ys;
+        redraw_tiles ();
+        Board.display_score !Tilearray.score;
+        new_falling_shape ();
+      | Tilearray.End -> raise Tilearray.End
     done
   with
-  | End -> f_end ()
+  | Tilearray.End -> 
+    while true do 
+      let k = Graphics.read_key () in
+      if k = 'm' then 
+        begin
+          Board.refresh ();
+          Tilearray.score := 0;
+          Board.display_score !Tilearray.score;
+          Tilearray.clear ();
+          main ()
+        end
+      else ()
+    done
 
 
 let start () = 
+  ANSITerminal.(print_string [red] "\n\nWelcome to Tetris for Ocaml!\n
+  Please enter settings to have the game most suited toward your preferences.");
   Board.setup ();
-  Board.display_score 0;
+  Board.display_score !Tilearray.score;
   main ()
 
 

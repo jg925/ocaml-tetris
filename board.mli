@@ -16,6 +16,9 @@ val display_shape : Shapes.t -> unit
 (** [erase_tile tile] erases [tile] from the game board. *)
 val erase_tile : Tile.t -> unit
 
+
+val erase_coords : int -> int -> unit
+
 (** [erase_shape shape] erases [shape] from the game board. *)
 val erase_shape : Shapes.t -> unit
 

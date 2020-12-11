@@ -3,7 +3,7 @@ let scale = Tile.tile_length
 
 (* [left_offset] defines the width between the left side of the window and 
    left side of the board *)
-let left_offset = 70
+let left_offset = 150
 
 (* [bottom_offset] defines the height between the bottom of the window and 
    bottom of the board *)
@@ -18,10 +18,10 @@ let right_offset = 70
 let top_offset = 70
 
 (* [x_dim] is the width of the tetris board *)
-let x_dim = 10
+let x_dim = Tilearray.x_dim
 
 (* [y_dim] is the height of the tetris board *)
-let y_dim = 20
+let y_dim = Tilearray.y_dim
 
 (* [outline_width] is the width of the line drawing the outline of the board. 
    In order for coordinates to work out perfectly in edge tiles 
@@ -91,6 +91,9 @@ let erase_tile tile =
   let y = Tile.get_y tile in
   draw_square (Graphics.rgb 255 255 255) x y 
 
+let erase_coords x y = 
+  draw_square (Graphics.rgb 255 255 255) x y 
+
 let rec display_each_tile = function
   | [] -> ()
   | tile::t -> display_tile tile; display_each_tile t
@@ -104,8 +107,11 @@ let rec erase_each_tile = function
 let erase_shape shape = shape |> Shapes.get_tiles |> erase_each_tile
 
 let display_score score = 
+  Graphics.set_color (Graphics.rgb 255 255 255);
+  Graphics.fill_rect 0 bottom_offset 
+    (left_offset - outline_width) (y_dim * scale + top_offset);
   Graphics.set_color 0;
-  Graphics.moveto (left_offset / 2) (bottom_offset + 21 * scale + scale / 2);
+  Graphics.moveto (left_offset / 5) (bottom_offset + y_dim * scale);
   Graphics.draw_string ("Score: " ^ string_of_int score)
 
 let check_if_fallen shape =

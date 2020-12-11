@@ -45,6 +45,9 @@ let get_color tile =
   | (r,g,b) -> Graphics.rgb r g b
 
 
+let set_y tile y = 
+  {tile with location = ((get_x tile), y)}
+
 (* functions for generating new tiles from old ones *)
 
 let move_to tile x y = {tile with location = (x, y)}
@@ -54,5 +57,3 @@ let fall tile = move_to tile (get_x tile) (get_y tile - 1)
 let move_left tile = move_to tile (get_x tile - 1) (get_y tile)
 
 let move_right tile = move_to tile (get_x tile + 1) (get_y tile)
-
-let drop tile = failwith "unimplemented"
