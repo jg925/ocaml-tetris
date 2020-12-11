@@ -7,6 +7,7 @@ MAIN=main.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 
 default: build
+	export DISPLAY=:0
 	utop
 
 build:

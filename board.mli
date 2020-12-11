@@ -2,6 +2,7 @@
     be drawn *)
 val setup : unit -> unit
 
+val key_array : char array ref
 (** [delete rows ()] removes any completed rows of 
     tiles from the gameboard and drops down tiles above it by a row 
     NOTE: CURRENTLY UNIMPLEMENTED *)

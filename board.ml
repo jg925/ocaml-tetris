@@ -1,10 +1,12 @@
 (* [scale] defines the size of the game board and the tiles *)
 let scale = Tile.tile_length
-
 (* [left_offset] defines the width between the left side of the window and 
    left side of the board *)
-let left_offset = 150
 
+let key_array = ref (Array.make 5 ' ')
+
+
+let left_offset = 150
 (* [bottom_offset] defines the height between the bottom of the window and 
    bottom of the board *)
 let bottom_offset = 70
@@ -34,6 +36,16 @@ let gridline_width = 1
 
 let highest_y = Array.make x_dim 0
 
+let pp_array pp_elt arr =
+  let pp_elts arr =
+    let rec loop n acc = function
+      | [] -> acc
+      | [h] -> acc ^ pp_elt h
+      | h1 :: (h2 :: t as t') ->
+        if n = 100 then acc ^ "..."  (* stop printing long list *)
+        else loop (n + 1) (acc ^ (pp_elt h1) ^ "; ") t'
+    in loop 0 "" arr
+  in "[|" ^ pp_elts (Array.to_list arr) ^ "|]"
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.
     The board is 10x20 blocks where each block is a square with width and 
     height both equal to [scale] pixels.*)
@@ -67,7 +79,37 @@ let setup () =
     let y = lower + i * (scale + gridline_width) + outline_width / 2 in
     Graphics.moveto left y;
     Graphics.lineto right y
-  done
+  done;
+  let explode str =
+    let rec exp a b =
+      if a < 0 then b
+      else exp (a - 1) (str.[a] :: b)
+    in
+    (exp (String.length str - 1) []) |> Array.of_list in
+  let rec do_key_settings kmode () = 
+    ANSITerminal.(print_string [red] 
+                    (" Your current keybinds is " ^ kmode ^".\n
+                    Do you want to change?\n> "));
+    match read_line () with
+    | "Yes" |"y" | "Y" | "yes" -> begin
+        ANSITerminal.(print_string [red] 
+                        ("Enter key binding options\n(The keys to play are \
+                          notated as:\nMoveLeft,MoveRight,RotateLeft,RotateRight,\
+                          Fall):\n
+                        1. adwsx\n
+                        2. jlik,\n
+                        3. fhtgb\n"));
+        match read_int () with
+        | 1 -> key_array := "adwsx" |> explode
+        | 2 -> key_array := "jlik," |> explode
+        | 3 -> key_array := "fhtgb" |> explode
+        | _ -> failwith ""
+      end; ()
+    | "No"  |"n" | "N" | "no" -> ANSITerminal.(print_string [red]
+                                                 "Enjoy the game!"); ()
+    | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
+      do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()  in
+  do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()
 
 
 (* functions for displaying different assets of the game *)
