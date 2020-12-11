@@ -113,6 +113,8 @@ let rec main () =
 
 
 let start () = 
+  ANSITerminal.(print_string [red] "\n\nWelcome to Tetris for Ocaml!\n
+  Please enter settings to have the game most suited toward your preferences.");
   Board.setup ();
   Board.display_score !Tilearray.score;
   main ()
