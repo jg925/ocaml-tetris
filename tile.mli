@@ -24,6 +24,8 @@ val get_color : t -> Graphics.color
 val tile_length : int
 
 
+val set_x : t -> int -> t
+
 val set_y : t -> int -> t
 
 (** [fall tile] is [tile] moved one tile-length down the board. *)

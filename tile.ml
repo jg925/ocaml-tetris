@@ -44,9 +44,12 @@ let get_color tile =
   match tile.color with 
   | (r,g,b) -> Graphics.rgb r g b
 
+let set_x tile x = 
+  {tile with location = (x, (get_y tile))}
 
 let set_y tile y = 
   {tile with location = ((get_x tile), y)}
+
 
 (* functions for generating new tiles from old ones *)
 

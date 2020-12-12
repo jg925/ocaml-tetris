@@ -15,7 +15,7 @@ let bottom_offset = 70
 
 (* [right_offset] defines the width between the right side of the board and 
    right side of the window *)
-let right_offset = 70
+let right_offset = 150
 
 (** [top_offset] defines the height between the top of the board and the 
     top of the window *)
@@ -124,7 +124,8 @@ let display_game_over_screen () =
   Graphics.moveto (width / 2 - 30) ((height * 2) / 3);
   Graphics.draw_string "Game Over!";
   Graphics.moveto (width / 2 - 90) ((height * 2) / 3 - 30);
-  Graphics.draw_string ("Press "^ Char.escaped !key_array.(5) ^" to play another round")
+  Graphics.draw_string ("Press '"^ Char.escaped !key_array.(5) ^ 
+                        "' to play another round")
 
 
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.
@@ -158,7 +159,7 @@ let setup_board () =
     Graphics.lineto right y
   done
 
-let display_controls (control_config:char array ref) =
+let display_controls (control_config : char array ref) =
   Graphics.set_color 0;
   Graphics.moveto (left_offset / 5) (y_dim * scale / 2);
   Graphics.draw_string ("Controls: ");
@@ -228,13 +229,30 @@ let rec display_each_tile shadow = function
     else display_tile tile true (Tile.get_color tile); 
     display_each_tile shadow t
 
-let display_shape shape = shape 
-                          |> Shapes.get_tiles 
-                          |> display_each_tile false
 
-let display_shadow shape = shape 
-                           |> Shapes.get_tiles 
-                           |> display_each_tile true
+let rec shift_tiles_off_board acc = function
+  | [] -> acc
+  | tile :: t -> 
+    let new_x = Tile.get_x tile + scale * x_dim / 2 + 20 in
+    let new_tile = Tile.set_x tile new_x in 
+    shift_tiles_off_board (new_tile::acc) t
+
+let display_next_shape shape = 
+  shape
+  |> Shapes.get_tiles
+  |> shift_tiles_off_board []
+  |> display_each_tile false
+
+
+let display_shape shape = 
+  shape 
+  |> Shapes.get_tiles 
+  |> display_each_tile false
+
+let display_shadow shape = 
+  shape 
+  |> Shapes.get_tiles 
+  |> display_each_tile true
 
 let rec erase_each_tile = function
   | [] -> ()

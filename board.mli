@@ -13,12 +13,16 @@ val setup_board : unit -> unit
 val key_array : char array ref
 
 val display_controls : char array ref -> unit
+
 (** 
 
    NOTE: need to update this spec
 
    [display_tile tile] draws [tile] on the game board. *)
 val display_tile : Tile.t -> bool -> Graphics.color -> unit
+
+
+val display_next_shape : Shapes.t -> unit
 
 (** [display_shape shape] draws [shape] on the game board. *)
 val display_shape : Shapes.t -> unit
