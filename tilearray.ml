@@ -22,7 +22,7 @@ let update_high_score new_score =
     |> List.sort compare 
     |> List.rev
   in 
-  for i = 0 to Array.length high_scores do 
+  for i = 0 to (Array.length high_scores - 1) do 
     high_scores.(i) <- List.nth scores i done
 
 

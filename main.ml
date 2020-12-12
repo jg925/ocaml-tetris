@@ -106,8 +106,9 @@ let rec main () =
 
 and wait_for_restart () = 
   try
+    Board.display_game_over_screen ();
     let k = Graphics.read_key () in
-    if k = 'm' then 
+    if k = 'r' then 
       begin
         Board.refresh ();
         Tilearray.update_high_score !Tilearray.score;
@@ -123,10 +124,13 @@ and wait_for_restart () =
 let start () = 
   ANSITerminal.(print_string [red] "\n\nWelcome to Tetris for OCaml!");
   Board.set_settings ();
+  Board.display_welcome_screen ();
+  ignore (Graphics.read_key ());
   Board.setup_board ();
   Board.display_score !Tilearray.score;
   Board.display_high_scores (Array.to_list Tilearray.high_scores);
   main () 
+
 
 
 
