@@ -82,25 +82,49 @@ let set_settings () =
       do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()  in
   do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()
 
+let lower () = bottom_offset
+
+let upper () = lower () + y_dim * scale + 
+               (y_dim - 1) * gridline_width + outline_width
+
+let left () = left_offset
+
+let right () = left () + x_dim * scale + 
+               (x_dim - 1) * gridline_width + outline_width
+
+let width () = right () + right_offset
+
+let height () = upper () + top_offset
+
+
+let display_welcome_screen () = 
+  let width = width () in
+  let height = height () in 
+
+  " " ^ (string_of_int width) ^ "x" ^ (string_of_int height) 
+  |> Graphics.open_graph;
+  Graphics.set_window_title "Tetris";
+  Graphics.set_color (Graphics.rgb 0 0 0);
+
+  Graphics.moveto (width / 2 - 55) ((height * 2) / 3);
+  Graphics.draw_string "Welcome to Tetris";
+  Graphics.moveto (width / 2 - 70) ((height * 2) / 3 - 30);
+  Graphics.draw_string "Press any key to begin"
+
+
+
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.
     The board is 10x20 blocks where each block is a square with width and 
     height both equal to [scale] pixels.*)
 let setup_board () = 
-
   (* Draws the board outline *)
+  let lower = lower () in 
+  let upper = upper () in 
+  let left = left () in
+  let right = right () in
 
-  let lower = bottom_offset in 
-  let upper = lower + y_dim * scale + 
-              (y_dim - 1) * gridline_width + outline_width in 
-  let left = left_offset in
-  let right = left + x_dim * scale + 
-              (x_dim - 1) * gridline_width + outline_width in
-  let width = right + right_offset in
-  let height = upper + top_offset in 
-  " " ^ (string_of_int width) ^ "x" ^ (string_of_int height) 
-  |> Graphics.open_graph;
+  Graphics.clear_graph ();
   Graphics.set_color (Graphics.rgb 0 0 0);
-  Graphics.set_window_title "Tetris";
   Graphics.set_line_width outline_width;
   Graphics.moveto left lower;
   Graphics.lineto right lower;

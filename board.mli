@@ -2,6 +2,8 @@
 
 val set_settings : unit -> unit
 
+val display_welcome_screen : unit -> unit
+
 (** [setup_board ()] creates a Tetris game board upon which Tetris pieces can
     be drawn *)
 val setup_board : unit -> unit
