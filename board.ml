@@ -66,7 +66,7 @@ let set_settings () =
         ANSITerminal.(print_string [red] 
                         ("Choose the keys you would like for \
                           Left, Right, Rotate CCW, Rotate CW, \
-                          Restart, and Fall Faster):\n
+                          Fall Faster, and Restart):\n
                         1. adwsxr\n
                         2. jlik,r\n
                         3. fhtgbr\n"));
