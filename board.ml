@@ -77,9 +77,7 @@ let set_settings () =
         | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
           do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()
       end; ()
-    | "No"  |"n" | "N" | "no" -> 
-      ANSITerminal.(print_string [red]
-                      "Enjoy the game!"); ()
+    | "No"  |"n" | "N" | "no" -> ()
     | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
       do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()  in
   do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()
