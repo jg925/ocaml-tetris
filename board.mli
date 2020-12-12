@@ -12,6 +12,7 @@ val setup_board : unit -> unit
 
 val key_array : char array ref
 
+val display_controls : char array ref -> unit
 (** 
 
    NOTE: need to update this spec

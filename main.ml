@@ -97,6 +97,7 @@ let rec main () =
         redraw_tiles ();
         Board.display_score !Tilearray.score;
         Board.display_high_scores (Array.to_list Tilearray.high_scores);
+        Board.display_controls (Board.key_array);
         new_falling_shape ();
       | Tilearray.End -> raise Tilearray.End
     done
@@ -108,13 +109,14 @@ and wait_for_restart () =
   try
     Board.display_game_over_screen ();
     let k = Graphics.read_key () in
-    if k = 'r' then 
+    if k = !Board.key_array.(5) then 
       begin
         Board.refresh ();
         Tilearray.update_high_score !Tilearray.score;
         Tilearray.score := 0;
         Board.display_score !Tilearray.score;
         Board.display_high_scores (Array.to_list Tilearray.high_scores);
+        Board.display_controls (Board.key_array);
         Tilearray.clear ();
         main ()
       end
@@ -129,6 +131,7 @@ let start () =
   Board.setup_board ();
   Board.display_score !Tilearray.score;
   Board.display_high_scores (Array.to_list Tilearray.high_scores);
+  Board.display_controls (Board.key_array);
   main () 
 
 

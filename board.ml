@@ -2,8 +2,9 @@
 let scale = Tile.tile_length
 
 
-let key_array = ref (Array.make 5 ' ')
-
+let key_array = ref [|'f'; 'h'; 't'; 'g'; 'b'; 'r'|]
+let ctl_array = ref [|"Move Left"; "Move Right"; "Rotate CW"; 
+                      "Rotate CCW"; "Fall Faster"|]
 (* [left_offset] defines the width between the left side of the window and 
    left side of the board *)
 let left_offset = 150
@@ -65,15 +66,16 @@ let set_settings () =
         ANSITerminal.(print_string [red] 
                         ("Choose the keys you would like for \
                           Left, Right, Rotate CCW, Rotate CW, \
-                          and Fall Faster):\n
-                        1. adwsx\n
-                        2. jlik,\n
-                        3. fhtgb\n"));
+                          Fall Faster, and Restart):\n
+                        1. adwsxr\n
+                        2. jlik,r\n
+                        3. fhtgbr\n"));
         match read_int () with
-        | 1 -> key_array := "adwsx" |> explode
-        | 2 -> key_array := "jlik," |> explode
-        | 3 -> key_array := "fhtgb" |> explode
-        | _ -> failwith ""
+        | 1 -> key_array := "adwsxr" |> explode
+        | 2 -> key_array := "jlik,r" |> explode
+        | 3 -> key_array := "fhtgbr" |> explode
+        | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
+          do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()
       end; ()
     | "No"  |"n" | "N" | "no" -> 
       ANSITerminal.(print_string [red]
@@ -122,7 +124,7 @@ let display_game_over_screen () =
   Graphics.moveto (width / 2 - 30) ((height * 2) / 3);
   Graphics.draw_string "Game Over!";
   Graphics.moveto (width / 2 - 90) ((height * 2) / 3 - 30);
-  Graphics.draw_string "Press 'r' to play another round"
+  Graphics.draw_string ("Press "^ Char.escaped !key_array.(5) ^" to play another round")
 
 
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.
@@ -156,7 +158,15 @@ let setup_board () =
     Graphics.lineto right y
   done
 
-
+let display_controls (control_config:char array ref) =
+  Graphics.set_color 0;
+  Graphics.moveto (left_offset / 5) (y_dim * scale / 2);
+  Graphics.draw_string ("Controls: ");
+  for i = 0 to Array.length !ctl_array - 1 do 
+    Graphics.moveto (left_offset / 5) ((y_dim * scale / 2) - (i + 1) * 20);
+    Graphics.draw_string (!ctl_array.(i) ^ ": " 
+                          ^ Char.escaped (!key_array.(i)))
+  done
 
 (* functions for displaying different assets of the game *)
 
