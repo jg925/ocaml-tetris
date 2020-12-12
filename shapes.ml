@@ -192,5 +192,15 @@ let fall shape =
   else {shape with anchor = (match shape.anchor with (x, y) -> (x, y - 1));
          tile_list = new_tile_list}
 
+
+let rec shape_shadow shape = 
+  let new_tile_list = List.map Tile.fall shape.tile_list in  
+  if check_shape_tiles new_tile_list = false 
+  then shape
+  else shape_shadow {shape with anchor = (match shape.anchor with (x, y) -> (x, y - 1));
+         tile_list = new_tile_list}
+
+(*
 let rec drop shape = 
   drop (fall shape)
+*)

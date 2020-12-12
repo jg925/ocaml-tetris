@@ -38,7 +38,4 @@ val rotate_r : t -> t
 (** [fall shape] is [shape] moved one tile-length down the board. *)
 val fall : t -> t
 
-(** [drop shape] is [shape] moved to the lowest available position on the 
-    board directly below it. 
-    NOTE: CURRENTLY UNIMPLEMENTED *)
-val drop : t -> t
+val shape_shadow : t -> t
