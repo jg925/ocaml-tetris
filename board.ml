@@ -2,7 +2,7 @@
 let scale = Tile.tile_length
 
 
-let key_array = ref (Array.make 5 ' ')
+let key_array = ref [|'f'; 'h'; 't'; 'g'; 'b'|]
 
 (* [left_offset] defines the width between the left side of the window and 
    left side of the board *)
