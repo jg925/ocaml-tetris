@@ -162,20 +162,46 @@ let move_l shape = move_lr shape "l"
 
 let move_r shape = move_lr shape "r"
 
+(** [wall_kick shape] performs a wall kick on a rotated shape. *)
+let wall_kick_rotation shape dir =
+  let left_shape = move_l shape in 
+  let right_shape = move_r shape in 
+  match dir with 
+  | "L" -> begin
+      let rotated_shape = make_shape shape.name shape.anchor
+          (shape.orientation - 90 |> modulo_360) in 
+      let rotated_l_shape = make_shape left_shape.name left_shape.anchor
+          (left_shape.orientation - 90 |> modulo_360) in 
+      let rotated_r_shape = make_shape right_shape.name right_shape.anchor
+          (right_shape.orientation - 90 |> modulo_360) in
+      if check_shape_tiles rotated_shape.tile_list = true
+      then rotated_shape
+      else if check_shape_tiles rotated_l_shape.tile_list = true 
+      then left_shape
+      else if check_shape_tiles rotated_r_shape.tile_list = true 
+      then rotated_r_shape
+      else shape
+    end
+  | "R" -> begin
+      let rotated_shape = make_shape shape.name shape.anchor
+          (shape.orientation + 90 |> modulo_360) in 
+      let rotated_l_shape = make_shape left_shape.name left_shape.anchor
+          (left_shape.orientation + 90 |> modulo_360) in 
+      let rotated_r_shape = make_shape right_shape.name right_shape.anchor
+          (right_shape.orientation + 90 |> modulo_360) in
+      if check_shape_tiles rotated_shape.tile_list = true
+      then rotated_shape
+      else if check_shape_tiles rotated_l_shape.tile_list = true 
+      then left_shape
+      else if check_shape_tiles rotated_r_shape.tile_list = true 
+      then rotated_r_shape
+      else shape
+    end
+  | _ -> failwith "Not a Direction"
 
-let rotate_l shape = 
-  let new_shape = make_shape shape.name shape.anchor 
-      (shape.orientation - 90 |> modulo_360) in 
-  if check_shape_tiles new_shape.tile_list = false 
-  then shape
-  else new_shape
+let rotate_l shape = wall_kick_rotation shape "L"
 
-let rotate_r shape = 
-  let new_shape = make_shape shape.name shape.anchor 
-      (shape.orientation + 90 |> modulo_360) in 
-  if check_shape_tiles new_shape.tile_list = false 
-  then shape
-  else new_shape
+let rotate_r shape = wall_kick_rotation shape "R"
 
 let rec set_tile_array = function
   | [] -> raise DoneFalling
