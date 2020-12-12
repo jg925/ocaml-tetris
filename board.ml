@@ -112,6 +112,18 @@ let display_welcome_screen () =
   Graphics.draw_string "Press any key to begin"
 
 
+let display_game_over_screen () = 
+  let width = width () in
+  let height = height () in 
+
+  Graphics.clear_graph ();
+  Graphics.set_color (Graphics.rgb 0 0 0);
+
+  Graphics.moveto (width / 2 - 30) ((height * 2) / 3);
+  Graphics.draw_string "Game Over!";
+  Graphics.moveto (width / 2 - 90) ((height * 2) / 3 - 30);
+  Graphics.draw_string "Press 'r' to play another round"
+
 
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.
     The board is 10x20 blocks where each block is a square with width and 
