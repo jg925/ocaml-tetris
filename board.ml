@@ -3,7 +3,8 @@ let scale = Tile.tile_length
 
 
 let key_array = ref [|'f'; 'h'; 't'; 'g'; 'b'; 'r'|]
-
+let ctl_array = ref [|"Move Left"; "Move Right"; "Rotate CW"; 
+                      "Rotate CCW"; "Fall Faster"|]
 (* [left_offset] defines the width between the left side of the window and 
    left side of the board *)
 let left_offset = 150
@@ -157,7 +158,15 @@ let setup_board () =
     Graphics.lineto right y
   done
 
-
+let display_controls (control_config:char array ref) =
+  Graphics.set_color 0;
+  Graphics.moveto (left_offset / 5) (y_dim * scale / 2);
+  Graphics.draw_string ("Controls: ");
+  for i = 0 to Array.length !ctl_array - 1 do 
+    Graphics.moveto (left_offset / 5) ((y_dim * scale / 2) - (i + 1) * 20);
+    Graphics.draw_string (!ctl_array.(i) ^ ": " 
+                          ^ Char.escaped (!key_array.(i)))
+  done
 
 (* functions for displaying different assets of the game *)
 
