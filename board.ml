@@ -252,4 +252,4 @@ let check_rows board =
   !rows
 
 
-let refresh () = Graphics.close_graph (); setup ()
+let refresh () = Graphics.clear_graph (); setup ()
