@@ -123,7 +123,7 @@ let display_game_over_screen () =
   Graphics.moveto (width / 2 - 30) ((height * 2) / 3);
   Graphics.draw_string "Game Over!";
   Graphics.moveto (width / 2 - 90) ((height * 2) / 3 - 30);
-  Graphics.draw_string "Press 'r' to play another round"
+  Graphics.draw_string ("Press "^ Char.escaped !key_array.(5) ^" to play another round")
 
 
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.
