@@ -2,7 +2,7 @@
 let scale = Tile.tile_length
 
 
-let key_array = ref [|'f'; 'h'; 't'; 'g'; 'b'|]
+let key_array = ref [|'f'; 'h'; 't'; 'g'; 'b'; 'r'|]
 
 (* [left_offset] defines the width between the left side of the window and 
    left side of the board *)
@@ -65,14 +65,14 @@ let set_settings () =
         ANSITerminal.(print_string [red] 
                         ("Choose the keys you would like for \
                           Left, Right, Rotate CCW, Rotate CW, \
-                          and Fall Faster):\n
-                        1. adwsx\n
-                        2. jlik,\n
-                        3. fhtgb\n"));
+                          Restart, and Fall Faster):\n
+                        1. adwsxr\n
+                        2. jlik,r\n
+                        3. fhtgbr\n"));
         match read_int () with
-        | 1 -> key_array := "adwsx" |> explode
-        | 2 -> key_array := "jlik," |> explode
-        | 3 -> key_array := "fhtgb" |> explode
+        | 1 -> key_array := "adwsxr" |> explode
+        | 2 -> key_array := "jlik,r" |> explode
+        | 3 -> key_array := "fhtgbr" |> explode
         | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
           do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()
       end; ()

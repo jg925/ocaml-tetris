@@ -108,7 +108,7 @@ and wait_for_restart () =
   try
     Board.display_game_over_screen ();
     let k = Graphics.read_key () in
-    if k = 'r' then 
+    if k = !Board.key_array.(5) then 
       begin
         Board.refresh ();
         Tilearray.update_high_score !Tilearray.score;
