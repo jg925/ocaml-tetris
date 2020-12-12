@@ -85,9 +85,7 @@ let set_settings () =
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.
     The board is 10x20 blocks where each block is a square with width and 
     height both equal to [scale] pixels.*)
-let setup () = 
-
-  set_settings ();
+let setup_board () = 
 
   (* Draws the board outline *)
 
@@ -101,6 +99,7 @@ let setup () =
   let height = upper + top_offset in 
   " " ^ (string_of_int width) ^ "x" ^ (string_of_int height) 
   |> Graphics.open_graph;
+  Graphics.set_color (Graphics.rgb 0 0 0);
   Graphics.set_window_title "Tetris";
   Graphics.set_line_width outline_width;
   Graphics.moveto left lower;
@@ -252,4 +251,6 @@ let check_rows board =
   !rows
 
 
-let refresh () = Graphics.clear_graph (); setup ()
+let refresh () = 
+  Graphics.clear_graph (); 
+  setup_board ()

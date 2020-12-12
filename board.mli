@@ -1,6 +1,10 @@
-(** [setup ()] creates a Tetris game board upon which Tetris pieces can
+
+
+val set_settings : unit -> unit
+
+(** [setup_board ()] creates a Tetris game board upon which Tetris pieces can
     be drawn *)
-val setup : unit -> unit
+val setup_board : unit -> unit
 
 val key_array : char array ref
 
