@@ -73,7 +73,8 @@ let set_settings () =
         | 1 -> key_array := "adwsx" |> explode
         | 2 -> key_array := "jlik," |> explode
         | 3 -> key_array := "fhtgb" |> explode
-        | _ -> failwith ""
+        | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
+          do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()
       end; ()
     | "No"  |"n" | "N" | "no" -> 
       ANSITerminal.(print_string [red]
