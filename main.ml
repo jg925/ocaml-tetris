@@ -23,13 +23,17 @@ let shape_ref = ref (generate_new_shape ())
 let erase_previous previous_shape = 
   match previous_shape with
   | None -> ()
-  | Some shape -> shape |> Board.erase_shape
+  | Some shape -> 
+    shape |> Board.erase_shape;
+    shape |> Shapes.shape_shadow |> Board.erase_shape
 
 let draw_shape previous_shape current_shape = 
   erase_previous previous_shape;
+  current_shape |> Shapes.shape_shadow |> Board.display_shadow;
   current_shape |> Board.display_shape
 
-let move_shape key_press key_array = 
+
+let rec move_shape key_press key_array = 
   let current_shape = !shape_ref in
   let next_shape = 
     match key_press with 
@@ -38,9 +42,13 @@ let move_shape key_press key_array =
     | rot_lk when rot_lk = key_array.(2) -> Shapes.rotate_l current_shape
     | rot_rk when rot_rk = key_array.(3) -> Shapes.rotate_r current_shape
     | fk when fk = key_array.(4) -> Shapes.fall current_shape
+    | ' ' -> Shapes.fall current_shape
     | _ -> current_shape
   in draw_shape (Some current_shape) next_shape;
-  shape_ref := next_shape
+  shape_ref := next_shape;
+  if key_press = ' '
+  then move_shape ' ' key_array
+  else ()
 
 let fall_shape _ = 
   let current_shape = !shape_ref in
@@ -70,7 +78,7 @@ let redraw_tiles () =
       let x = ind mod Tilearray.x_dim in 
       let y = (ind - x)/Tilearray.x_dim in 
       Board.erase_coords x y
-    | Some tile -> Board.display_tile tile
+    | Some tile -> Board.display_tile tile true (Tile.get_color tile)
   done
 
 let rec main () = 

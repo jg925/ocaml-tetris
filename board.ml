@@ -114,33 +114,71 @@ let setup () =
 
 (* functions for displaying different assets of the game *)
 
-let draw_square color tile_x tile_y = 
+let draw_square bevel color tile_x tile_y = 
   let x = left_offset + tile_x * scale + 
           (tile_x + 1) * gridline_width  + outline_width / 2 in
   let y = bottom_offset + tile_y * scale + 
           (tile_y + 1) * gridline_width + outline_width / 2 in
   Graphics.set_color color;
   let fit_scale = scale - gridline_width in
-  Graphics.fill_rect x y fit_scale fit_scale
+  Graphics.fill_rect x y fit_scale fit_scale;
+  if bevel
+  then 
+    let inner_scale = fit_scale - 10 in 
+    let inner_x = x + 5 in
+    let inner_y = y + 5 in 
+    (* sides *)
+    Graphics.set_color (color * 2);
+    Graphics.fill_poly [|(x, y); 
+                         (inner_x, inner_y); 
+                         (inner_x, inner_y + inner_scale); 
+                         (x, y + fit_scale)|];
+    Graphics.fill_poly [|(x + fit_scale, y); 
+                         (inner_x + inner_scale, inner_y); 
+                         (inner_x + inner_scale, inner_y + inner_scale); 
+                         (x + fit_scale, y + fit_scale)|];
+    (* bottom *)
+    Graphics.set_color (color * 7);
+    Graphics.fill_poly [|(x, y); 
+                         (x + fit_scale, y); 
+                         (inner_x + inner_scale, inner_y);
+                         (inner_x, inner_y)|];
+    (* top *)
+    Graphics.set_color (color * 3);
+    Graphics.fill_poly [|(x, y + fit_scale); 
+                         (x + fit_scale, y + fit_scale); 
+                         (inner_x + inner_scale, inner_y + inner_scale);
+                         (inner_x, inner_y + inner_scale)|]
+  else ()
 
-let display_tile tile = 
+let display_tile tile bevel color = 
   let x = Tile.get_x tile in
   let y = Tile.get_y tile in
-  draw_square (Tile.get_color tile) x y 
+  draw_square bevel color x y 
+
+let erase_coords x y = 
+  draw_square false (Graphics.rgb 255 255 255) x y 
 
 let erase_tile tile = 
   let x = Tile.get_x tile in
   let y = Tile.get_y tile in
-  draw_square (Graphics.rgb 255 255 255) x y 
+  erase_coords x y
 
-let erase_coords x y = 
-  draw_square (Graphics.rgb 255 255 255) x y 
-
-let rec display_each_tile = function
+let rec display_each_tile shadow = function
   | [] -> ()
-  | tile::t -> display_tile tile; display_each_tile t
+  | tile::t -> 
+    if shadow 
+    then display_tile tile false (Graphics.rgb 200 200 200)
+    else display_tile tile true (Tile.get_color tile); 
+    display_each_tile shadow t
 
-let display_shape shape = shape |> Shapes.get_tiles |> display_each_tile
+let display_shape shape = shape 
+                          |> Shapes.get_tiles 
+                          |> display_each_tile false
+
+let display_shadow shape = shape 
+                           |> Shapes.get_tiles 
+                           |> display_each_tile true
 
 let rec erase_each_tile = function
   | [] -> ()
@@ -191,8 +229,5 @@ let check_rows board =
   done;
   !rows
 
-(* NOTE: I think delete rows will eventually need to take in a parameter, 
-   probably the y-coordinate of the row it's deleting*)
-let delete_rows rows = failwith "unimplemented"
 
 let refresh () = Graphics.close_graph (); setup ()
