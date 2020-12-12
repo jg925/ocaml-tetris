@@ -111,6 +111,8 @@ let rec main () =
         end
       else ()
     done
+
+
 let start () = 
   ANSITerminal.(print_string [red] "\n\nWelcome to Tetris for OCaml!");
   Board.setup ();
