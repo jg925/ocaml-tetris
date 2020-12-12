@@ -47,6 +47,24 @@ let tile_tests =
       test_tile_down1 test_tile_down1_right1;
   ]
 
+let cmp_lists lst1 lst2 =
+  lst1 = lst2
+
+let pp_tile tile = 
+  "(" ^ string_of_int (Tile.get_x tile) ^ 
+  "," ^ string_of_int (Tile.get_y tile) ^ ")"
+
+let pp_shape (shape : Shapes.t) =
+  let pp_elts pp_elt lst =
+    let rec loop n acc = function
+      | [] -> acc
+      | [h] -> acc ^ pp_elt h
+      | h1 :: (h2 :: t as t') ->
+        if n = 100 then acc ^ "..."  (* stop printing long list *)
+        else loop (n + 1) (acc ^ (pp_elt h1) ^ "; ") t'
+    in loop 0 "" lst
+  in "[" ^ pp_elts pp_tile (Shapes.get_tiles shape) ^ "]"
+
 
 let tetris_I = Shapes.make_shape 'I' (5,5) 0
 let tetris_J = Shapes.make_shape 'J' (5,5) 0
@@ -55,6 +73,27 @@ let tetris_T = Shapes.make_shape 'T' (5,5) 0
 let tetris_S = Shapes.make_shape 'S' (5,5) 0
 let tetris_Z = Shapes.make_shape 'Z' (5,5) 0
 let tetris_O = Shapes.make_shape 'O' (5,5) 0
+
+let rightwall_T = Shapes.make_shape 'T' (Tilearray.x_dim-1,5) 270
+let rightwallkicked_T_r = Shapes.make_shape 'T' (8,5) 0
+let rightwallkicked_T_l = Shapes.make_shape 'T' (8,5) 180
+let leftwall_T = Shapes.make_shape 'T' (0,5) 90
+let leftwallkicked_T_r = Shapes.make_shape 'T' (1,5) 180
+let leftwallkicked_T_l = Shapes.make_shape 'T' (1,5) 0
+
+let rightwall_Z = Shapes.make_shape 'Z' (Tilearray.x_dim-1,5) 270
+let rightwallkicked_Z_r = Shapes.make_shape 'Z' (8,5) 0
+let rightwallkicked_Z_l = Shapes.make_shape 'Z' (8,5) 180
+let leftwall_Z = Shapes.make_shape 'Z' (0,5) 90
+let leftwallkicked_Z_r = Shapes.make_shape 'Z' (1,5) 180
+let leftwallkicked_Z_l = Shapes.make_shape 'Z' (1,5) 0
+
+let rightwall_S = Shapes.make_shape 'S' (Tilearray.x_dim-1,5) 270
+let rightwallkicked_S_r = Shapes.make_shape 'S' (8,5) 0
+let rightwallkicked_S_l = Shapes.make_shape 'S' (8,5) 180
+let leftwall_S = Shapes.make_shape 'S' (0,5) 90
+let leftwallkicked_S_r = Shapes.make_shape 'S' (1,5) 180
+let leftwallkicked_S_l = Shapes.make_shape 'S' (1,5) 0
 
 let tetris_I_neg90 = Shapes.make_shape 'I' (5,5) ~-90
 let tetris_I_270 = Shapes.make_shape 'I' (5,5) 270
@@ -79,7 +118,6 @@ let tetris_T_270 = Shapes.make_shape 'T' (5,5) 270
 let tetris_T_180 = Shapes.make_shape 'T' (5,5) 180
 let tetris_T_90 = Shapes.make_shape 'T' (5,5) 90
 let tetris_T_360 = Shapes.make_shape 'T' (5,5) 360
-
 
 let tetris_I_l = Shapes.make_shape 'I' (4,5) 0
 let tetris_I_r = Shapes.make_shape 'I' (6,5) 0
@@ -107,11 +145,12 @@ let move_r_test name shape expected_output : test =
 
 let rotate_l_test name shape expected_output : test =
   name >:: (fun _ ->
-      assert_equal expected_output (Shapes.rotate_l shape))
+      assert_equal expected_output (Shapes.rotate_l shape) 
+        ~printer:pp_shape)
 
 let rotate_r_test name shape expected_output : test =
   name >:: (fun _ ->
-      assert_equal expected_output (Shapes.rotate_r shape))
+      assert_equal expected_output (Shapes.rotate_r shape) ~printer:pp_shape)
 
 let shapes_tests = 
   [
@@ -166,6 +205,22 @@ let shapes_tests =
     rotate_r_test "T 90 + 90" tetris_T_90 tetris_T_180;
     rotate_r_test "T 180 + 90" tetris_T_180 tetris_T_270;
     rotate_r_test "T 270 + 90" tetris_T_270 tetris_T_360;
+
+    (* wall kick tests *)
+    rotate_l_test "T right wall, left turn" rightwall_T rightwallkicked_T_l;
+    rotate_r_test "T right wall, right turn" rightwall_T rightwallkicked_T_r;
+    rotate_l_test "T left wall, left turn" leftwall_T leftwallkicked_T_l;
+    rotate_r_test "T left wall, right turn" leftwall_T leftwallkicked_T_r;
+
+    rotate_l_test "Z right wall, left turn" rightwall_Z rightwallkicked_Z_l;
+    rotate_r_test "Z right wall, right turn" rightwall_Z rightwallkicked_Z_r;
+    rotate_l_test "Z left wall, left turn" leftwall_Z leftwallkicked_Z_l;
+    rotate_r_test "Z left wall, right turn" leftwall_Z leftwallkicked_Z_r;
+
+    rotate_l_test "S right wall, left turn" rightwall_S rightwallkicked_S_l;
+    rotate_r_test "S right wall, right turn" rightwall_S rightwallkicked_S_r;
+    rotate_l_test "S left wall, left turn" leftwall_S leftwallkicked_S_l;
+    rotate_r_test "S left wall, right turn" leftwall_S leftwallkicked_S_r;
 
     move_l_test "I shift left 1" tetris_I tetris_I_l;
     move_r_test "I shift right 1" tetris_I tetris_I_r;

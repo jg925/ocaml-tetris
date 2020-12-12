@@ -10,6 +10,7 @@ type t = {
 
 exception BadName of char
 exception BadShape of t
+exception BadDirection of string
 
 exception DoneFalling
 
@@ -79,7 +80,7 @@ let gen_coord_list name anchor_coords orientation =
         end
       | 270 -> begin
           match name with 
-          | 'I' -> [(x, y - 2); (x, y - 1); (x, y); (x, y + 1)]
+          | 'I' -> [(x, y + 1); (x, y); (x, y - 1); (x, y - 2)]
           | 'J' -> [(x - 1, y - 1); (x, y - 1); (x, y); (x, y + 1)]
           | 'L' -> [(x - 1, y + 1); (x, y + 1); (x, y); (x, y - 1)]
           | 'T' -> [(x - 1, y); (x, y - 1); (x, y); (x, y + 1)]
@@ -121,7 +122,15 @@ let get_y shape = snd shape.anchor
 
 let get_tiles shape = shape.tile_list
 
-
+let index_of_anchor (tile_list : Tile.t list) anchor = 
+  let rec index_helper (tile_list : Tile.t list) anchor ind = 
+    match tile_list with 
+    | [] -> ind 
+    | h :: t -> begin 
+        if (Tile.get_x h, Tile.get_y h) = anchor 
+        then ind else index_helper t anchor (ind + 1)
+      end
+  in index_helper tile_list anchor 0
 
 (* functions for generating new shapes from old ones *)
 
@@ -177,7 +186,7 @@ let wall_kick_rotation shape dir =
       if check_shape_tiles rotated_shape.tile_list = true
       then rotated_shape
       else if check_shape_tiles rotated_l_shape.tile_list = true 
-      then left_shape
+      then rotated_l_shape
       else if check_shape_tiles rotated_r_shape.tile_list = true 
       then rotated_r_shape
       else shape
@@ -192,12 +201,46 @@ let wall_kick_rotation shape dir =
       if check_shape_tiles rotated_shape.tile_list = true
       then rotated_shape
       else if check_shape_tiles rotated_l_shape.tile_list = true 
-      then left_shape
+      then rotated_l_shape
       else if check_shape_tiles rotated_r_shape.tile_list = true 
       then rotated_r_shape
       else shape
     end
-  | _ -> failwith "Not a Direction"
+  | _ -> raise (BadDirection dir)
+
+and shift_block shape dir = 
+  match shape.name with 
+  | 'I' -> begin
+      match shape.orientation with
+      | 270 | 90 -> begin
+          let x, y = shape.anchor in 
+          let wall = if x = 0 then "L" 
+            else if x = Tilearray.x_dim - 1 
+            then "R" else "M" in 
+          let ind_of_anchor = index_of_anchor shape.tile_list shape.anchor in 
+          match wall with 
+          | "L" -> begin 
+              if ind_of_anchor = 1 then
+                (shape |> move_l |> move_l, shape |> move_r)
+              else if ind_of_anchor = 2 then 
+                (shape |> move_l, shape |> move_r |> move_r)
+              else raise (BadShape shape)
+            end
+          | "R" -> begin 
+              if ind_of_anchor = 2 then
+                (shape |> move_l |> move_l, shape |> move_r)
+              else if ind_of_anchor = 1 then 
+                (shape |> move_l, shape |> move_r |> move_r)
+              else raise (BadShape shape)
+            end
+          | _ -> (move_l shape, move_r shape)
+        end
+      | 180 | 0 -> (move_l shape, move_r shape)
+      | _ -> raise (BadShape shape)
+    end
+  | 'J' | 'L' | 'Z'
+  | 'S' | 'O' | 'T' -> (move_l shape, move_r shape)
+  | _ -> raise (BadName shape.name)
 
 let rotate_l shape = wall_kick_rotation shape "L"
 
