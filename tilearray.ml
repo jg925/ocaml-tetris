@@ -13,6 +13,19 @@ let level = ref 1
 
 let array_index x y = y * x_dim + x
 
+
+let high_scores = Array.make 5 0
+
+let update_high_score new_score = 
+  let scores = 
+    new_score :: (Array.to_list high_scores)
+    |> List.sort compare 
+    |> List.rev
+  in 
+  for i = 0 to Array.length high_scores do 
+    high_scores.(i) <- List.nth scores i done
+
+
 let set x y value = 
   if y > y_dim - 4 
   then raise End

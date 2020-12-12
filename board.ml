@@ -1,12 +1,13 @@
 (* [scale] defines the size of the game board and the tiles *)
 let scale = Tile.tile_length
-(* [left_offset] defines the width between the left side of the window and 
-   left side of the board *)
+
 
 let key_array = ref (Array.make 5 ' ')
 
-
+(* [left_offset] defines the width between the left side of the window and 
+   left side of the board *)
 let left_offset = 150
+
 (* [bottom_offset] defines the height between the bottom of the window and 
    bottom of the board *)
 let bottom_offset = 70
@@ -33,7 +34,6 @@ let outline_width = 4
 (* [gridline_width] is the width of the line drawing the inside grid of 
    the board *)
 let gridline_width = 1
-
 
 
 let pp_array pp_elt arr =
@@ -90,6 +90,7 @@ let setup () =
   set_settings ();
 
   (* Draws the board outline *)
+
   let lower = bottom_offset in 
   let upper = lower + y_dim * scale + 
               (y_dim - 1) * gridline_width + outline_width in 
@@ -204,6 +205,18 @@ let display_score score =
   Graphics.moveto (left_offset / 5) (bottom_offset + y_dim * scale);
   Graphics.draw_string ("Score: " ^ string_of_int score)
 
+
+let display_high_scores scores = 
+  Graphics.set_color 0;
+  Graphics.moveto (left_offset / 5) (y_dim * scale);
+  Graphics.draw_string ("High Score Board");
+  for i = 0 to List.length scores - 1 do 
+    Graphics.moveto (left_offset / 5) (y_dim * scale - (i + 1) * 20);
+    Graphics.draw_string (string_of_int (i + 1) ^ ". " 
+                          ^ string_of_int (List.nth scores i))
+  done
+
+
 let check_if_fallen shape =
   let tile_list = Shapes.get_tiles shape in
   let rec helper_check = function
@@ -224,7 +237,6 @@ let rec full_row row sum =
       | Some h -> full_row t sum + 1
     end
 
-let erase_row row y = failwith "unimplemented"
 
 (** [check_rows board] checks each row in [board] to see if any are full.
     Returns a list of ints representing the indices at which the rows are 

@@ -81,6 +81,8 @@ let redraw_tiles () =
     | Some tile -> Board.display_tile tile true (Tile.get_color tile)
   done
 
+
+
 let rec main () = 
   try
     new_falling_shape ();
@@ -94,29 +96,35 @@ let rec main () =
         Tilearray.delete_rows ys;
         redraw_tiles ();
         Board.display_score !Tilearray.score;
+        Board.display_high_scores (Array.to_list Tilearray.high_scores);
         new_falling_shape ();
       | Tilearray.End -> raise Tilearray.End
     done
   with
-  | Tilearray.End -> 
-    while true do 
-      let k = Graphics.read_key () in
-      if k = 'm' then 
-        begin
-          Board.refresh ();
-          Tilearray.score := 0;
-          Board.display_score !Tilearray.score;
-          Tilearray.clear ();
-          main ()
-        end
-      else ()
-    done
+  | Tilearray.End | Shapes.DoneFalling -> 
+    wait_for_restart ()
 
+and wait_for_restart () = 
+  try
+    let k = Graphics.read_key () in
+    if k = 'm' then 
+      begin
+        Board.refresh ();
+        Tilearray.update_high_score !Tilearray.score;
+        Tilearray.score := 0;
+        Board.display_score !Tilearray.score;
+        Board.display_high_scores (Array.to_list Tilearray.high_scores);
+        Tilearray.clear ();
+        main ()
+      end
+    else wait_for_restart ()
+  with Tilearray.End -> wait_for_restart ()
 
 let start () = 
   ANSITerminal.(print_string [red] "\n\nWelcome to Tetris for OCaml!");
   Board.setup ();
   Board.display_score !Tilearray.score;
+  Board.display_high_scores (Array.to_list Tilearray.high_scores);
   main () 
 
 

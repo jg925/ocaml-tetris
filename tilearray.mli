@@ -16,6 +16,13 @@ val score : int ref
 
 val level : int ref
 
+
+val high_scores : int array
+
+
+val update_high_score : int -> unit
+
+
 (** [set x y value] sets the value in tile_array at row [y] column [x] to 
     [value]. 
     Requires: [value] to be a Tile.t option or None. *)

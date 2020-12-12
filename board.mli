@@ -28,5 +28,8 @@ val erase_shape : Shapes.t -> unit
 (** [display_score score] draws the score [score] on the game board. *)
 val display_score : int -> unit
 
+
+val display_high_scores : int list -> unit
+
 (** [refresh ()] clears the game board and draws a new game board. *)
 val refresh : unit -> unit
