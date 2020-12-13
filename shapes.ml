@@ -171,10 +171,59 @@ let move_l shape = move_lr shape "l"
 
 let move_r shape = move_lr shape "r"
 
+(** [shift_block shape dir] returns the shifts necessary for a 
+    certain shape type.*)
+let shift_block shape dir = 
+  match shape.name with 
+  | 'I' -> begin
+      match shape.orientation with
+      | 270 | 90 -> begin
+          let x, y = shape.anchor in 
+          let wall = if x = 0 then "L" 
+            else if x = Tilearray.x_dim - 1 
+            then "R" else "M" in 
+          let ind_of_anchor = index_of_anchor shape.tile_list shape.anchor in 
+          match wall, dir with 
+          | "L", "L" -> begin 
+              if ind_of_anchor = 2 then
+                (shape |> move_l |> move_l, shape |> move_r)
+              else if ind_of_anchor = 1 then 
+                (shape |> move_l, shape |> move_r)
+              else raise (BadShape shape)
+            end
+          | "L", "R" -> begin 
+              if ind_of_anchor = 1 then
+                (shape |> move_l |> move_l, shape |> move_r)
+              else if ind_of_anchor = 2 then 
+                (shape |> move_l, shape |> move_r)
+              else raise (BadShape shape)
+            end
+          | "R", "L" -> begin 
+              if ind_of_anchor = 1 then
+                (shape |> move_l |> move_l, shape |> move_r)
+              else if ind_of_anchor = 2 then 
+                (shape |> move_l, shape |> move_r)
+              else raise (BadShape shape)
+            end
+          | "R", "R" -> begin 
+              if ind_of_anchor = 1 then
+                (shape |> move_l, shape |> move_r)
+              else if ind_of_anchor = 2 then 
+                (shape |> move_l |> move_l, shape |> move_r)
+              else raise (BadShape shape)
+            end
+          | _ -> (move_l shape, move_r shape)
+        end
+      | 180 | 0 -> (move_l shape, move_r shape)
+      | _ -> raise (BadShape shape)
+    end
+  | 'J' | 'L' | 'Z'
+  | 'S' | 'O' | 'T' -> (move_l shape, move_r shape)
+  | _ -> raise (BadName shape.name)
+
 (** [wall_kick shape] performs a wall kick on a rotated shape. *)
 let wall_kick_rotation shape dir =
-  let left_shape = move_l shape in 
-  let right_shape = move_r shape in 
+  let left_shape,right_shape = shift_block shape dir in 
   match dir with 
   | "L" -> begin
       let rotated_shape = make_shape shape.name shape.anchor
@@ -207,40 +256,6 @@ let wall_kick_rotation shape dir =
       else shape
     end
   | _ -> raise (BadDirection dir)
-
-and shift_block shape dir = 
-  match shape.name with 
-  | 'I' -> begin
-      match shape.orientation with
-      | 270 | 90 -> begin
-          let x, y = shape.anchor in 
-          let wall = if x = 0 then "L" 
-            else if x = Tilearray.x_dim - 1 
-            then "R" else "M" in 
-          let ind_of_anchor = index_of_anchor shape.tile_list shape.anchor in 
-          match wall with 
-          | "L" -> begin 
-              if ind_of_anchor = 1 then
-                (shape |> move_l |> move_l, shape |> move_r)
-              else if ind_of_anchor = 2 then 
-                (shape |> move_l, shape |> move_r |> move_r)
-              else raise (BadShape shape)
-            end
-          | "R" -> begin 
-              if ind_of_anchor = 2 then
-                (shape |> move_l |> move_l, shape |> move_r)
-              else if ind_of_anchor = 1 then 
-                (shape |> move_l, shape |> move_r |> move_r)
-              else raise (BadShape shape)
-            end
-          | _ -> (move_l shape, move_r shape)
-        end
-      | 180 | 0 -> (move_l shape, move_r shape)
-      | _ -> raise (BadShape shape)
-    end
-  | 'J' | 'L' | 'Z'
-  | 'S' | 'O' | 'T' -> (move_l shape, move_r shape)
-  | _ -> raise (BadName shape.name)
 
 let rotate_l shape = wall_kick_rotation shape "L"
 
