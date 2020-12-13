@@ -5,6 +5,8 @@ let scale = Tile.tile_length
 let key_array = ref [|'f'; 'h'; 't'; 'g'; 'b'; 'r'|]
 let ctl_array = ref [|"Move Left"; "Move Right"; "Rotate CW"; 
                       "Rotate CCW"; "Fall Faster"|]
+
+
 (* [left_offset] defines the width between the left side of the window and 
    left side of the board *)
 let left_offset = 150
@@ -15,7 +17,7 @@ let bottom_offset = 70
 
 (* [right_offset] defines the width between the right side of the board and 
    right side of the window *)
-let right_offset = 70
+let right_offset = 200
 
 (** [top_offset] defines the height between the top of the board and the 
     top of the window *)
@@ -114,7 +116,7 @@ let display_welcome_screen () =
   Graphics.draw_string "Press any key to begin"
 
 
-let display_game_over_screen () = 
+let display_game_over_screen score high_score = 
   let width = width () in
   let height = height () in 
 
@@ -124,8 +126,17 @@ let display_game_over_screen () =
   Graphics.moveto (width / 2 - 30) ((height * 2) / 3);
   Graphics.draw_string "Game Over!";
   Graphics.moveto (width / 2 - 90) ((height * 2) / 3 - 30);
-  Graphics.draw_string ("Press "^ Char.escaped !key_array.(5) ^" to play another round")
-
+  Graphics.draw_string ("Press '"^ Char.escaped !key_array.(5) ^ 
+                        "' to play another round");
+  if score > high_score
+  then begin
+    Graphics.moveto (width / 2 - 48) ((height * 2) / 3 - 100);  
+    Graphics.draw_string "New high score!";
+    Graphics.moveto (width / 2 - 45) ((height * 2) / 3 - 130)
+  end
+  else 
+    Graphics.moveto (width / 2 - 45) ((height * 2) / 3 - 100); 
+  Graphics.draw_string ("Your score: " ^ string_of_int score)
 
 (** [setup ()] opens a Graphics window and draws the board outline for Tetris.
     The board is 10x20 blocks where each block is a square with width and 
@@ -158,7 +169,7 @@ let setup_board () =
     Graphics.lineto right y
   done
 
-let display_controls (control_config:char array ref) =
+let display_controls (control_config : char array ref) =
   Graphics.set_color 0;
   Graphics.moveto (left_offset / 5) (y_dim * scale / 2);
   Graphics.draw_string ("Controls: ");
@@ -228,19 +239,50 @@ let rec display_each_tile shadow = function
     else display_tile tile true (Tile.get_color tile); 
     display_each_tile shadow t
 
-let display_shape shape = shape 
-                          |> Shapes.get_tiles 
-                          |> display_each_tile false
 
-let display_shadow shape = shape 
-                           |> Shapes.get_tiles 
-                           |> display_each_tile true
+let rec shift_tiles_off_board acc = function
+  | [] -> acc
+  | tile :: t -> 
+    let new_x = Tile.get_x tile + x_dim / 2 + 3 in
+    let new_y = Tile.get_y tile - 1 in
+    let new_tile = Tile.move_to tile new_x new_y in 
+    shift_tiles_off_board (new_tile :: acc) t
+
+let display_next_shape shape = 
+  shape
+  |> Shapes.get_tiles
+  |> shift_tiles_off_board []
+  |> display_each_tile false
+
+
+
+let display_shape shape = 
+  shape 
+  |> Shapes.get_tiles 
+  |> display_each_tile false
+
+let display_shadow shape = 
+  shape 
+  |> Shapes.get_tiles 
+  |> display_each_tile true
 
 let rec erase_each_tile = function
   | [] -> ()
   | tile::t -> erase_tile tile; erase_each_tile t
 
-let erase_shape shape = shape |> Shapes.get_tiles |> erase_each_tile
+
+let erase_last_next_shape shape = 
+  shape
+  |> Shapes.get_tiles
+  |> shift_tiles_off_board []
+  |> erase_each_tile
+
+let erase_shape shape = 
+  shape 
+  |> Shapes.get_tiles 
+  |> erase_each_tile
+
+
 
 let display_score score = 
   Graphics.set_color (Graphics.rgb 255 255 255);
@@ -254,12 +296,17 @@ let display_score score =
 let display_high_scores scores = 
   Graphics.set_color 0;
   Graphics.moveto (left_offset / 5) (y_dim * scale);
-  Graphics.draw_string ("High Score Board");
+  Graphics.draw_string "High Score Board";
   for i = 0 to List.length scores - 1 do 
     Graphics.moveto (left_offset / 5) (y_dim * scale - (i + 1) * 20);
     Graphics.draw_string (string_of_int (i + 1) ^ ". " 
                           ^ string_of_int (List.nth scores i))
   done
+
+let display_next_shape_words () = 
+  Graphics.set_color 0;
+  Graphics.moveto (right () + scale) (lower () + y_dim * scale);
+  Graphics.draw_string "The next shape will be:"
 
 
 let check_if_fallen shape =
