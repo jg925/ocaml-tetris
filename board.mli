@@ -4,7 +4,7 @@ val set_settings : unit -> unit
 
 val display_welcome_screen : unit -> unit
 
-val display_game_over_screen : unit -> unit
+val display_game_over_screen : int -> int -> unit
 
 (** [setup_board ()] creates a Tetris game board upon which Tetris pieces can
     be drawn *)
@@ -24,6 +24,7 @@ val display_tile : Tile.t -> bool -> Graphics.color -> unit
 
 val display_next_shape : Shapes.t -> unit
 
+
 (** [display_shape shape] draws [shape] on the game board. *)
 val display_shape : Shapes.t -> unit
 
@@ -35,6 +36,9 @@ val erase_tile : Tile.t -> unit
 
 val erase_coords : int -> int -> unit
 
+
+val erase_last_next_shape : Shapes.t -> unit
+
 (** [erase_shape shape] erases [shape] from the game board. *)
 val erase_shape : Shapes.t -> unit
 
@@ -43,6 +47,8 @@ val display_score : int -> unit
 
 
 val display_high_scores : int list -> unit
+
+val display_next_shape_words : unit -> unit
 
 (** [refresh ()] clears the game board and draws a new game board. *)
 val refresh : unit -> unit
