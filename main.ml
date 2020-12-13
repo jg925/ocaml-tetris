@@ -18,7 +18,7 @@ let generate_new_shape () =
   Shapes.make_shape decided_shape_type coords 0
 
 let shape_ref = ref (generate_new_shape ())
-
+let next_shape_ref = ref (generate_new_shape ())
 
 let erase_previous previous_shape = 
   match previous_shape with
@@ -60,8 +60,16 @@ let fall_shape _ =
 let new_falling_shape () = 
   ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape));
   ignore (Unix.alarm 1);
-  shape_ref := generate_new_shape ();
-  draw_shape None !shape_ref
+  shape_ref := !next_shape_ref;
+  draw_shape None !shape_ref;
+
+  Board.erase_last_next_shape !next_shape_ref;
+  next_shape_ref := generate_new_shape ();
+  Board.display_next_shape !next_shape_ref
+
+
+
+
 
 let rec get_tile_ys acc = function
   | [] -> acc
@@ -89,7 +97,7 @@ let rec main () =
     while true do
       try
         let k = Graphics.read_key () in
-        move_shape k !Board.key_array;
+        move_shape k !Board.key_array
       with 
       | Shapes.DoneFalling -> 
         let ys = get_ys !shape_ref in
@@ -97,7 +105,8 @@ let rec main () =
         redraw_tiles ();
         Board.display_score !Tilearray.score;
         Board.display_high_scores (Array.to_list Tilearray.high_scores);
-        Board.display_controls (Board.key_array);
+        Board.display_controls Board.key_array;
+        Board.display_next_shape_words ();
         new_falling_shape ();
       | Tilearray.End -> raise Tilearray.End
     done
@@ -107,7 +116,7 @@ let rec main () =
 
 and wait_for_restart () = 
   try
-    Board.display_game_over_screen ();
+    Board.display_game_over_screen !Tilearray.score Tilearray.high_scores.(0);
     let k = Graphics.read_key () in
     if k = !Board.key_array.(5) then 
       begin
@@ -116,7 +125,8 @@ and wait_for_restart () =
         Tilearray.score := 0;
         Board.display_score !Tilearray.score;
         Board.display_high_scores (Array.to_list Tilearray.high_scores);
-        Board.display_controls (Board.key_array);
+        Board.display_controls Board.key_array;
+        Board.display_next_shape_words ();
         Tilearray.clear ();
         main ()
       end
@@ -124,14 +134,15 @@ and wait_for_restart () =
   with Tilearray.End -> wait_for_restart ()
 
 let start () = 
-  ANSITerminal.(print_string [red] "\n\nWelcome to Tetris for OCaml!");
+  ANSITerminal.(print_string [red] "\n\nWelcome to Tetris for OCaml! ");
   Board.set_settings ();
   Board.display_welcome_screen ();
   ignore (Graphics.read_key ());
   Board.setup_board ();
   Board.display_score !Tilearray.score;
   Board.display_high_scores (Array.to_list Tilearray.high_scores);
-  Board.display_controls (Board.key_array);
+  Board.display_controls Board.key_array;
+  Board.display_next_shape_words ();
   main () 
 
 
