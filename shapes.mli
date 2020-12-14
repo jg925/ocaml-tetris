@@ -8,8 +8,12 @@ type t
 (** [anchor] is the coordinates of the tile around which the shape rotates. *)
 type anchor = (int * int)
 
+(** [colorblind] is a bool ref that changes depending on user input of whether
+    or not the player is colorblind. Enables color settings. *)
+val colorblind : bool ref
+
 (** [make_shape] creates a Tetris shape of type [t] and *)
-val make_shape : char -> anchor -> int -> t
+val make_shape : char -> anchor -> int -> bool -> t
 
 exception BadName of char
 exception DoneFalling

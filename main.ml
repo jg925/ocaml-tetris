@@ -26,7 +26,7 @@ let generate_shape shape_type =
     else if shape_type = 'O'
     then (x, y + 1)
     else (x, y) in
-  Shapes.make_shape shape_type coords 0
+  Shapes.make_shape shape_type coords 0 !Shapes.colorblind
 
 
 

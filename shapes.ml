@@ -8,12 +8,13 @@ type t = {
   orientation : int;
 }
 
+let colorblind = ref false
+
 exception BadName of char
 exception BadShape of t
 exception BadDirection of string
 
 exception DoneFalling
-
 
 (* functions for generating shapes *)
 
@@ -92,19 +93,34 @@ let gen_coord_list name anchor_coords orientation =
       | x -> []
     end
 
-let make_shape (name : char) (anchor : anchor) (orientation : int) = 
+let make_shape (name : char) (anchor : anchor) (orientation : int) 
+    (cb : bool) : t = 
   let orient = orientation |> modulo_360 in
   let coord_list = gen_coord_list name anchor orient in
   let tile_list : Tile.t list = 
-    match name with
-    | 'I' -> gen_tile_list coord_list 25 206 230 []
-    | 'J' -> gen_tile_list coord_list 25 39 230 []
-    | 'L' -> gen_tile_list coord_list 230 138 25 []
-    | 'T' -> gen_tile_list coord_list 155 25 230 [] 
-    | 'Z' -> gen_tile_list coord_list 230 25 25 []
-    | 'S' -> gen_tile_list coord_list 39 230 25 []
-    | 'O' -> gen_tile_list coord_list 230 230 25 []
-    | _ -> raise (BadName name)
+    match cb with
+    | false -> begin
+        match name with
+        | 'I' -> gen_tile_list coord_list 25 206 230 []
+        | 'J' -> gen_tile_list coord_list 25 39 230 []
+        | 'L' -> gen_tile_list coord_list 230 138 25 []
+        | 'T' -> gen_tile_list coord_list 155 25 230 [] 
+        | 'Z' -> gen_tile_list coord_list 230 25 25 []
+        | 'S' -> gen_tile_list coord_list 39 230 25 []
+        | 'O' -> gen_tile_list coord_list 230 230 25 []
+        | _ -> raise (BadName name)
+      end
+    | true -> begin
+        match name with
+        | 'I' -> gen_tile_list coord_list 64 152 254 []
+        | 'J' -> gen_tile_list coord_list 0 82 137 []
+        | 'L' -> gen_tile_list coord_list 246 182 4 []
+        | 'T' -> gen_tile_list coord_list 22 52 87 [] 
+        | 'Z' -> gen_tile_list coord_list 161 122 0 []
+        | 'S' -> gen_tile_list coord_list 255 215 155 []
+        | 'O' -> gen_tile_list coord_list 255 243 229 []
+        | _ -> raise (BadName name)
+      end
   in {
     name = name;
     anchor = anchor;
@@ -225,11 +241,11 @@ let wall_kick_rotation shape dir =
   match dir with 
   | "L" -> begin
       let rotated_shape = make_shape shape.name shape.anchor
-          (shape.orientation - 90 |> modulo_360) in 
+          (shape.orientation - 90 |> modulo_360) !colorblind in 
       let rotated_l_shape = make_shape left_shape.name left_shape.anchor
-          (left_shape.orientation - 90 |> modulo_360) in 
+          (left_shape.orientation - 90 |> modulo_360) !colorblind in 
       let rotated_r_shape = make_shape right_shape.name right_shape.anchor
-          (right_shape.orientation - 90 |> modulo_360) in
+          (right_shape.orientation - 90 |> modulo_360) !colorblind in
       if check_shape_tiles rotated_shape.tile_list = true
       then rotated_shape
       else if check_shape_tiles rotated_l_shape.tile_list = true 
@@ -240,11 +256,11 @@ let wall_kick_rotation shape dir =
     end
   | "R" -> begin
       let rotated_shape = make_shape shape.name shape.anchor
-          (shape.orientation + 90 |> modulo_360) in 
+          (shape.orientation + 90 |> modulo_360) !colorblind in 
       let rotated_l_shape = make_shape left_shape.name left_shape.anchor
-          (left_shape.orientation + 90 |> modulo_360) in 
+          (left_shape.orientation + 90 |> modulo_360) !colorblind in 
       let rotated_r_shape = make_shape right_shape.name right_shape.anchor
-          (right_shape.orientation + 90 |> modulo_360) in
+          (right_shape.orientation + 90 |> modulo_360) !colorblind in
       if check_shape_tiles rotated_shape.tile_list = true
       then rotated_shape
       else if check_shape_tiles rotated_l_shape.tile_list = true 
