@@ -1,24 +1,42 @@
 
 
-let generate_new_shape () =
-  let rand_element lst =
-    Random.self_init ();
-    let n = Random.int (List.length lst) in List.nth lst n in
-  let poss_shape_type = 
-    ['I'; 'J'; 'L'; 'T'; 'Z'; 'S'; 'O'] in
-  let decided_shape_type = rand_element poss_shape_type in
+
+
+(* This is the knuth shuffle algorithm, and the code was adapted
+   from code on the OCaml discussion board: 
+   https://discuss.ocaml.org/t/more-natural-preferred-way-to-shuffle-an-array/217 *)
+let generate_new_bag shapes =
+  Random.self_init ();
+  let n = Array.length shapes in
+  let sh = Array.copy shapes in 
+  for i = n - 1 downto 1 do 
+    let k = Random.int (i + 1) in 
+    let x = sh.(k) in 
+    sh.(k) <- sh.(i);
+    sh.(i) <- x
+  done;
+  sh
+
+let generate_shape shape_type = 
   let x = Tilearray.x_dim/2 - 1 in
   let y = Tilearray.y_dim - 3 in
   let coords = 
-    if decided_shape_type = 'I' 
+    if shape_type = 'I' 
     then (x + 1, y + 1)
-    else if decided_shape_type = 'O'
+    else if shape_type = 'O'
     then (x, y + 1)
     else (x, y) in
-  Shapes.make_shape decided_shape_type coords 0
+  Shapes.make_shape shape_type coords 0
 
-let shape_ref = ref (generate_new_shape ())
-let next_shape_ref = ref (generate_new_shape ())
+
+
+let shape_options = [|'I'; 'J'; 'L'; 'T'; 'Z'; 'S'; 'O'|]
+let bag_ref = ref (0, (generate_new_bag shape_options))
+
+let shape_ref = ref (generate_shape 'I')
+let next_shape_ref = ref (generate_shape (snd !bag_ref).(fst !bag_ref))
+
+
 
 let erase_previous previous_shape = 
   match previous_shape with
@@ -64,7 +82,12 @@ let new_falling_shape () =
   draw_shape None !shape_ref;
 
   Board.erase_last_next_shape !next_shape_ref;
-  next_shape_ref := generate_new_shape ();
+
+  if fst !bag_ref >= Array.length shape_options - 1 
+  then bag_ref := (0, (generate_new_bag shape_options))
+  else bag_ref := (fst !bag_ref + 1, snd !bag_ref);
+
+  next_shape_ref := generate_shape (snd !bag_ref).(fst !bag_ref);
   Board.display_next_shape !next_shape_ref
 
 
