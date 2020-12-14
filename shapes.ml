@@ -23,9 +23,9 @@ let rec gen_tile_list (coords : (int * int) list) (r : int) (g : int)
   | [] -> tile_list
   | h :: t -> begin 
       match h with
-      | (a,b) -> begin 
-          let x = a in
-          let y = b in 
+      | (i,j) -> begin 
+          let x = i in
+          let y = j in 
           let tile = Tile.make_tile x y r g b
           in gen_tile_list t r g b (tile :: tile_list)
         end
@@ -108,11 +108,9 @@ let make_shape (name : char) (anchor : anchor) (orientation : int) =
   in {
     name = name;
     anchor = anchor;
-    tile_list = tile_list;
+    tile_list = List.rev tile_list;
     orientation = orient
   }
-
-
 
 (* functions for getting properties of shapes *)
 
@@ -186,14 +184,14 @@ let shift_block shape dir =
           match wall, dir with 
           | "L", "L" -> begin 
               if ind_of_anchor = 2 then
-                (shape |> move_l |> move_l, shape |> move_r)
+                (shape |> move_l, shape |> move_r |> move_r)
               else if ind_of_anchor = 1 then 
                 (shape |> move_l, shape |> move_r)
               else raise (BadShape shape)
             end
           | "L", "R" -> begin 
               if ind_of_anchor = 1 then
-                (shape |> move_l |> move_l, shape |> move_r)
+                (shape |> move_l, shape |> move_r |> move_r)
               else if ind_of_anchor = 2 then 
                 (shape |> move_l, shape |> move_r)
               else raise (BadShape shape)
