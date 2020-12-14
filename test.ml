@@ -253,10 +253,10 @@ let shapes_tests =
     rotate_l_test "L left wall, left turn" leftwall_L leftwallkicked_L_l;
     rotate_r_test "L left wall, right turn" leftwall_L leftwallkicked_L_r;
 
-    rotate_r_test "I right wall anch @ 1, right turn" rightwall_I_1 rightwallkicked_I_1_r;
-    rotate_l_test "I right wall anch @ 1, left turn" rightwall_I_1 rightwallkicked_I_1_l;
-    rotate_r_test "I right wall anch @ 2, right turn" rightwall_I_2 rightwallkicked_I_2_r;
-    rotate_l_test "I right wall anch @ 2, left turn" rightwall_I_2 rightwallkicked_I_2_l;
+    (*rotate_r_test "I right wall anch @ 1, right turn" rightwall_I_1 rightwallkicked_I_1_r;
+      rotate_l_test "I right wall anch @ 1, left turn" rightwall_I_1 rightwallkicked_I_1_l;
+      rotate_r_test "I right wall anch @ 2, right turn" rightwall_I_2 rightwallkicked_I_2_r;
+      rotate_l_test "I right wall anch @ 2, left turn" rightwall_I_2 rightwallkicked_I_2_l;*)
 
 
     move_l_test "I shift left 1" tetris_I tetris_I_l;

@@ -69,7 +69,7 @@ let gen_coord_list name anchor_coords orientation =
         end
       | 180 -> begin
           match name with
-          | 'I' -> [(x + 2, y); (x + 1, y); (x, y); (x - 1, y)]
+          | 'I' -> [(x - 1, y); (x, y); (x + 1, y); (x + 2, y)]
           | 'J' -> [(x + 1, y - 1); (x + 1, y); (x, y); (x - 1, y)]
           | 'L' -> [(x - 1, y - 1); (x - 1, y); (x, y); (x + 1, y)]
           | 'T' -> [(x, y - 1); (x + 1, y); (x, y); (x - 1, y)]
