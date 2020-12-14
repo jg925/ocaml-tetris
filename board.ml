@@ -126,6 +126,8 @@ let display_game_over_screen score high_score =
   Graphics.moveto (width / 2 - 90) ((height * 2) / 3 - 30);
   Graphics.draw_string ("Press '"^ Char.escaped !key_array.(5) ^ 
                         "' to play another round");
+  Graphics.moveto (width / 2 - 80) ((height * 2) / 3 - 60);
+  Graphics.draw_string ("Press 'q' to quit the game");
   if score > high_score
   then begin
     Graphics.moveto (width / 2 - 48) ((height * 2) / 3 - 100);  

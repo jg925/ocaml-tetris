@@ -153,6 +153,9 @@ and wait_for_restart () =
         Tilearray.clear ();
         main ()
       end
+    else 
+    if k = 'q' then
+      Graphics.close_graph ()
     else wait_for_restart ()
   with Tilearray.End -> wait_for_restart ()
 
