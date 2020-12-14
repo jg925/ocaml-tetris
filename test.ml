@@ -221,6 +221,9 @@ let tetris_T_360 = Shapes.make_shape 'T' (5,5) 360
 let tetris_I_l = Shapes.make_shape 'I' (4,5) 0
 let tetris_I_r = Shapes.make_shape 'I' (6,5) 0
 
+let tetris_I_fall = Shapes.make_shape 'I' (5,4) 0
+let tetris_I_ground = Shapes.make_shape 'I' (2,1) 90
+
 let get_x_test name shape expected_output : test =
   name >:: (fun _ ->
       assert_equal expected_output (Shapes.get_x shape) ~printer:string_of_int)
@@ -254,6 +257,14 @@ let rotate_l_test name shape expected_output : test =
 let rotate_r_test name shape expected_output : test =
   name >:: (fun _ ->
       assert_equal expected_output (Shapes.rotate_r shape) ~printer:pp_shape)
+
+let fall_test name shape expected_output : test =
+  name >:: (fun _ -> 
+      assert_equal expected_output (Shapes.fall shape) ~printer:pp_shape)
+
+let done_falling_test name shape : test = 
+  name >:: (fun _ ->
+      assert_raises (DoneFalling) (fun _ -> Shapes.fall shape))
 
 let shapes_tests = 
   [
@@ -363,6 +374,9 @@ let shapes_tests =
 
     move_l_test "I shift left 1" tetris_I tetris_I_l;
     move_r_test "I shift right 1" tetris_I tetris_I_r;
+
+    fall_test "I fall once from (5,5)" tetris_I tetris_I_fall;
+    done_falling_test "I on the ground from (2,0)" tetris_I_ground;
 
     (* Move L + R edge wall cases *)
     move_r_test "I right wall" rightwall_I_1 rightwall_I_1;

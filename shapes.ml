@@ -284,8 +284,3 @@ let rec shape_shadow shape =
       {shape with anchor = 
                     (match shape.anchor with (x, y) -> (x, y - 1));
                   tile_list = new_tile_list}
-
-(*
-let rec drop shape = 
-  drop (fall shape)
-*)
