@@ -130,7 +130,7 @@ let rec main () =
         redraw_tiles ();
         Board.display_score !Tilearray.score;
         Board.display_high_scores (Array.to_list Tilearray.high_scores);
-        Board.display_controls;
+        Board.display_controls ();
         Board.display_next_shape_words ();
         new_falling_shape ();
       | Tilearray.End -> raise Tilearray.End
@@ -150,7 +150,7 @@ and wait_for_restart () =
         Tilearray.score := 0;
         Board.display_score !Tilearray.score;
         Board.display_high_scores (Array.to_list Tilearray.high_scores);
-        Board.display_controls;
+        Board.display_controls ();
         Board.display_next_shape_words ();
         Tilearray.clear ();
         main ()
@@ -180,6 +180,6 @@ let start () =
   Board.setup_board ();
   Board.display_score !Tilearray.score;
   Board.display_high_scores (Array.to_list Tilearray.high_scores);
-  Board.display_controls;
+  Board.display_controls ();
   Board.display_next_shape_words ();
   main () 
