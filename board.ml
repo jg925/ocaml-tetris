@@ -203,7 +203,7 @@ let setup_board () =
     Graphics.lineto right y
   done
 
-let display_controls =
+let display_controls () =
   Graphics.set_color 0;
   Graphics.moveto (left_offset / 5) (y_dim * scale / 2);
   Graphics.draw_string ("Controls: ");
@@ -217,7 +217,7 @@ let display_controls =
   Graphics.draw_string "Press 'p' to pause";
   Graphics.moveto (left_offset / 5) 
     ((y_dim * scale / 2) - (Array.length !ctl_array + 2) * 20);
-  Graphics.draw_string "Press ' ' to drop"
+  Graphics.draw_string "Press ' ' to drop"; ()
 
 (* functions for displaying different assets of the game *)
 
