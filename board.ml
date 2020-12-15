@@ -203,7 +203,7 @@ let setup_board () =
     Graphics.lineto right y
   done
 
-let display_controls (control_config : char array ref) =
+let display_controls =
   Graphics.set_color 0;
   Graphics.moveto (left_offset / 5) (y_dim * scale / 2);
   Graphics.draw_string ("Controls: ");
