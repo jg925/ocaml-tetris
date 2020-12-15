@@ -120,7 +120,9 @@ let rec main () =
     while true do
       try
         let k = Graphics.read_key () in
-        move_shape k !Board.key_array
+        if k = 'p'
+        then pause ()
+        else move_shape k !Board.key_array
       with 
       | Shapes.DoneFalling -> 
         let ys = get_ys !shape_ref in
@@ -159,6 +161,17 @@ and wait_for_restart () =
     else wait_for_restart ()
   with Tilearray.End -> wait_for_restart ()
 
+and pause () =
+  ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle (fun x -> ())));
+  let k = Graphics.read_key () in
+  if k = 'p'
+  then begin 
+    ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape));
+    ignore (Unix.alarm 1)
+  end
+  else pause ()
+
+
 let start () = 
   ANSITerminal.(print_string [red] "\n\nWelcome to Tetris for OCaml! ");
   Board.set_settings ();
@@ -170,8 +183,3 @@ let start () =
   Board.display_controls Board.key_array;
   Board.display_next_shape_words ();
   main () 
-
-
-
-
-let pause () = ()
