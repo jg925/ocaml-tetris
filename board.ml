@@ -71,7 +71,7 @@ let set_settings () =
                           Fall Faster, and Restart:\n
                         1. adwsxr\n
                         2. jlik,r\n
-                        3. fhtgbr\n"));
+                        3. fhtgbr\n>"));
         match read_int () with
         | 1 -> key_array := "adwsxr" |> explode
         | 2 -> key_array := "jlik,r" |> explode
@@ -82,7 +82,41 @@ let set_settings () =
     | "No"  |"n" | "N" | "no" -> ()
     | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
       do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()  in
-  do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()
+  do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ();
+
+  let rec set_colorblind_mode cb () = 
+    ANSITerminal.(print_string [red] ("Are you colorblind? (Yes/No)\n> "));
+    match read_line () with 
+    | "Yes" | "Y" | "yes" |"y" -> begin
+        ANSITerminal.(print_string [red] 
+                        ("Do you know your specific colorblind subtype?\n
+                        1. Yes, Deuteranopia (most common)\n
+                        2. Yes, Protanopia\n
+                        3. Yes, Tritanopia\n
+                        4. Yes, Monochromacy\n
+                        5. No\n>"));
+        match read_int () with
+        | 1 -> Shapes.colorblind := 1; ()
+        | 2 -> Shapes.colorblind := 2; ()
+        | 3 -> Shapes.colorblind := 3; ()
+        | 4 -> Shapes.colorblind := 4; ()
+        | 5 -> Shapes.colorblind := 5; ()
+        | _ -> ANSITerminal.(print_string [blue] "invalid input\n");
+          set_colorblind_mode cb () 
+      end
+    | "No" |"N" | "no" | "n" -> begin
+        ANSITerminal.(print_string [red] 
+                        ("But do you want to play tetris in black and \ 
+                        white mode? (Yes/No) \n>"));
+        match read_line () with
+        | "Yes" | "Y" | "y" | "yes" -> Shapes.colorblind := 4; ()
+        | "No" | "N" | "n" | "no" -> Shapes.colorblind := 0; ()
+        | _ -> ANSITerminal.(print_string [blue] "invalid input\n");
+          set_colorblind_mode cb () 
+      end
+    | _ -> ANSITerminal.(print_string [blue] "invalid input\n");
+      set_colorblind_mode cb () in 
+  set_colorblind_mode false ()
 
 let lower () = bottom_offset
 

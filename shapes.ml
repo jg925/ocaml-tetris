@@ -8,11 +8,12 @@ type t = {
   orientation : int;
 }
 
-let colorblind = ref false
+let colorblind = ref 0
 
 exception BadName of char
 exception BadShape of t
 exception BadDirection of string
+exception BadColorPalette of int
 
 exception DoneFalling
 
@@ -94,12 +95,12 @@ let gen_coord_list name anchor_coords orientation =
     end
 
 let make_shape (name : char) (anchor : anchor) (orientation : int) 
-    (cb : bool) : t = 
+    (cb : int) : t = 
   let orient = orientation |> modulo_360 in
   let coord_list = gen_coord_list name anchor orient in
   let tile_list : Tile.t list = 
     match cb with
-    | false -> begin
+    | 0 -> begin
         match name with
         | 'I' -> gen_tile_list coord_list 25 206 230 []
         | 'J' -> gen_tile_list coord_list 25 39 230 []
@@ -110,7 +111,7 @@ let make_shape (name : char) (anchor : anchor) (orientation : int)
         | 'O' -> gen_tile_list coord_list 230 230 25 []
         | _ -> raise (BadName name)
       end
-    | true -> begin
+    | 1 | 5 -> begin
         match name with
         | 'I' -> gen_tile_list coord_list 64 152 254 []
         | 'J' -> gen_tile_list coord_list 0 82 137 []
@@ -121,6 +122,40 @@ let make_shape (name : char) (anchor : anchor) (orientation : int)
         | 'O' -> gen_tile_list coord_list 255 243 229 []
         | _ -> raise (BadName name)
       end
+    | 2 -> begin
+        match name with
+        | 'I' -> gen_tile_list coord_list 115 149 247 []
+        | 'J' -> gen_tile_list coord_list 0 85 180 []
+        | 'L' -> gen_tile_list coord_list 124 182 23 []
+        | 'T' -> gen_tile_list coord_list 1 51 110 [] 
+        | 'Z' -> gen_tile_list coord_list 124 108 30 []
+        | 'S' -> gen_tile_list coord_list 244 219 0 []
+        | 'O' -> gen_tile_list coord_list 252 236 165 []
+        | _ -> raise (BadName name)
+      end 
+    | 3 -> begin
+        match name with
+        | 'I' -> gen_tile_list coord_list 8 230 247 []
+        | 'J' -> gen_tile_list coord_list 0 88 90 []
+        | 'L' -> gen_tile_list coord_list 253 136 145 []
+        | 'T' -> gen_tile_list coord_list 0 72 154 [] 
+        | 'Z' -> gen_tile_list coord_list 93 48 53 []
+        | 'S' -> gen_tile_list coord_list 243 24 0 []
+        | 'O' -> gen_tile_list coord_list 255 205 214 []
+        | _ -> raise (BadName name)
+      end
+    | 4 -> begin
+        match name with
+        | 'I' -> gen_tile_list coord_list 146 146 146[]
+        | 'J' -> gen_tile_list coord_list 175 175 175 []
+        | 'L' -> gen_tile_list coord_list 55 55 55 []
+        | 'T' -> gen_tile_list coord_list 218 218 218 [] 
+        | 'Z' -> gen_tile_list coord_list 36 36 36 []
+        | 'S' -> gen_tile_list coord_list 114 114 114 []
+        | 'O' -> gen_tile_list coord_list 77 77 77 []
+        | _ -> raise (BadName name)
+      end
+    | _ -> raise (BadColorPalette cb)
   in {
     name = name;
     anchor = anchor;

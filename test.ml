@@ -50,15 +50,7 @@ let tile_Ob = Tile.make_tile 6 5 230 230 25
 let tile_Oc = Tile.make_tile 6 4 230 230 25
 let tile_Od = Tile.make_tile 5 4 230 230 25
 
-(* | 'I' -> gen_tile_list coord_list 64 152 254 []
-   | 'J' -> gen_tile_list coord_list 0 82 137 []
-   | 'L' -> gen_tile_list coord_list 246 182 4 []
-   | 'T' -> gen_tile_list coord_list 22 52 87 [] 
-   | 'Z' -> gen_tile_list coord_list 161 122 0 []
-   | 'S' -> gen_tile_list coord_list 255 215 155 []
-   | 'O' -> gen_tile_list coord_list 255 243 229 [] *)
-
-(* for colorblind shape testing *)
+(* for deuteranopia shape testing *)
 let tile_cb_Ia = Tile.make_tile 3 5 64 152 254
 let tile_cb_Ib = Tile.make_tile 4 5 64 152 254
 let tile_cb_Ic = Tile.make_tile 5 5 64 152 254
@@ -93,6 +85,114 @@ let tile_cb_Oa = Tile.make_tile 5 5 255 243 229
 let tile_cb_Ob = Tile.make_tile 6 5 255 243 229
 let tile_cb_Oc = Tile.make_tile 6 4 255 243 229
 let tile_cb_Od = Tile.make_tile 5 4 255 243 229
+
+(* for protanopia shape testing *)
+let tile_cb2_Ia = Tile.make_tile 3 5 115 149 247
+let tile_cb2_Ib = Tile.make_tile 4 5 115 149 247
+let tile_cb2_Ic = Tile.make_tile 5 5 115 149 247
+let tile_cb2_Id = Tile.make_tile 6 5 115 149 247
+
+let tile_cb2_Ja = Tile.make_tile 4 6 0 85 180 
+let tile_cb2_Jb = Tile.make_tile 4 5 0 85 180 
+let tile_cb2_Jc = Tile.make_tile 5 5 0 85 180 
+let tile_cb2_Jd = Tile.make_tile 6 5 0 85 180 
+
+let tile_cb2_La = Tile.make_tile 6 6 124 182 23
+let tile_cb2_Lb = Tile.make_tile 6 5 124 182 23
+let tile_cb2_Lc = Tile.make_tile 5 5 124 182 23
+let tile_cb2_Ld = Tile.make_tile 4 5 124 182 23
+
+let tile_cb2_Ta = Tile.make_tile 5 6 1 51 110 
+let tile_cb2_Tb = Tile.make_tile 4 5 1 51 110
+let tile_cb2_Tc = Tile.make_tile 5 5 1 51 110
+let tile_cb2_Td = Tile.make_tile 6 5 1 51 110
+
+let tile_cb2_Za = Tile.make_tile 4 6 124 108 30
+let tile_cb2_Zb = Tile.make_tile 5 6 124 108 30
+let tile_cb2_Zc = Tile.make_tile 5 5 124 108 30
+let tile_cb2_Zd = Tile.make_tile 6 5 124 108 30
+
+let tile_cb2_Sa = Tile.make_tile 4 5 244 219 0
+let tile_cb2_Sb = Tile.make_tile 5 5 244 219 0
+let tile_cb2_Sc = Tile.make_tile 5 6 244 219 0
+let tile_cb2_Sd = Tile.make_tile 6 6 244 219 0
+
+let tile_cb2_Oa = Tile.make_tile 5 5 252 236 165
+let tile_cb2_Ob = Tile.make_tile 6 5 252 236 165
+let tile_cb2_Oc = Tile.make_tile 6 4 252 236 165
+let tile_cb2_Od = Tile.make_tile 5 4 252 236 165
+
+(* for tritanopia shape testing *)
+let tile_cb3_Ia = Tile.make_tile 3 5 8 230 247
+let tile_cb3_Ib = Tile.make_tile 4 5 8 230 247
+let tile_cb3_Ic = Tile.make_tile 5 5 8 230 247
+let tile_cb3_Id = Tile.make_tile 6 5 8 230 247
+
+let tile_cb3_Ja = Tile.make_tile 4 6 0 88 90
+let tile_cb3_Jb = Tile.make_tile 4 5 0 88 90
+let tile_cb3_Jc = Tile.make_tile 5 5 0 88 90
+let tile_cb3_Jd = Tile.make_tile 6 5 0 88 90
+
+let tile_cb3_La = Tile.make_tile 6 6 253 136 145
+let tile_cb3_Lb = Tile.make_tile 6 5 253 136 145
+let tile_cb3_Lc = Tile.make_tile 5 5 253 136 145
+let tile_cb3_Ld = Tile.make_tile 4 5 253 136 145
+
+let tile_cb3_Ta = Tile.make_tile 5 6 0 72 154 
+let tile_cb3_Tb = Tile.make_tile 4 5 0 72 154
+let tile_cb3_Tc = Tile.make_tile 5 5 0 72 154
+let tile_cb3_Td = Tile.make_tile 6 5 0 72 154
+
+let tile_cb3_Za = Tile.make_tile 4 6 93 48 53
+let tile_cb3_Zb = Tile.make_tile 5 6 93 48 53
+let tile_cb3_Zc = Tile.make_tile 5 5 93 48 53
+let tile_cb3_Zd = Tile.make_tile 6 5 93 48 53
+
+let tile_cb3_Sa = Tile.make_tile 4 5 243 24 0
+let tile_cb3_Sb = Tile.make_tile 5 5 243 24 0
+let tile_cb3_Sc = Tile.make_tile 5 6 243 24 0
+let tile_cb3_Sd = Tile.make_tile 6 6 243 24 0
+
+let tile_cb3_Oa = Tile.make_tile 5 5 255 205 214
+let tile_cb3_Ob = Tile.make_tile 6 5 255 205 214
+let tile_cb3_Oc = Tile.make_tile 6 4 255 205 214
+let tile_cb3_Od = Tile.make_tile 5 4 255 205 214
+
+(* for black/white shape testing *)
+let tile_cb4_Ia = Tile.make_tile 3 5 146 146 146
+let tile_cb4_Ib = Tile.make_tile 4 5 146 146 146
+let tile_cb4_Ic = Tile.make_tile 5 5 146 146 146
+let tile_cb4_Id = Tile.make_tile 6 5 146 146 146
+
+let tile_cb4_Ja = Tile.make_tile 4 6 175 175 175
+let tile_cb4_Jb = Tile.make_tile 4 5 175 175 175
+let tile_cb4_Jc = Tile.make_tile 5 5 175 175 175
+let tile_cb4_Jd = Tile.make_tile 6 5 175 175 175
+
+let tile_cb4_La = Tile.make_tile 6 6 55 55 55
+let tile_cb4_Lb = Tile.make_tile 6 5 55 55 55
+let tile_cb4_Lc = Tile.make_tile 5 5 55 55 55
+let tile_cb4_Ld = Tile.make_tile 4 5 55 55 55
+
+let tile_cb4_Ta = Tile.make_tile 5 6 218 218 218
+let tile_cb4_Tb = Tile.make_tile 4 5 218 218 218
+let tile_cb4_Tc = Tile.make_tile 5 5 218 218 218
+let tile_cb4_Td = Tile.make_tile 6 5 218 218 218
+
+let tile_cb4_Za = Tile.make_tile 4 6 36 36 36
+let tile_cb4_Zb = Tile.make_tile 5 6 36 36 36
+let tile_cb4_Zc = Tile.make_tile 5 5 36 36 36
+let tile_cb4_Zd = Tile.make_tile 6 5 36 36 36
+
+let tile_cb4_Sa = Tile.make_tile 4 5 114 114 114
+let tile_cb4_Sb = Tile.make_tile 5 5 114 114 114
+let tile_cb4_Sc = Tile.make_tile 5 6 114 114 114
+let tile_cb4_Sd = Tile.make_tile 6 6 114 114 114
+
+let tile_cb4_Oa = Tile.make_tile 5 5 77 77 77
+let tile_cb4_Ob = Tile.make_tile 6 5 77 77 77
+let tile_cb4_Oc = Tile.make_tile 6 4 77 77 77
+let tile_cb4_Od = Tile.make_tile 5 4 77 77 77
 
 let tile_get_x_test name tile expected_output : test =
   name >:: (fun _ ->
@@ -164,103 +264,135 @@ let pp_list shape =
   in "[" ^ pp_elts pp_tile shape ^ "]"
 
 
-let tetris_I = Shapes.make_shape 'I' (5,5) 0 false
-let tetris_J = Shapes.make_shape 'J' (5,5) 0 false
-let tetris_L = Shapes.make_shape 'L' (5,5) 0 false
-let tetris_T = Shapes.make_shape 'T' (5,5) 0 false
-let tetris_S = Shapes.make_shape 'S' (5,5) 0 false
-let tetris_Z = Shapes.make_shape 'Z' (5,5) 0 false
-let tetris_O = Shapes.make_shape 'O' (5,5) 0 false
+let tetris_I = Shapes.make_shape 'I' (5,5) 0 0
+let tetris_J = Shapes.make_shape 'J' (5,5) 0 0
+let tetris_L = Shapes.make_shape 'L' (5,5) 0 0
+let tetris_T = Shapes.make_shape 'T' (5,5) 0 0
+let tetris_S = Shapes.make_shape 'S' (5,5) 0 0
+let tetris_Z = Shapes.make_shape 'Z' (5,5) 0 0
+let tetris_O = Shapes.make_shape 'O' (5,5) 0 0
 
-let tetris_cb_I = Shapes.make_shape 'I' (5,5) 0 true
-let tetris_cb_J = Shapes.make_shape 'J' (5,5) 0 true
-let tetris_cb_L = Shapes.make_shape 'L' (5,5) 0 true
-let tetris_cb_T = Shapes.make_shape 'T' (5,5) 0 true
-let tetris_cb_S = Shapes.make_shape 'S' (5,5) 0 true
-let tetris_cb_Z = Shapes.make_shape 'Z' (5,5) 0 true
-let tetris_cb_O = Shapes.make_shape 'O' (5,5) 0 true
+let tetris_cb_I = Shapes.make_shape 'I' (5,5) 0 1
+let tetris_cb_J = Shapes.make_shape 'J' (5,5) 0 1
+let tetris_cb_L = Shapes.make_shape 'L' (5,5) 0 1
+let tetris_cb_T = Shapes.make_shape 'T' (5,5) 0 1
+let tetris_cb_S = Shapes.make_shape 'S' (5,5) 0 1
+let tetris_cb_Z = Shapes.make_shape 'Z' (5,5) 0 1
+let tetris_cb_O = Shapes.make_shape 'O' (5,5) 0 1
 
-let rightwall_T = Shapes.make_shape 'T' (Tilearray.x_dim-1,5) 270 false
-let rightwallkicked_T_r = Shapes.make_shape 'T' (8,5) 0 false
-let rightwallkicked_T_l = Shapes.make_shape 'T' (8,5) 180 false
-let leftwall_T = Shapes.make_shape 'T' (0,5) 90 false
-let leftwallkicked_T_r = Shapes.make_shape 'T' (1,5) 180 false
-let leftwallkicked_T_l = Shapes.make_shape 'T' (1,5) 0 false
+let tetris_cb2_I = Shapes.make_shape 'I' (5,5) 0 2
+let tetris_cb2_J = Shapes.make_shape 'J' (5,5) 0 2
+let tetris_cb2_L = Shapes.make_shape 'L' (5,5) 0 2
+let tetris_cb2_T = Shapes.make_shape 'T' (5,5) 0 2
+let tetris_cb2_S = Shapes.make_shape 'S' (5,5) 0 2
+let tetris_cb2_Z = Shapes.make_shape 'Z' (5,5) 0 2
+let tetris_cb2_O = Shapes.make_shape 'O' (5,5) 0 2
 
-let rightwall_Z = Shapes.make_shape 'Z' (Tilearray.x_dim-1,5) 270 false
-let rightwallkicked_Z_r = Shapes.make_shape 'Z' (8,5) 0 false
-let rightwallkicked_Z_l = Shapes.make_shape 'Z' (8,5) 180 false
-let leftwall_Z = Shapes.make_shape 'Z' (0,5) 90 false
-let leftwallkicked_Z_r = Shapes.make_shape 'Z' (1,5) 180 false
-let leftwallkicked_Z_l = Shapes.make_shape 'Z' (1,5) 0 false
+let tetris_cb3_I = Shapes.make_shape 'I' (5,5) 0 3
+let tetris_cb3_J = Shapes.make_shape 'J' (5,5) 0 3
+let tetris_cb3_L = Shapes.make_shape 'L' (5,5) 0 3
+let tetris_cb3_T = Shapes.make_shape 'T' (5,5) 0 3
+let tetris_cb3_S = Shapes.make_shape 'S' (5,5) 0 3
+let tetris_cb3_Z = Shapes.make_shape 'Z' (5,5) 0 3
+let tetris_cb3_O = Shapes.make_shape 'O' (5,5) 0 3
 
-let rightwall_S = Shapes.make_shape 'S' (Tilearray.x_dim-1,5) 270 false
-let rightwallkicked_S_r = Shapes.make_shape 'S' (8,5) 0 false
-let rightwallkicked_S_l = Shapes.make_shape 'S' (8,5) 180 false
-let leftwall_S = Shapes.make_shape 'S' (0,5) 90 false
-let leftwallkicked_S_r = Shapes.make_shape 'S' (1,5) 180 false
-let leftwallkicked_S_l = Shapes.make_shape 'S' (1,5) 0 false
+let tetris_cb4_I = Shapes.make_shape 'I' (5,5) 0 4
+let tetris_cb4_J = Shapes.make_shape 'J' (5,5) 0 4
+let tetris_cb4_L = Shapes.make_shape 'L' (5,5) 0 4
+let tetris_cb4_T = Shapes.make_shape 'T' (5,5) 0 4
+let tetris_cb4_S = Shapes.make_shape 'S' (5,5) 0 4
+let tetris_cb4_Z = Shapes.make_shape 'Z' (5,5) 0 4
+let tetris_cb4_O = Shapes.make_shape 'O' (5,5) 0 4
 
-let rightwall_J = Shapes.make_shape 'J' (Tilearray.x_dim-1,5) 270 false
-let rightwallkicked_J_r = Shapes.make_shape 'J' (8,5) 0 false
-let rightwallkicked_J_l = Shapes.make_shape 'J' (8,5) 180 false
-let leftwall_J = Shapes.make_shape 'J' (0,5) 90 false
-let leftwallkicked_J_r = Shapes.make_shape 'J' (1,5) 180 false
-let leftwallkicked_J_l = Shapes.make_shape 'J' (1,5) 0 false
+let tetris_cb5_I = Shapes.make_shape 'I' (5,5) 0 5
+let tetris_cb5_J = Shapes.make_shape 'J' (5,5) 0 5
+let tetris_cb5_L = Shapes.make_shape 'L' (5,5) 0 5
+let tetris_cb5_T = Shapes.make_shape 'T' (5,5) 0 5
+let tetris_cb5_S = Shapes.make_shape 'S' (5,5) 0 5
+let tetris_cb5_Z = Shapes.make_shape 'Z' (5,5) 0 5
+let tetris_cb5_O = Shapes.make_shape 'O' (5,5) 0 5
 
-let rightwall_L = Shapes.make_shape 'L' (Tilearray.x_dim-1,5) 270 false
-let rightwallkicked_L_r = Shapes.make_shape 'L' (8,5) 0 false
-let rightwallkicked_L_l = Shapes.make_shape 'L' (8,5) 180 false
-let leftwall_L = Shapes.make_shape 'L' (0,5) 90 false
-let leftwallkicked_L_r = Shapes.make_shape 'L' (1,5) 180 false
-let leftwallkicked_L_l = Shapes.make_shape 'L' (1,5) 0 false
+let rightwall_T = Shapes.make_shape 'T' (Tilearray.x_dim-1,5) 270 0
+let rightwallkicked_T_r = Shapes.make_shape 'T' (8,5) 0 0
+let rightwallkicked_T_l = Shapes.make_shape 'T' (8,5) 180 0
+let leftwall_T = Shapes.make_shape 'T' (0,5) 90 0
+let leftwallkicked_T_r = Shapes.make_shape 'T' (1,5) 180 0
+let leftwallkicked_T_l = Shapes.make_shape 'T' (1,5) 0 0
 
-let rightwall_I_1 = Shapes.make_shape 'I' (Tilearray.x_dim-1,5) 270 false
-let rightwallkicked_I_1_r = Shapes.make_shape 'I' (8,5) 0 false
-let rightwallkicked_I_1_l = Shapes.make_shape 'I' (7,5) 180 false
-let rightwall_I_2 = Shapes.make_shape 'I' (Tilearray.x_dim-1,5) 90 false
-let rightwallkicked_I_2_r = Shapes.make_shape 'I' (7,5) 180 false
-let rightwallkicked_I_2_l =  Shapes.make_shape 'I' (8,5) 0 false
+let rightwall_Z = Shapes.make_shape 'Z' (Tilearray.x_dim-1,5) 270 0
+let rightwallkicked_Z_r = Shapes.make_shape 'Z' (8,5) 0 0
+let rightwallkicked_Z_l = Shapes.make_shape 'Z' (8,5) 180 0
+let leftwall_Z = Shapes.make_shape 'Z' (0,5) 90 0
+let leftwallkicked_Z_r = Shapes.make_shape 'Z' (1,5) 180 0
+let leftwallkicked_Z_l = Shapes.make_shape 'Z' (1,5) 0 0
 
-let leftwall_I_1 = Shapes.make_shape 'I' (0,5) 270 false
-let leftwallkicked_I_1_r = Shapes.make_shape 'I' (2,5) 0 false
-let leftwallkicked_I_1_l = Shapes.make_shape 'I' (1,5) 180 false
-let leftwall_I_2 = Shapes.make_shape 'I' (0,5) 90 false
-let leftwallkicked_I_2_r = Shapes.make_shape 'I' (1,5) 180 false
-let leftwallkicked_I_2_l = Shapes.make_shape 'I' (2,5) 0 false
+let rightwall_S = Shapes.make_shape 'S' (Tilearray.x_dim-1,5) 270 0
+let rightwallkicked_S_r = Shapes.make_shape 'S' (8,5) 0 0
+let rightwallkicked_S_l = Shapes.make_shape 'S' (8,5) 180 0
+let leftwall_S = Shapes.make_shape 'S' (0,5) 90 0
+let leftwallkicked_S_r = Shapes.make_shape 'S' (1,5) 180 0
+let leftwallkicked_S_l = Shapes.make_shape 'S' (1,5) 0 0
 
-let rightwall_O = Shapes.make_shape 'O' (Tilearray.x_dim-2,5) 0 false
-let leftwall_O = Shapes.make_shape 'O' (0,5) 0 false
+let rightwall_J = Shapes.make_shape 'J' (Tilearray.x_dim-1,5) 270 0
+let rightwallkicked_J_r = Shapes.make_shape 'J' (8,5) 0 0
+let rightwallkicked_J_l = Shapes.make_shape 'J' (8,5) 180 0
+let leftwall_J = Shapes.make_shape 'J' (0,5) 90 0
+let leftwallkicked_J_r = Shapes.make_shape 'J' (1,5) 180 0
+let leftwallkicked_J_l = Shapes.make_shape 'J' (1,5) 0 0
 
-let tetris_I_neg90 = Shapes.make_shape 'I' (5,5) ~-90 false
-let tetris_I_270 = Shapes.make_shape 'I' (5,5) 270 false
-let tetris_I_180 = Shapes.make_shape 'I' (5,5) 180 false
-let tetris_I_90 = Shapes.make_shape 'I' (5,5) 90 false
-let tetris_I_360 = Shapes.make_shape 'I' (5,5) 360 false
+let rightwall_L = Shapes.make_shape 'L' (Tilearray.x_dim-1,5) 270 0
+let rightwallkicked_L_r = Shapes.make_shape 'L' (8,5) 0 0
+let rightwallkicked_L_l = Shapes.make_shape 'L' (8,5) 180 0
+let leftwall_L = Shapes.make_shape 'L' (0,5) 90 0
+let leftwallkicked_L_r = Shapes.make_shape 'L' (1,5) 180 0
+let leftwallkicked_L_l = Shapes.make_shape 'L' (1,5) 0 0
 
-let tetris_J_neg90 = Shapes.make_shape 'J' (5,5) ~-90 false
-let tetris_J_270 = Shapes.make_shape 'J' (5,5) 270 false
-let tetris_J_180 = Shapes.make_shape 'J' (5,5) 180 false
-let tetris_J_90 = Shapes.make_shape 'J' (5,5) 90 false
-let tetris_J_360 = Shapes.make_shape 'J' (5,5) 360 false
+let rightwall_I_1 = Shapes.make_shape 'I' (Tilearray.x_dim-1,5) 270 0
+let rightwallkicked_I_1_r = Shapes.make_shape 'I' (8,5) 0 0
+let rightwallkicked_I_1_l = Shapes.make_shape 'I' (7,5) 180 0
+let rightwall_I_2 = Shapes.make_shape 'I' (Tilearray.x_dim-1,5) 90 0
+let rightwallkicked_I_2_r = Shapes.make_shape 'I' (7,5) 180 0
+let rightwallkicked_I_2_l =  Shapes.make_shape 'I' (8,5) 0 0
 
-let tetris_L_neg90 = Shapes.make_shape 'L' (5,5) ~-90 false
-let tetris_L_270 = Shapes.make_shape 'L' (5,5) 270 false
-let tetris_L_180 = Shapes.make_shape 'L' (5,5) 180 false
-let tetris_L_90 = Shapes.make_shape 'L' (5,5) 90 false
-let tetris_L_360 = Shapes.make_shape 'L' (5,5) 360 false
+let leftwall_I_1 = Shapes.make_shape 'I' (0,5) 270 0
+let leftwallkicked_I_1_r = Shapes.make_shape 'I' (2,5) 0 0
+let leftwallkicked_I_1_l = Shapes.make_shape 'I' (1,5) 180 0
+let leftwall_I_2 = Shapes.make_shape 'I' (0,5) 90 0
+let leftwallkicked_I_2_r = Shapes.make_shape 'I' (1,5) 180 0
+let leftwallkicked_I_2_l = Shapes.make_shape 'I' (2,5) 0 0
 
-let tetris_T_neg90 = Shapes.make_shape 'T' (5,5) ~-90 false
-let tetris_T_270 = Shapes.make_shape 'T' (5,5) 270 false
-let tetris_T_180 = Shapes.make_shape 'T' (5,5) 180 false
-let tetris_T_90 = Shapes.make_shape 'T' (5,5) 90 false
-let tetris_T_360 = Shapes.make_shape 'T' (5,5) 360 false
+let rightwall_O = Shapes.make_shape 'O' (Tilearray.x_dim-2,5) 0 0
+let leftwall_O = Shapes.make_shape 'O' (0,5) 0 0
 
-let tetris_I_l = Shapes.make_shape 'I' (4,5) 0 false
-let tetris_I_r = Shapes.make_shape 'I' (6,5) 0 false
+let tetris_I_neg90 = Shapes.make_shape 'I' (5,5) ~-90 0
+let tetris_I_270 = Shapes.make_shape 'I' (5,5) 270 0
+let tetris_I_180 = Shapes.make_shape 'I' (5,5) 180 0
+let tetris_I_90 = Shapes.make_shape 'I' (5,5) 90 0
+let tetris_I_360 = Shapes.make_shape 'I' (5,5) 360 0
 
-let tetris_I_fall = Shapes.make_shape 'I' (5,4) 0 false
-let tetris_I_ground = Shapes.make_shape 'I' (2,1) 90 false
+let tetris_J_neg90 = Shapes.make_shape 'J' (5,5) ~-90 0
+let tetris_J_270 = Shapes.make_shape 'J' (5,5) 270 0
+let tetris_J_180 = Shapes.make_shape 'J' (5,5) 180 0
+let tetris_J_90 = Shapes.make_shape 'J' (5,5) 90 0
+let tetris_J_360 = Shapes.make_shape 'J' (5,5) 360 0
+
+let tetris_L_neg90 = Shapes.make_shape 'L' (5,5) ~-90 0
+let tetris_L_270 = Shapes.make_shape 'L' (5,5) 270 0
+let tetris_L_180 = Shapes.make_shape 'L' (5,5) 180 0
+let tetris_L_90 = Shapes.make_shape 'L' (5,5) 90 0
+let tetris_L_360 = Shapes.make_shape 'L' (5,5) 360 0
+
+let tetris_T_neg90 = Shapes.make_shape 'T' (5,5) ~-90 0
+let tetris_T_270 = Shapes.make_shape 'T' (5,5) 270 0
+let tetris_T_180 = Shapes.make_shape 'T' (5,5) 180 0
+let tetris_T_90 = Shapes.make_shape 'T' (5,5) 90 0
+let tetris_T_360 = Shapes.make_shape 'T' (5,5) 360 0
+
+let tetris_I_l = Shapes.make_shape 'I' (4,5) 0 0
+let tetris_I_r = Shapes.make_shape 'I' (6,5) 0 0
+
+let tetris_I_fall = Shapes.make_shape 'I' (5,4) 0 0
+let tetris_I_ground = Shapes.make_shape 'I' (2,1) 90 0
 
 let get_x_test name shape expected_output : test =
   name >:: (fun _ ->
@@ -320,7 +452,7 @@ let shapes_tests =
     get_y_test "O origin" tetris_O 5;
     get_y_test "Z origin" tetris_Z 5;
     get_y_test "S origin" tetris_S 5;
-    make_shape_invalid "nonexistent shape" 'A' (5,5) 0 false;
+    make_shape_invalid "nonexistent shape" 'A' (5,5) 0 0;
 
     get_tiles_test "I" tetris_I [tile_Ia; tile_Ib; tile_Ic; tile_Id];
     get_tiles_test "J" tetris_J [tile_Ja; tile_Jb; tile_Jc; tile_Jd];
@@ -330,19 +462,79 @@ let shapes_tests =
     get_tiles_test "S" tetris_S [tile_Sa; tile_Sb; tile_Sc; tile_Sd];
     get_tiles_test "O" tetris_O [tile_Oa; tile_Ob; tile_Oc; tile_Od];
 
-    get_tiles_test "I cb" tetris_cb_I 
+    get_tiles_test "I deuteranopia" tetris_cb_I 
       [tile_cb_Ia; tile_cb_Ib; tile_cb_Ic; tile_cb_Id];
-    get_tiles_test "J cb" tetris_cb_J 
+    get_tiles_test "J deuteranopia" tetris_cb_J 
       [tile_cb_Ja; tile_cb_Jb; tile_cb_Jc; tile_cb_Jd];
-    get_tiles_test "L cb" tetris_cb_L 
+    get_tiles_test "L deuteranopia" tetris_cb_L 
       [tile_cb_La; tile_cb_Lb; tile_cb_Lc; tile_cb_Ld];
-    get_tiles_test "T cb" tetris_cb_T 
+    get_tiles_test "T deuteranopia" tetris_cb_T 
       [tile_cb_Ta; tile_cb_Tb; tile_cb_Tc; tile_cb_Td];
-    get_tiles_test "Z cb" tetris_cb_Z 
+    get_tiles_test "Z deuteranopia" tetris_cb_Z 
       [tile_cb_Za; tile_cb_Zb; tile_cb_Zc; tile_cb_Zd];
-    get_tiles_test "S cb" tetris_cb_S 
+    get_tiles_test "S deuteranopia" tetris_cb_S 
       [tile_cb_Sa; tile_cb_Sb; tile_cb_Sc; tile_cb_Sd];
-    get_tiles_test "O cb" tetris_cb_O 
+    get_tiles_test "O deuteranopia" tetris_cb_O 
+      [tile_cb_Oa; tile_cb_Ob; tile_cb_Oc; tile_cb_Od];
+
+    get_tiles_test "I protanopia" tetris_cb2_I 
+      [tile_cb2_Ia; tile_cb2_Ib; tile_cb2_Ic; tile_cb2_Id];
+    get_tiles_test "J protanopia" tetris_cb2_J 
+      [tile_cb2_Ja; tile_cb2_Jb; tile_cb2_Jc; tile_cb2_Jd];
+    get_tiles_test "L protanopia" tetris_cb2_L 
+      [tile_cb2_La; tile_cb2_Lb; tile_cb2_Lc; tile_cb2_Ld];
+    get_tiles_test "T protanopia" tetris_cb2_T 
+      [tile_cb2_Ta; tile_cb2_Tb; tile_cb2_Tc; tile_cb2_Td];
+    get_tiles_test "Z protanopia" tetris_cb2_Z 
+      [tile_cb2_Za; tile_cb2_Zb; tile_cb2_Zc; tile_cb2_Zd];
+    get_tiles_test "S protanopia" tetris_cb2_S 
+      [tile_cb2_Sa; tile_cb2_Sb; tile_cb2_Sc; tile_cb2_Sd];
+    get_tiles_test "O protanopia" tetris_cb2_O 
+      [tile_cb2_Oa; tile_cb2_Ob; tile_cb2_Oc; tile_cb2_Od];
+
+    get_tiles_test "I tritanopia" tetris_cb3_I 
+      [tile_cb3_Ia; tile_cb3_Ib; tile_cb3_Ic; tile_cb3_Id];
+    get_tiles_test "J tritanopia" tetris_cb3_J 
+      [tile_cb3_Ja; tile_cb3_Jb; tile_cb3_Jc; tile_cb3_Jd];
+    get_tiles_test "L tritanopia" tetris_cb3_L 
+      [tile_cb3_La; tile_cb3_Lb; tile_cb3_Lc; tile_cb3_Ld];
+    get_tiles_test "T tritanopia" tetris_cb3_T 
+      [tile_cb3_Ta; tile_cb3_Tb; tile_cb3_Tc; tile_cb3_Td];
+    get_tiles_test "Z tritanopia" tetris_cb3_Z 
+      [tile_cb3_Za; tile_cb3_Zb; tile_cb3_Zc; tile_cb3_Zd];
+    get_tiles_test "S tritanopia" tetris_cb3_S 
+      [tile_cb3_Sa; tile_cb3_Sb; tile_cb3_Sc; tile_cb3_Sd];
+    get_tiles_test "O tritanopia" tetris_cb3_O 
+      [tile_cb3_Oa; tile_cb3_Ob; tile_cb3_Oc; tile_cb3_Od];
+
+    get_tiles_test "I bw" tetris_cb4_I 
+      [tile_cb4_Ia; tile_cb4_Ib; tile_cb4_Ic; tile_cb4_Id];
+    get_tiles_test "J bw" tetris_cb4_J 
+      [tile_cb4_Ja; tile_cb4_Jb; tile_cb4_Jc; tile_cb4_Jd];
+    get_tiles_test "L bw" tetris_cb4_L 
+      [tile_cb4_La; tile_cb4_Lb; tile_cb4_Lc; tile_cb4_Ld];
+    get_tiles_test "T bw" tetris_cb4_T 
+      [tile_cb4_Ta; tile_cb4_Tb; tile_cb4_Tc; tile_cb4_Td];
+    get_tiles_test "Z bw" tetris_cb4_Z 
+      [tile_cb4_Za; tile_cb4_Zb; tile_cb4_Zc; tile_cb4_Zd];
+    get_tiles_test "S bw" tetris_cb4_S 
+      [tile_cb4_Sa; tile_cb4_Sb; tile_cb4_Sc; tile_cb4_Sd];
+    get_tiles_test "O bw" tetris_cb4_O 
+      [tile_cb4_Oa; tile_cb4_Ob; tile_cb4_Oc; tile_cb4_Od];
+
+    get_tiles_test "I default deuteranopia" tetris_cb5_I 
+      [tile_cb_Ia; tile_cb_Ib; tile_cb_Ic; tile_cb_Id];
+    get_tiles_test "J default deuteranopia" tetris_cb5_J 
+      [tile_cb_Ja; tile_cb_Jb; tile_cb_Jc; tile_cb_Jd];
+    get_tiles_test "L default deuteranopia" tetris_cb5_L 
+      [tile_cb_La; tile_cb_Lb; tile_cb_Lc; tile_cb_Ld];
+    get_tiles_test "T default deuteranopia" tetris_cb5_T 
+      [tile_cb_Ta; tile_cb_Tb; tile_cb_Tc; tile_cb_Td];
+    get_tiles_test "Z default deuteranopia" tetris_cb5_Z 
+      [tile_cb_Za; tile_cb_Zb; tile_cb_Zc; tile_cb_Zd];
+    get_tiles_test "S default deuteranopia" tetris_cb5_S 
+      [tile_cb_Sa; tile_cb_Sb; tile_cb_Sc; tile_cb_Sd];
+    get_tiles_test "O default deuteranopia" tetris_cb5_O 
       [tile_cb_Oa; tile_cb_Ob; tile_cb_Oc; tile_cb_Od];
 
     rotate_l_test "I 0 - 90" tetris_I tetris_I_neg90;
