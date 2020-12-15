@@ -214,7 +214,10 @@ let display_controls (control_config : char array ref) =
   done;
   Graphics.moveto (left_offset / 5) 
     ((y_dim * scale / 2) - (Array.length !ctl_array + 1) * 20);
-  Graphics.draw_string "Press 'p' to pause"
+  Graphics.draw_string "Press 'p' to pause";
+  Graphics.moveto (left_offset / 5) 
+    ((y_dim * scale / 2) - (Array.length !ctl_array + 2) * 20);
+  Graphics.draw_string "Press ' ' to drop"
 
 (* functions for displaying different assets of the game *)
 
