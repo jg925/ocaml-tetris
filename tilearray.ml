@@ -88,7 +88,8 @@ let delete_rows ys =
   let uniq_ys = List.sort_uniq compare ys in
   let rows_to_delete = find_completed_rows [] uniq_ys in
   update_score rows_to_delete;
-  shift_rows rows_to_delete
+  shift_rows rows_to_delete;
+  Graphics.sound 784 1000; ()
 
 
 let get x y = 
