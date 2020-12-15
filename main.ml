@@ -163,6 +163,9 @@ and wait_for_restart () =
 
 and pause () =
   ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle (fun x -> ())));
+  (* Graphics.moveto ((Board.left () + Board.right ())/2) (Board.upper () - 50); *)
+  (* Graphics.set_text_size 200; *)
+  (* Graphics.draw_string "PAUSED"; *)
   let k = Graphics.read_key () in
   if k = 'p'
   then begin 

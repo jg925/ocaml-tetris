@@ -14,6 +14,11 @@ val key_array : char array ref
 
 val display_controls : unit -> unit
 
+val left : unit -> int
+
+val right : unit -> int
+
+val upper : unit -> int
 (** 
 
    NOTE: need to update this spec
