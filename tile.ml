@@ -25,7 +25,7 @@ let make_tile x y r g b =
     color = make_color r g b
   }
 
-let tile_length = 35 (*sets the tile length *)
+let tile_length = 30 (*sets the tile length *)
 
 
 (* functions for getting properties of tiles *)
