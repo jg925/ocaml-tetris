@@ -1,10 +1,8 @@
 
-
-
-
-(* This is the knuth shuffle algorithm, and the code was adapted
-   from code on the OCaml discussion board: 
-   https://discuss.ocaml.org/t/more-natural-preferred-way-to-shuffle-an-array/217 *)
+(** [generate_new_bag shapes] is a randomly shuffled copy of the array shapes
+    This is the knuth shuffle algorithm, and the code was adapted
+    from code on the OCaml discussion board: 
+    https://discuss.ocaml.org/t/more-natural-preferred-way-to-shuffle-an-array/217 *)
 let generate_new_bag shapes =
   Random.self_init ();
   let n = Array.length shapes in
@@ -17,6 +15,9 @@ let generate_new_bag shapes =
   done;
   sh
 
+(** [generate_shape shape_type] generates a shape with type [shape_type]
+    that is in the correct location and orientation to be displayed at the 
+    top of the board. *)
 let generate_shape shape_type = 
   let x = Tilearray.x_dim/2 - 1 in
   let y = Tilearray.y_dim - 3 in
@@ -29,12 +30,20 @@ let generate_shape shape_type =
   Shapes.make_shape shape_type coords 0 !Shapes.colorblind
 
 
-
+(** [shape_options] is the possible shape types. *)
 let shape_options = [|'I'; 'J'; 'L'; 'T'; 'Z'; 'S'; 'O'|]
+
+(** [bag_ref] is a ref to a tuple containing an array of the current shape
+    ordering and an int indicating the index of the next shape to be drawn
+    from the bag. *)
 let bag_ref = ref (0, (generate_new_bag shape_options))
 
+(** [shape_ref] is the current shape falling down the board. *)
 let shape_ref = ref (generate_shape 'I')
+
+(** [next_shape_ref] is the next shape that will fall down the board. *)
 let next_shape_ref = ref (generate_shape (snd !bag_ref).(fst !bag_ref))
+
 
 
 
@@ -44,6 +53,7 @@ let erase_previous previous_shape =
   | Some shape -> 
     shape |> Board.erase_shape;
     shape |> Shapes.shape_shadow |> Board.erase_shape
+
 
 let draw_shape previous_shape current_shape = 
   erase_previous previous_shape;
@@ -91,9 +101,6 @@ let new_falling_shape () =
   Board.display_next_shape !next_shape_ref
 
 
-
-
-
 let rec get_tile_ys acc = function
   | [] -> acc
   | tile :: t -> get_tile_ys (Tile.get_y tile :: acc) t
@@ -111,6 +118,8 @@ let redraw_tiles () =
       Board.erase_coords x y
     | Some tile -> Board.display_tile tile true (Tile.get_color tile)
   done
+
+
 
 
 
