@@ -389,11 +389,10 @@ let erase_last_next_shape shape =
 
 
 
+(*
 
 
-
-
-let check_if_fallen shape =
+  let check_if_fallen shape =
   let tile_list = Shapes.get_tiles shape in
   let rec helper_check = function
     | [] -> false
@@ -404,7 +403,7 @@ let check_if_fallen shape =
       end
   in helper_check tile_list
 
-let rec full_row row sum =
+  let rec full_row row sum =
   match row with
   | [] -> sum
   | h::t -> begin
@@ -414,10 +413,10 @@ let rec full_row row sum =
     end
 
 
-(** [check_rows board] checks each row in [board] to see if any are full.
+  (** [check_rows board] checks each row in [board] to see if any are full.
     Returns a list of ints representing the indices at which the rows are 
     full. *)
-let check_rows board =
+  let check_rows board =
   let rows = ref [] in
   for y = 0 to y_dim - 1 do
     let row = board.(y) in
@@ -427,4 +426,4 @@ let check_rows board =
   done;
   !rows
 
-
+*)

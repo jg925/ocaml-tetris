@@ -143,7 +143,7 @@ and wait_for_restart () =
   try
     Board.display_game_over_screen !Tilearray.score Tilearray.high_scores.(0);
     let k = Graphics.read_key () in
-    if k = !Board.key_array.(5) then 
+    if k = 'r' then 
       begin
         Board.refresh ();
         Tilearray.update_high_score !Tilearray.score;
@@ -163,9 +163,6 @@ and wait_for_restart () =
 
 and pause () =
   ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle (fun x -> ())));
-  (* Graphics.moveto ((Board.left () + Board.right ())/2) (Board.upper () - 50); *)
-  (* Graphics.set_text_size 200; *)
-  (* Graphics.draw_string "PAUSED"; *)
   let k = Graphics.read_key () in
   if k = 'p'
   then begin 

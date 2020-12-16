@@ -11,8 +11,11 @@ type t = {
 let colorblind = ref 0
 
 exception BadName of char
+
 exception BadShape of t
+
 exception BadDirection of string
+
 exception BadColorPalette of int
 
 exception DoneFalling
@@ -40,7 +43,7 @@ let modulo_360 orient =
   else modded_orient
 
 
-(* RI: orientation must be 0, 60, 180, or 270 *)
+(* RI: orientation must be 0, 90, 180, or 270 *)
 let gen_coord_list name anchor_coords orientation =
   match anchor_coords with
   | (a,b) -> begin
@@ -163,6 +166,7 @@ let make_shape (name : char) (anchor : anchor) (orientation : int)
     orientation = orient
   }
 
+
 (* functions for getting properties of shapes *)
 
 let get_x shape = fst shape.anchor 
@@ -170,16 +174,6 @@ let get_x shape = fst shape.anchor
 let get_y shape = snd shape.anchor 
 
 let get_tiles shape = shape.tile_list
-
-let index_of_anchor (tile_list : Tile.t list) anchor = 
-  let rec index_helper (tile_list : Tile.t list) anchor ind = 
-    match tile_list with 
-    | [] -> ind 
-    | h :: t -> begin 
-        if (Tile.get_x h, Tile.get_y h) = anchor 
-        then ind else index_helper t anchor (ind + 1)
-      end
-  in index_helper tile_list anchor 0
 
 (* functions for generating new shapes from old ones *)
 
@@ -206,8 +200,10 @@ let move_lr shape dir =
   let new_anchor =
     match shape.anchor with
     | (x,y) -> begin 
-        if dir = "l" then (x - 1, y) 
-        else if dir = "r" then (x + 1, y)
+        if dir = "l" 
+        then (x - 1, y) 
+        else if dir = "r" 
+        then (x + 1, y)
         else raise (Failure "improper direction")
       end in 
   let new_tile_list = move_each_tile [] dir shape.tile_list in
@@ -220,6 +216,18 @@ let move_l shape = move_lr shape "l"
 
 let move_r shape = move_lr shape "r"
 
+
+let index_of_anchor (tile_list : Tile.t list) anchor = 
+  let rec index_helper (tile_list : Tile.t list) anchor ind = 
+    match tile_list with 
+    | [] -> ind 
+    | h :: t -> begin 
+        if (Tile.get_x h, Tile.get_y h) = anchor 
+        then ind 
+        else index_helper t anchor (ind + 1)
+      end
+  in index_helper tile_list anchor 0
+
 (** [shift_block shape dir] returns the shifts necessary for a 
     certain shape type.*)
 let shift_block shape dir = 
@@ -228,9 +236,12 @@ let shift_block shape dir =
       match shape.orientation with
       | 270 | 90 -> begin
           let x, y = shape.anchor in 
-          let wall = if x = 0 then "L" 
+          let wall = 
+            if x = 0 
+            then "L" 
             else if x = Tilearray.x_dim - 1 
-            then "R" else "M" in 
+            then "R" 
+            else "M" in 
           let ind_of_anchor = index_of_anchor shape.tile_list shape.anchor in 
           match wall, dir with 
           | "L", "L" -> begin 
@@ -269,6 +280,7 @@ let shift_block shape dir =
   | 'J' | 'L' | 'Z'
   | 'S' | 'O' | 'T' -> (move_l shape, move_r shape)
   | _ -> raise (BadName shape.name)
+
 
 (** [wall_kick shape] performs a wall kick on a rotated shape. *)
 let wall_kick_rotation shape dir =
@@ -319,13 +331,11 @@ let rec set_tile_array = function
     set_tile_array t
 
 let fall shape = 
-  (* Graphics.sound 7000 1000; *)
   let new_tile_list = List.map Tile.fall shape.tile_list in  
   if check_shape_tiles new_tile_list = false 
   then set_tile_array shape.tile_list
   else {shape with anchor = (match shape.anchor with (x, y) -> (x, y - 1));
          tile_list = new_tile_list}
-
 
 let rec shape_shadow shape = 
   let new_tile_list = List.map Tile.fall shape.tile_list in  
