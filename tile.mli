@@ -1,8 +1,11 @@
 
-(** [Tile.t] is a representation of a single tile on the game board with
-    a color represented by three ints, red, green, and blue, and a location 
-    represented by two ints, x and y. *)
+(** [Tile.t] is a representation of a single tile with a color and 
+    a location. *)
 type t
+
+(** [tile_length] is the width and height of one tile, which defines the scale
+    of the game board. *)
+val tile_length : int
 
 (** [make_tile x y r g b] takes in five ints representing the x and y 
     coordinates and red, green, and blue values of the tile and creates a 
@@ -19,15 +22,16 @@ val get_y : t -> int
     r, g, b values of [tile]. *)
 val get_color : t -> Graphics.color
 
-(** [tile_length] is the width and height of one tile, which defines the scale
-    of the game board. *)
-val tile_length : int
-
-
+(** [set_x tile x] is the same tile as [tile] but with the x coordinate
+    changed to [x]. *)
 val set_x : t -> int -> t
 
+(** [set_y tile y] is the same tile as [tile] but with the y coordinate
+    changed to [y]. *)
 val set_y : t -> int -> t
 
+(** [move_to tile x y] is the same tile as [tile] but with the x and y 
+    coordinates of the location changed to [x] and [y]. *)
 val move_to : t -> int -> int -> t
 
 (** [fall tile] is [tile] moved one tile-length down the board. *)

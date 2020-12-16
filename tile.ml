@@ -1,18 +1,16 @@
-(* [coord] is an (x,y) tuple representing the lower left corner of the tile 
-   RI: [x] is between 1 and x_dim inclusive and [y] is between 1 and y_dim
-   inclusive *)
+(** [coord] is an (x,y) tuple representing the lower left corner of the tile 
+    RI: [x] is between 1 and x_dim inclusive and [y] is between 1 and y_dim
+    inclusive *)
 type coord = (int * int)
 
-(* [color] is an (r,g,b) tuple representing the red, green, and blue values 
-   of the tile color *)
+(** [color] is an (r,g,b) tuple representing the red, green, and blue values 
+    of the tile color *)
 type color = (int * int * int)
 
 type t = {
   location : coord;
   color : color
 }
-
-exception BadTile of t
 
 
 (* functions for generating tiles *)
