@@ -361,7 +361,7 @@ let erase_shape shape =
 
 let display_holding () = 
   Graphics.set_color 0;
-  Graphics.moveto (right () + scale) (lower () + (y_dim-3) * scale);
+  Graphics.moveto (right () + scale) (lower () + (y_dim-4) * scale);
   Graphics.draw_string "Holding:"
 
 let display_next_shape_words () = 
