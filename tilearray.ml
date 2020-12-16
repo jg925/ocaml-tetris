@@ -4,15 +4,10 @@ let x_dim = 10
 
 let y_dim = 24
 
-(** [tile_array] is a Tile.t option array that keeps track of which coordinates 
-    of the board have a tile in them.*)
+
 let tile_array = Array.make (y_dim * x_dim) None
 
 let score = ref 0
-let level = ref 1
-
-let array_index x y = y * x_dim + x
-
 
 let high_scores = Array.make 5 0
 
@@ -25,6 +20,9 @@ let update_high_score new_score =
   for i = 0 to (Array.length high_scores - 1) do 
     high_scores.(i) <- List.nth scores i done
 
+(** [array_index x y] calculates the index in [tile_array] corresponding to 
+    x coordinate [x] and y coordinate [y]. *)
+let array_index x y = y * x_dim + x
 
 let set x y value = 
   if y > y_dim - 4 
@@ -32,6 +30,12 @@ let set x y value =
   else
     let index = array_index x y in
     tile_array.(index) <- value
+
+let get x y = 
+  let index = array_index x y in
+  tile_array.(index)
+
+
 
 let rec find_completed_rows acc = function
   | [] -> acc
@@ -81,7 +85,7 @@ let update_score rows =
     else if num_rows = 4
     then 1200
     else 0 in 
-  score := !score + !level * points
+  score := !score + points
 
 
 let delete_rows ys = 
@@ -91,9 +95,6 @@ let delete_rows ys =
   shift_rows rows_to_delete
 
 
-let get x y = 
-  let index = array_index x y in
-  tile_array.(index)
 
 let clear () = 
   for x = 0 to y_dim * x_dim - 1 do
