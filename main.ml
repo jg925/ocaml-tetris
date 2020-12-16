@@ -176,7 +176,7 @@ and pause () =
 
 
 let start () = 
-  ANSITerminal.(print_string [red] "\n\nWelcome to Tetris for OCaml! ");
+  ANSITerminal.(print_string [white] "\n\nWelcome to Tetris for OCaml! ");
   Board.set_settings ();
   Board.display_welcome_screen ();
   ignore (Graphics.read_key ());

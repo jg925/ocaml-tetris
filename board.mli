@@ -1,14 +1,32 @@
 
-
+(** [set_settings ()] takes user input for game settings and sets the 
+    corresponding refs to the chosen settings.
+    Keybind settings:
+    adwsxr
+    jlik,r
+    fhtgbr
+    Color palette settings:
+    Regular
+    Deuteranopia
+    Protanopia
+    Tritanopia
+    Monochromacy *)
 val set_settings : unit -> unit
 
+(** [display_welcome_screen ()] displays a welcome message for the user 
+    prompting them to press any key to begin. *)
 val display_welcome_screen : unit -> unit
 
+(** [display_game_over_screen ()] displays a game over message to the user
+    prompting them to press 'r' to play another round or 'q' to quit the 
+    game. It also informs the user what score they received that round and 
+    whether it was a new high score. *)
 val display_game_over_screen : int -> int -> unit
 
-(** [setup_board ()] creates a Tetris game board upon which Tetris pieces can
-    be drawn *)
+(** [setup_board ()] creates a Tetris game board including grid lines upon 
+    which Tetris pieces can be drawn. *)
 val setup_board : unit -> unit
+
 
 val key_array : char array ref
 

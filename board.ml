@@ -60,12 +60,12 @@ let set_settings () =
     (exp (String.length str - 1) []) |> Array.of_list in
 
   let rec do_key_settings kmode () = 
-    ANSITerminal.(print_string [red] 
+    ANSITerminal.(print_string [white] 
                     ("Your current keybinds are " ^ kmode ^".\n
                     Do you want to change?\n> "));
     match read_line () with
     | "Yes" |"y" | "Y" | "yes" -> begin
-        ANSITerminal.(print_string [red] 
+        ANSITerminal.(print_string [white] 
                         ("Choose the keys you would like for \
                           Left, Right, Rotate CCW, Rotate CW, \
                           Fall Faster, and Restart:\n
@@ -85,10 +85,10 @@ let set_settings () =
   do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ();
 
   let rec set_colorblind_mode cb () = 
-    ANSITerminal.(print_string [red] ("Are you colorblind? (Yes/No)\n> "));
+    ANSITerminal.(print_string [white] ("Are you colorblind? (Yes/No)\n> "));
     match read_line () with 
     | "Yes" | "Y" | "yes" |"y" -> begin
-        ANSITerminal.(print_string [red] 
+        ANSITerminal.(print_string [white] 
                         ("Do you know your specific colorblind subtype?\n
                         1. Yes, Deuteranopia (most common)\n
                         2. Yes, Protanopia\n
@@ -105,8 +105,8 @@ let set_settings () =
           set_colorblind_mode cb () 
       end
     | "No" |"N" | "no" | "n" -> begin
-        ANSITerminal.(print_string [red] 
-                        ("But do you want to play tetris in black and \ 
+        ANSITerminal.(print_string [white] 
+                        ("Do you want to play Tetris in black and \ 
                         white mode? (Yes/No) \n>"));
         match read_line () with
         | "Yes" | "Y" | "y" | "yes" -> Shapes.colorblind := 4; ()
