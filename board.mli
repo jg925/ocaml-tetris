@@ -47,6 +47,12 @@ val display_score : int -> unit
     [high_scores] on the board. *)
 val display_high_scores : int list -> unit
 
+(** [display_pause ()] displays a message letting the player know that the 
+    game is paused when it is paused. *)
+val display_pause : unit -> unit
+
+(** [erase_pause ()] erases the pause message. *)
+val erase_pause : unit -> unit
 
 
 (** [display_tile tile bevel color] draws a tile on the game board at the 

@@ -171,10 +171,12 @@ and wait_for_restart () =
   with Tilearray.End -> wait_for_restart ()
 
 and pause () =
+  Board.display_pause ();
   ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle (fun x -> ())));
   let k = Graphics.read_key () in
   if k = 'p'
   then begin 
+    Board.erase_pause ();
     ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape));
     ignore (Unix.alarm 1)
   end

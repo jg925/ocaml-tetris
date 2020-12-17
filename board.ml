@@ -266,6 +266,14 @@ let display_high_scores scores =
   done
 
 
+let display_pause () = 
+  Graphics.set_color 0;
+  Graphics.moveto (width () / 2 - 10) (upper () + 20);
+  Graphics.draw_string "Paused"
+
+let erase_pause () = 
+  Graphics.set_color (Graphics.rgb 255 255 255);
+  Graphics.fill_rect (width () / 2 - 10) (upper () + 20) 40 10
 
 
 
