@@ -29,6 +29,10 @@ val refresh : unit -> unit
     prompting them to press any key to begin. *)
 val display_welcome_screen : unit -> unit
 
+(** [in_start_box x y] is [true] if [x] and [y] are in the box for the start
+    game button and [false] otherwise. *)
+val in_start_box : int -> int -> bool
+
 (** [display_game_over_screen ()] displays a game over message to the user
     prompting them to press 'r' to play another round or 'q' to quit the 
     game. It also informs the user what score they received that round and 

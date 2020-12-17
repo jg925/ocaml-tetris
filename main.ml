@@ -183,14 +183,22 @@ and pause () =
   else pause ()
 
 
-let start () = 
+let rec start () = 
   ANSITerminal.(print_string [white] "\n\nWelcome to Tetris for OCaml! ");
   Board.set_settings ();
   Board.display_welcome_screen ();
-  ignore (Graphics.read_key ());
+  wait_for_start ();
   Board.setup_board ();
   Board.display_score !Tilearray.score;
   Board.display_high_scores (Array.to_list Tilearray.high_scores);
   Board.display_controls ();
   Board.display_next_shape_words ();
   main () 
+
+and wait_for_start () = 
+  let status = Graphics.wait_next_event [Key_pressed; Button_down] in
+  if status.keypressed
+  then ()
+  else if Board.in_start_box status.mouse_x status.mouse_y 
+  then () 
+  else wait_for_start ()

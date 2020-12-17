@@ -190,6 +190,8 @@ let refresh () =
 
 
 
+let start_box = [|width () / 2 - 50; height () / 2; 100; 50|]
+
 let display_welcome_screen () = 
   let width = width () in
   let height = height () in 
@@ -199,10 +201,24 @@ let display_welcome_screen () =
   Graphics.set_window_title "Tetris";
   Graphics.set_color (Graphics.rgb 0 0 0);
 
-  Graphics.moveto (width / 2 - 55) ((height * 2) / 3);
+  Graphics.moveto (width / 2 - 50) ((height * 2) / 3);
   Graphics.draw_string "Welcome to Tetris";
-  Graphics.moveto (width / 2 - 70) ((height * 2) / 3 - 30);
-  Graphics.draw_string "Press any key to begin"
+  Graphics.moveto (width / 2 - 115) ((height * 2) / 3 - 30);
+  Graphics.draw_string "Press any key or the button below to begin";
+  Graphics.set_color (Graphics.rgb 200 200 200);
+  Graphics.fill_rect start_box.(0) start_box.(1) start_box.(2) start_box.(3);
+  Graphics.moveto (start_box.(0) + 35) (start_box.(1) + 20);
+  Graphics.set_color 0;
+  Graphics.draw_string "Start"
+
+
+let in_start_box x y = 
+  x > start_box.(0) && 
+  x < start_box.(0) + start_box.(2) &&
+  y > start_box.(1) &&
+  y < start_box.(1) + start_box.(3)
+
+
 
 
 let display_game_over_screen score high_score = 
