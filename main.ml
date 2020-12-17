@@ -151,24 +151,37 @@ let rec main () =
 and wait_for_restart () = 
   try
     Board.display_game_over_screen !Tilearray.score Tilearray.high_scores.(0);
-    let k = Graphics.read_key () in
-    if k = 'r' then 
-      begin
-        Board.refresh ();
-        Tilearray.update_high_score !Tilearray.score;
-        Tilearray.score := 0;
-        Board.display_score !Tilearray.score;
-        Board.display_high_scores (Array.to_list Tilearray.high_scores);
-        Board.display_controls ();
-        Board.display_next_shape_words ();
-        Tilearray.clear ();
-        main ()
-      end
-    else 
-    if k = 'q' then
-      Graphics.close_graph ()
-    else wait_for_restart ()
+    game_over_input_loop ()
   with Tilearray.End -> wait_for_restart ()
+
+and game_over_input_loop () = 
+  let status = Graphics.wait_next_event [Key_pressed; Button_down] in
+  if status.keypressed
+  then begin
+    if status.key = 'r'
+    then restart ()
+    else if status.key = 'q'
+    then quit ()
+    else game_over_input_loop ()
+  end
+  else if Board.in_restart_box status.mouse_x status.mouse_y 
+  then restart ()
+  else if Board.in_quit_box status.mouse_x status.mouse_y 
+  then quit ()
+  else game_over_input_loop ()
+
+and restart () = 
+  Board.refresh ();
+  Tilearray.update_high_score !Tilearray.score;
+  Tilearray.score := 0;
+  Board.display_score !Tilearray.score;
+  Board.display_high_scores (Array.to_list Tilearray.high_scores);
+  Board.display_controls ();
+  Board.display_next_shape_words ();
+  Tilearray.clear ();
+  main ()
+
+and quit () = Graphics.close_graph ()
 
 and pause () =
   Board.display_pause ();

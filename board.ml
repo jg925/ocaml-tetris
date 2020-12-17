@@ -201,16 +201,15 @@ let display_welcome_screen () =
   Graphics.set_window_title "Tetris";
   Graphics.set_color (Graphics.rgb 0 0 0);
 
-  Graphics.moveto (width / 2 - 50) ((height * 2) / 3);
+  Graphics.moveto (width / 2 - 50) (height * 2 / 3);
   Graphics.draw_string "Welcome to Tetris";
-  Graphics.moveto (width / 2 - 115) ((height * 2) / 3 - 30);
+  Graphics.moveto (width / 2 - 115) (height * 2 / 3 - 30);
   Graphics.draw_string "Press any key or the button below to begin";
   Graphics.set_color (Graphics.rgb 200 200 200);
   Graphics.fill_rect start_box.(0) start_box.(1) start_box.(2) start_box.(3);
   Graphics.moveto (start_box.(0) + 35) (start_box.(1) + 20);
   Graphics.set_color 0;
   Graphics.draw_string "Start"
-
 
 let in_start_box x y = 
   x > start_box.(0) && 
@@ -219,7 +218,9 @@ let in_start_box x y =
   y < start_box.(1) + start_box.(3)
 
 
+let restart_box = [|width () / 3 - 20; height () / 2 - 100; 100; 50|]
 
+let quit_box = [|width () * 2 / 3 - 70; height () / 2 - 100; 100; 50|]
 
 let display_game_over_screen score high_score = 
   let width = width () in
@@ -230,10 +231,11 @@ let display_game_over_screen score high_score =
 
   Graphics.moveto (width / 2 - 30) ((height * 2) / 3);
   Graphics.draw_string "Game Over!";
-  Graphics.moveto (width / 2 - 90) ((height * 2) / 3 - 30);
-  Graphics.draw_string ("Press 'r' to play another round");
-  Graphics.moveto (width / 2 - 80) ((height * 2) / 3 - 60);
-  Graphics.draw_string ("Press 'q' to quit the game");
+  Graphics.moveto (width / 2 - 150) ((height * 2) / 3 - 30);
+  Graphics.draw_string ("Press 'r' or the restart button \
+                         to play another round");
+  Graphics.moveto (width / 2 - 130) ((height * 2) / 3 - 60);
+  Graphics.draw_string ("Press 'q' or the quit button to quit the game");
   if score > high_score
   then begin
     Graphics.moveto (width / 2 - 48) ((height * 2) / 3 - 100);  
@@ -242,7 +244,31 @@ let display_game_over_screen score high_score =
   end
   else 
     Graphics.moveto (width / 2 - 45) ((height * 2) / 3 - 100); 
-  Graphics.draw_string ("Your score: " ^ string_of_int score)
+  Graphics.draw_string ("Your score: " ^ string_of_int score);
+
+  Graphics.set_color (Graphics.rgb 200 200 200);
+  Graphics.fill_rect restart_box.(0) restart_box.(1) 
+    restart_box.(2) restart_box.(3);
+  Graphics.fill_rect quit_box.(0) quit_box.(1) quit_box.(2) quit_box.(3);
+
+  Graphics.set_color 0;
+  Graphics.moveto (restart_box.(0) + 30) (restart_box.(1) + 20);
+  Graphics.draw_string "Restart";
+  Graphics.moveto (quit_box.(0) + 40) (quit_box.(1) + 20);
+  Graphics.draw_string "Quit"
+
+
+let in_restart_box x y = 
+  x > restart_box.(0) && 
+  x < restart_box.(0) + start_box.(2) &&
+  y > restart_box.(1) &&
+  y < restart_box.(1) + start_box.(3)
+
+let in_quit_box x y = 
+  x > quit_box.(0) && 
+  x < quit_box.(0) + start_box.(2) &&
+  y > quit_box.(1) &&
+  y < quit_box.(1) + start_box.(3)
 
 
 let display_controls () =

@@ -39,6 +39,14 @@ val in_start_box : int -> int -> bool
     whether it was a new high score. *)
 val display_game_over_screen : int -> int -> unit
 
+(** [in_restart_box x y] is [true] if [x] and [y] are in the box for the 
+    restart game button and [false] otherwise. *)
+val in_restart_box : int -> int -> bool
+
+(** [in_quit_box x y] is [true] if [x] and [y] are in the box for the quit
+    game button and [false] otherwise. *)
+val in_quit_box : int -> int -> bool
+
 (** [display_controls ()] displays the keys the user needs to press to move
     the shape Left, Right Rotate CCW, Rotate CW, Fall Faster, Drop, and 
     pause the game. *)
