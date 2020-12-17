@@ -85,6 +85,14 @@ let fall_shape _ =
   shape_ref := next_shape;
   ignore (Unix.alarm 1)
 
+let update_next_shape_ref () = 
+  if fst !bag_ref >= Array.length shape_options - 1 
+  then bag_ref := (0, (generate_new_bag shape_options))
+  else bag_ref := (fst !bag_ref + 1, snd !bag_ref);
+
+  next_shape_ref := generate_shape (snd !bag_ref).(fst !bag_ref)
+
+
 let new_falling_shape () = 
   ignore (Sys.signal Sys.sigalrm (Sys.Signal_handle fall_shape));
   ignore (Unix.alarm 1);
@@ -93,11 +101,7 @@ let new_falling_shape () =
 
   Board.erase_last_next_shape !next_shape_ref;
 
-  if fst !bag_ref >= Array.length shape_options - 1 
-  then bag_ref := (0, (generate_new_bag shape_options))
-  else bag_ref := (fst !bag_ref + 1, snd !bag_ref);
-
-  next_shape_ref := generate_shape (snd !bag_ref).(fst !bag_ref);
+  update_next_shape_ref ();
   Board.display_next_shape !next_shape_ref
 
 
@@ -125,6 +129,7 @@ let redraw_tiles () =
 
 let rec main () = 
   try
+    update_next_shape_ref ();
     new_falling_shape ();
     while true do
       try
