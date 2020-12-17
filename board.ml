@@ -102,11 +102,11 @@ let set_settings () =
                           Fall Faster:\n
                         1. adwsx\n
                         2. jlik,\n
-                        3. fhtgb\n>"));
-        match read_int () with
-        | 1 -> key_array := "adwsx" |> explode
-        | 2 -> key_array := "jlik," |> explode
-        | 3 -> key_array := "fhtgb" |> explode
+                        3. fhtgb\n> "));
+        match read_line () with
+        | "1" -> key_array := "adwsx" |> explode
+        | "2" -> key_array := "jlik," |> explode
+        | "3" -> key_array := "fhtgb" |> explode
         | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
           do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()
       end; ()
@@ -125,20 +125,20 @@ let set_settings () =
                         2. Yes, Protanopia\n
                         3. Yes, Tritanopia\n
                         4. Yes, Monochromacy\n
-                        5. No\n>"));
-        match read_int () with
-        | 1 -> Shapes.colorblind := 1; ()
-        | 2 -> Shapes.colorblind := 2; ()
-        | 3 -> Shapes.colorblind := 3; ()
-        | 4 -> Shapes.colorblind := 4; ()
-        | 5 -> Shapes.colorblind := 5; ()
+                        5. No\n> "));
+        match read_line () with
+        | "1" -> Shapes.colorblind := 1; ()
+        | "2" -> Shapes.colorblind := 2; ()
+        | "3" -> Shapes.colorblind := 3; ()
+        | "4" -> Shapes.colorblind := 4; ()
+        | "5" -> Shapes.colorblind := 5; ()
         | _ -> ANSITerminal.(print_string [blue] "invalid input\n");
           set_colorblind_mode cb () 
       end
     | "No" |"N" | "no" | "n" -> begin
         ANSITerminal.(print_string [white] 
                         ("Do you want to play Tetris in black and \ 
-                        white mode? (Yes/No) \n>"));
+                        white mode? (Yes/No) \n> "));
         match read_line () with
         | "Yes" | "Y" | "y" | "yes" -> Shapes.colorblind := 4; ()
         | "No" | "N" | "n" | "no" -> Shapes.colorblind := 0; ()
