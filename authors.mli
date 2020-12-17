@@ -1,5 +1,5 @@
 (** CS 3110 Fall 2020 Tetris MS2: Beta
-    @author Jinny Gui (jg925), Jacob Kraizman (jk2327), Carrie Rucker (cmr284) *)
+    @author Jacob Kraizman (jk2327), Jinny Gui (jg925), Carrie Rucker (cmr284) *)
 
 (************************************************************ 
 
