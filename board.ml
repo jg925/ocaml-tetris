@@ -411,10 +411,6 @@ let erase_shape shape =
   |> erase_each_tile
 
 
-let display_holding () = 
-  Graphics.set_color 0;
-  Graphics.moveto (right () + scale) (lower () + (y_dim-4) * scale);
-  Graphics.draw_string "Holding:"
 
 let display_next_shape_words () = 
   Graphics.set_color 0;
