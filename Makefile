@@ -5,6 +5,7 @@ MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
+PKGS=ounit2,ANSITerminal,graphics
 
 default: build
 	export DISPLAY=:0
@@ -26,14 +27,15 @@ docs: docs-public docs-private
 	
 docs-public: build
 	mkdir -p doc.public
-	ocamlfind ocamldoc -I _build -package ANSITerminal,graphics \
-		-html -stars -d doc.public $(MLIS)
+	ocamlfind ocamldoc -I _build -package $(PKGS) \
+		-html -stars -d doc.public board.mli shapes.mli tile.mli tilearray.mli
 
 docs-private: build
 	mkdir -p doc.private
-	ocamlfind ocamldoc -I _build -package ANSITerminal,graphics \
+	ocamlfind ocamldoc -I _build -package $(PKGS) \
 		-html -stars -d doc.private \
-		-inv-merge-ml-mli -m A $(MLIS) $(MLS)
+		board.ml board.mli shapes.ml shapes.mli tile.ml tile.mli tilearray.ml \
+		tilearray.mli main.ml test.ml
 
 clean:
 	ocamlbuild -clean

@@ -26,14 +26,16 @@ To install the Graphics package:
 
 1. Run `opam install graphics` in terminal, and install any missing dependencies.
 
-2. Choose one of the following display methods.
-  - Download [XQuartz](https://www.xquartz.org/) and run Tetris in xterm or terminal with the command below.
-  - Update `~/.bashrc` in the Mac terminal with the line `if [ -z $DISPLAY ]; then export DISPLAY=:0.0; fi` and make sure to run `source ~/.bashrc` afterwards. 
+To set up the XQuartz display:
+
+1. Download [XQuartz](https://www.xquartz.org/) and run Tetris in xterm or terminal with the command below.
+   
+2. Update `~/.bashrc` in the Mac terminal with the line `if [ -z $DISPLAY ]; then export DISPLAY=:0.0; fi` and make sure to run `source ~/.bashrc` afterwards. 
 
 # Instructions to run Tetris
 
-1. If on Windows follow the above instructions to start an Xming window and set the export display
+1. If on Windows, follow the above instructions to start an Xming window and set the export display.
 
 2. In terminal navigate to the directory with the project and run `make` to launch Tetris.
 
-3. When you want to close, do not "x out" of the window, instead do a keyboard interrupt and then run `#quit;;` in utop which will quit the program cleanly.
+3. When you want to close in the game, pause the game and exit the window normally. 
