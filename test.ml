@@ -1,3 +1,17 @@
+(** When testing our system, we generally used unit tests to test specific 
+    attributes of "objects", such as shapes and tiles, that we used in our 
+    system. For example, we tested the colors of shapes and tiles in different 
+    color-blindness settings, and that x and y coordinates of tiles and shapes
+    would change correctly when moved left, right, or down. Unit testing was
+    especially helpful for more complicated shape movements such as rotating 
+    and wall kicks which involved more complicated pattern matching.
+    We did not use unit testing to test things such as the game loop or how 
+    different pieces of the system would function together, as this would have
+    been much more complicated. Instead we did a lot of play testing to ensure
+    that everything was working well together, and did our best to test corner
+    cases when playing the game to ensure everything was working. *)
+
+
 open OUnit2
 open Main
 open Tile
