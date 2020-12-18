@@ -38,4 +38,4 @@ To set up the XQuartz display:
 
 2. In terminal navigate to the directory with the project and run `make` to launch Tetris.
 
-3. When you want to close in the game, pause the game and exit the window normally. 
+3. When you want to quit during the game, pause the game and exit the window normally. Otherwise, keep playing the game as normal and there will be clean quit options at the end.  
