@@ -323,6 +323,33 @@ let erase_pause () =
 
 
 (* functions for displaying different assets of the game *)
+let add_bevel color x y fit_scale = 
+  let inner_scale = fit_scale - 10 in 
+  let inner_x = x + 5 in
+  let inner_y = y + 5 in 
+  (* sides *)
+  Graphics.set_color (color * 2);
+  Graphics.fill_poly [|(x, y); 
+                       (inner_x, inner_y); 
+                       (inner_x, inner_y + inner_scale); 
+                       (x, y + fit_scale)|];
+  Graphics.fill_poly [|(x + fit_scale, y); 
+                       (inner_x + inner_scale, inner_y); 
+                       (inner_x + inner_scale, inner_y + inner_scale); 
+                       (x + fit_scale, y + fit_scale)|];
+  (* bottom *)
+  Graphics.set_color (color * 7);
+  Graphics.fill_poly [|(x, y); 
+                       (x + fit_scale, y); 
+                       (inner_x + inner_scale, inner_y);
+                       (inner_x, inner_y)|];
+  (* top *)
+  Graphics.set_color (color * 3);
+  Graphics.fill_poly [|(x, y + fit_scale); 
+                       (x + fit_scale, y + fit_scale); 
+                       (inner_x + inner_scale, inner_y + inner_scale);
+                       (inner_x, inner_y + inner_scale)|]
+
 
 let draw_square bevel color tile_x tile_y = 
   let x = left_offset + tile_x * scale + 
@@ -333,32 +360,7 @@ let draw_square bevel color tile_x tile_y =
   let fit_scale = scale - gridline_width in
   Graphics.fill_rect x y fit_scale fit_scale;
   if bevel
-  then 
-    let inner_scale = fit_scale - 10 in 
-    let inner_x = x + 5 in
-    let inner_y = y + 5 in 
-    (* sides *)
-    Graphics.set_color (color * 2);
-    Graphics.fill_poly [|(x, y); 
-                         (inner_x, inner_y); 
-                         (inner_x, inner_y + inner_scale); 
-                         (x, y + fit_scale)|];
-    Graphics.fill_poly [|(x + fit_scale, y); 
-                         (inner_x + inner_scale, inner_y); 
-                         (inner_x + inner_scale, inner_y + inner_scale); 
-                         (x + fit_scale, y + fit_scale)|];
-    (* bottom *)
-    Graphics.set_color (color * 7);
-    Graphics.fill_poly [|(x, y); 
-                         (x + fit_scale, y); 
-                         (inner_x + inner_scale, inner_y);
-                         (inner_x, inner_y)|];
-    (* top *)
-    Graphics.set_color (color * 3);
-    Graphics.fill_poly [|(x, y + fit_scale); 
-                         (x + fit_scale, y + fit_scale); 
-                         (inner_x + inner_scale, inner_y + inner_scale);
-                         (inner_x, inner_y + inner_scale)|]
+  then add_bevel color x y fit_scale
   else ()
 
 
@@ -444,42 +446,3 @@ let erase_last_next_shape shape =
 
 
 
-
-(*
-
-
-  let check_if_fallen shape =
-  let tile_list = Shapes.get_tiles shape in
-  let rec helper_check = function
-    | [] -> false
-    | h :: t -> begin
-        match (Tile.get_x h, Tile.get_y h) with
-        | (x, 1) -> true
-        | (x, y) -> helper_check t
-      end
-  in helper_check tile_list
-
-  let rec full_row row sum =
-  match row with
-  | [] -> sum
-  | h::t -> begin
-      match h with 
-      | None -> full_row t sum
-      | Some h -> full_row t sum + 1
-    end
-
-
-  (** [check_rows board] checks each row in [board] to see if any are full.
-    Returns a list of ints representing the indices at which the rows are 
-    full. *)
-  let check_rows board =
-  let rows = ref [] in
-  for y = 0 to y_dim - 1 do
-    let row = board.(y) in
-    let sum = full_row row 0 in
-    match sum with
-    | x_dim -> rows := y :: !rows
-  done;
-  !rows
-
-*)

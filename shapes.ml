@@ -42,6 +42,50 @@ let modulo_360 orient =
   then modded_orient + 360 
   else modded_orient
 
+(* these functions generate different orientations for each shape type *)
+let gen_coord_list_0_orient x y name = 
+  match name with
+  | 'I' -> [(x - 2, y); (x - 1, y); (x, y); (x + 1, y)]
+  | 'J' -> [(x - 1, y + 1); (x - 1, y); (x, y); (x + 1, y)]
+  | 'L' -> [(x + 1, y + 1); (x + 1, y); (x, y); (x - 1, y)]
+  | 'T' -> [(x, y + 1); (x - 1, y); (x, y); (x + 1, y)]
+  | 'Z' -> [(x - 1, y + 1); (x, y + 1); (x, y); (x + 1, y)]
+  | 'S' -> [(x - 1, y); (x, y); (x, y + 1); (x + 1, y + 1)]
+  | 'O' -> [(x, y); (x + 1, y); (x + 1, y - 1); (x, y - 1)]
+  | _ -> raise (BadName name)
+
+let gen_coord_list_90_orient x y name = 
+  match name with
+  | 'I' -> [(x, y + 2); (x, y + 1); (x, y); (x, y - 1)]
+  | 'J' -> [(x + 1, y + 1); (x, y + 1); (x, y); (x, y - 1)]
+  | 'L' -> [(x + 1, y - 1); (x, y - 1); (x, y); (x, y + 1)]
+  | 'T' -> [(x + 1, y); (x, y + 1); (x, y); (x, y - 1)]
+  | 'Z' -> [(x + 1, y + 1); (x + 1, y); (x, y); (x, y - 1)]
+  | 'S' -> [(x, y + 1); (x, y); (x + 1, y); (x + 1, y - 1)]
+  | 'O' -> [(x, y); (x + 1, y); (x + 1, y - 1); (x, y - 1)]
+  | _ -> raise (BadName name)
+
+let gen_coord_list_180_orient x y name = 
+  match name with
+  | 'I' -> [(x - 1, y); (x, y); (x + 1, y); (x + 2, y)]
+  | 'J' -> [(x + 1, y - 1); (x + 1, y); (x, y); (x - 1, y)]
+  | 'L' -> [(x - 1, y - 1); (x - 1, y); (x, y); (x + 1, y)]
+  | 'T' -> [(x, y - 1); (x + 1, y); (x, y); (x - 1, y)]
+  | 'Z' -> [(x + 1, y - 1); (x, y - 1); (x, y); (x - 1, y)]
+  | 'S' -> [(x + 1, y); (x, y); (x, y - 1); (x - 1, y - 1)]
+  | 'O' -> [(x, y); (x + 1, y); (x + 1, y - 1); (x, y - 1)]
+  | _ -> raise (BadName name)
+
+let gen_coord_list_270_orient x y name = 
+  match name with 
+  | 'I' -> [(x, y + 1); (x, y); (x, y - 1); (x, y - 2)]
+  | 'J' -> [(x - 1, y - 1); (x, y - 1); (x, y); (x, y + 1)]
+  | 'L' -> [(x - 1, y + 1); (x, y + 1); (x, y); (x, y - 1)]
+  | 'T' -> [(x - 1, y); (x, y - 1); (x, y); (x, y + 1)]
+  | 'Z' -> [(x - 1, y - 1); (x - 1, y); (x, y); (x, y + 1)]
+  | 'S' -> [(x, y - 1); (x, y); (x - 1, y); (x - 1, y + 1)]
+  | 'O' -> [(x, y); (x + 1, y); (x + 1, y - 1); (x, y - 1)]
+  | _ -> raise (BadName name)
 
 (* RI: orientation must be 0, 90, 180, or 270 *)
 let gen_coord_list name anchor_coords orientation =
@@ -50,52 +94,68 @@ let gen_coord_list name anchor_coords orientation =
       let x = a in
       let y = b in
       match orientation with
-      | 0 -> begin
-          match name with
-          | 'I' -> [(x - 2, y); (x - 1, y); (x, y); (x + 1, y)]
-          | 'J' -> [(x - 1, y + 1); (x - 1, y); (x, y); (x + 1, y)]
-          | 'L' -> [(x + 1, y + 1); (x + 1, y); (x, y); (x - 1, y)]
-          | 'T' -> [(x, y + 1); (x - 1, y); (x, y); (x + 1, y)]
-          | 'Z' -> [(x - 1, y + 1); (x, y + 1); (x, y); (x + 1, y)]
-          | 'S' -> [(x - 1, y); (x, y); (x, y + 1); (x + 1, y + 1)]
-          | 'O' -> [(x, y); (x + 1, y); (x + 1, y - 1); (x, y - 1)]
-          | _ -> raise (BadName name)
-        end
-      | 90 -> begin
-          match name with
-          | 'I' -> [(x, y + 2); (x, y + 1); (x, y); (x, y - 1)]
-          | 'J' -> [(x + 1, y + 1); (x, y + 1); (x, y); (x, y - 1)]
-          | 'L' -> [(x + 1, y - 1); (x, y - 1); (x, y); (x, y + 1)]
-          | 'T' -> [(x + 1, y); (x, y + 1); (x, y); (x, y - 1)]
-          | 'Z' -> [(x + 1, y + 1); (x + 1, y); (x, y); (x, y - 1)]
-          | 'S' -> [(x, y + 1); (x, y); (x + 1, y); (x + 1, y - 1)]
-          | 'O' -> [(x, y); (x + 1, y); (x + 1, y - 1); (x, y - 1)]
-          | _ -> raise (BadName name) 
-        end
-      | 180 -> begin
-          match name with
-          | 'I' -> [(x - 1, y); (x, y); (x + 1, y); (x + 2, y)]
-          | 'J' -> [(x + 1, y - 1); (x + 1, y); (x, y); (x - 1, y)]
-          | 'L' -> [(x - 1, y - 1); (x - 1, y); (x, y); (x + 1, y)]
-          | 'T' -> [(x, y - 1); (x + 1, y); (x, y); (x - 1, y)]
-          | 'Z' -> [(x + 1, y - 1); (x, y - 1); (x, y); (x - 1, y)]
-          | 'S' -> [(x + 1, y); (x, y); (x, y - 1); (x - 1, y - 1)]
-          | 'O' -> [(x, y); (x + 1, y); (x + 1, y - 1); (x, y - 1)]
-          | _ -> raise (BadName name)
-        end
-      | 270 -> begin
-          match name with 
-          | 'I' -> [(x, y + 1); (x, y); (x, y - 1); (x, y - 2)]
-          | 'J' -> [(x - 1, y - 1); (x, y - 1); (x, y); (x, y + 1)]
-          | 'L' -> [(x - 1, y + 1); (x, y + 1); (x, y); (x, y - 1)]
-          | 'T' -> [(x - 1, y); (x, y - 1); (x, y); (x, y + 1)]
-          | 'Z' -> [(x - 1, y - 1); (x - 1, y); (x, y); (x, y + 1)]
-          | 'S' -> [(x, y - 1); (x, y); (x - 1, y); (x - 1, y + 1)]
-          | 'O' -> [(x, y); (x + 1, y); (x + 1, y - 1); (x, y - 1)]
-          | _ -> raise (BadName name)
-        end
+      | 0 -> gen_coord_list_0_orient x y name
+      | 90 -> gen_coord_list_90_orient x y name
+      | 180 -> gen_coord_list_180_orient x y name
+      | 270 -> gen_coord_list_270_orient x y name
       | x -> []
     end
+
+
+let make_shape_reg name coord_list = 
+  match name with
+  | 'I' -> gen_tile_list coord_list 25 206 230 []
+  | 'J' -> gen_tile_list coord_list 25 39 230 []
+  | 'L' -> gen_tile_list coord_list 230 138 25 []
+  | 'T' -> gen_tile_list coord_list 155 25 230 [] 
+  | 'Z' -> gen_tile_list coord_list 230 25 25 []
+  | 'S' -> gen_tile_list coord_list 39 230 25 []
+  | 'O' -> gen_tile_list coord_list 230 230 25 []
+  | _ -> raise (BadName name)
+
+let make_shape_deut name coord_list = 
+  match name with
+  | 'I' -> gen_tile_list coord_list 64 152 254 []
+  | 'J' -> gen_tile_list coord_list 0 82 137 []
+  | 'L' -> gen_tile_list coord_list 246 182 4 []
+  | 'T' -> gen_tile_list coord_list 22 52 87 [] 
+  | 'Z' -> gen_tile_list coord_list 161 122 0 []
+  | 'S' -> gen_tile_list coord_list 255 215 155 []
+  | 'O' -> gen_tile_list coord_list 255 243 229 []
+  | _ -> raise (BadName name)
+
+let make_shape_prot name coord_list = 
+  match name with
+  | 'I' -> gen_tile_list coord_list 115 149 247 []
+  | 'J' -> gen_tile_list coord_list 0 85 180 []
+  | 'L' -> gen_tile_list coord_list 124 182 23 []
+  | 'T' -> gen_tile_list coord_list 1 51 110 [] 
+  | 'Z' -> gen_tile_list coord_list 124 108 30 []
+  | 'S' -> gen_tile_list coord_list 244 219 0 []
+  | 'O' -> gen_tile_list coord_list 252 236 165 []
+  | _ -> raise (BadName name)
+
+let make_shape_trit name coord_list = 
+  match name with
+  | 'I' -> gen_tile_list coord_list 8 230 247 []
+  | 'J' -> gen_tile_list coord_list 0 88 90 []
+  | 'L' -> gen_tile_list coord_list 253 136 145 []
+  | 'T' -> gen_tile_list coord_list 0 72 154 [] 
+  | 'Z' -> gen_tile_list coord_list 93 48 53 []
+  | 'S' -> gen_tile_list coord_list 243 24 0 []
+  | 'O' -> gen_tile_list coord_list 255 205 214 []
+  | _ -> raise (BadName name)
+
+let make_shape_mono name coord_list = 
+  match name with
+  | 'I' -> gen_tile_list coord_list 146 146 146[]
+  | 'J' -> gen_tile_list coord_list 175 175 175 []
+  | 'L' -> gen_tile_list coord_list 55 55 55 []
+  | 'T' -> gen_tile_list coord_list 218 218 218 [] 
+  | 'Z' -> gen_tile_list coord_list 36 36 36 []
+  | 'S' -> gen_tile_list coord_list 114 114 114 []
+  | 'O' -> gen_tile_list coord_list 77 77 77 []
+  | _ -> raise (BadName name)
 
 let make_shape (name : char) (anchor : anchor) (orientation : int) 
     (cb : int) : t = 
@@ -103,61 +163,11 @@ let make_shape (name : char) (anchor : anchor) (orientation : int)
   let coord_list = gen_coord_list name anchor orient in
   let tile_list : Tile.t list = 
     match cb with
-    | 0 -> begin
-        match name with
-        | 'I' -> gen_tile_list coord_list 25 206 230 []
-        | 'J' -> gen_tile_list coord_list 25 39 230 []
-        | 'L' -> gen_tile_list coord_list 230 138 25 []
-        | 'T' -> gen_tile_list coord_list 155 25 230 [] 
-        | 'Z' -> gen_tile_list coord_list 230 25 25 []
-        | 'S' -> gen_tile_list coord_list 39 230 25 []
-        | 'O' -> gen_tile_list coord_list 230 230 25 []
-        | _ -> raise (BadName name)
-      end
-    | 1 | 5 -> begin
-        match name with
-        | 'I' -> gen_tile_list coord_list 64 152 254 []
-        | 'J' -> gen_tile_list coord_list 0 82 137 []
-        | 'L' -> gen_tile_list coord_list 246 182 4 []
-        | 'T' -> gen_tile_list coord_list 22 52 87 [] 
-        | 'Z' -> gen_tile_list coord_list 161 122 0 []
-        | 'S' -> gen_tile_list coord_list 255 215 155 []
-        | 'O' -> gen_tile_list coord_list 255 243 229 []
-        | _ -> raise (BadName name)
-      end
-    | 2 -> begin
-        match name with
-        | 'I' -> gen_tile_list coord_list 115 149 247 []
-        | 'J' -> gen_tile_list coord_list 0 85 180 []
-        | 'L' -> gen_tile_list coord_list 124 182 23 []
-        | 'T' -> gen_tile_list coord_list 1 51 110 [] 
-        | 'Z' -> gen_tile_list coord_list 124 108 30 []
-        | 'S' -> gen_tile_list coord_list 244 219 0 []
-        | 'O' -> gen_tile_list coord_list 252 236 165 []
-        | _ -> raise (BadName name)
-      end 
-    | 3 -> begin
-        match name with
-        | 'I' -> gen_tile_list coord_list 8 230 247 []
-        | 'J' -> gen_tile_list coord_list 0 88 90 []
-        | 'L' -> gen_tile_list coord_list 253 136 145 []
-        | 'T' -> gen_tile_list coord_list 0 72 154 [] 
-        | 'Z' -> gen_tile_list coord_list 93 48 53 []
-        | 'S' -> gen_tile_list coord_list 243 24 0 []
-        | 'O' -> gen_tile_list coord_list 255 205 214 []
-        | _ -> raise (BadName name)
-      end
-    | 4 -> begin
-        match name with
-        | 'I' -> gen_tile_list coord_list 146 146 146[]
-        | 'J' -> gen_tile_list coord_list 175 175 175 []
-        | 'L' -> gen_tile_list coord_list 55 55 55 []
-        | 'T' -> gen_tile_list coord_list 218 218 218 [] 
-        | 'Z' -> gen_tile_list coord_list 36 36 36 []
-        | 'S' -> gen_tile_list coord_list 114 114 114 []
-        | 'O' -> gen_tile_list coord_list 77 77 77 []
-        | _ -> raise (BadName name)
-      end
+    | 0 -> make_shape_reg name coord_list
+    | 1 | 5 -> make_shape_deut name coord_list
+    | 2 -> make_shape_prot name coord_list
+    | 3 -> make_shape_trit name coord_list
+    | 4 -> make_shape_mono name coord_list
     | _ -> raise (BadColorPalette cb)
   in {
     name = name;
