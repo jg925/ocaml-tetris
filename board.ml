@@ -94,24 +94,27 @@ let set_settings () =
     ANSITerminal.(print_string [white] 
                     ("Your current keybinds are " ^ kmode ^".\n
                     Do you want to change?\n> "));
-    match read_line () with
-    | "Yes" |"y" | "Y" | "yes" -> begin
-        ANSITerminal.(print_string [white] 
-                        ("Choose the keys you would like for \
-                          Left, Right, Rotate CCW, Rotate CW, \
-                          Fall Faster:\n
+    try begin
+      match read_line () with
+      | "Yes" |"y" | "Y" | "yes" -> begin
+          ANSITerminal.(print_string [white] 
+                          ("Choose the keys you would like for \
+                            Left, Right, Rotate CCW, Rotate CW, \
+                            Fall Faster:\n
                         1. adwsx\n
                         2. jlik,\n
-                        3. fhtgb\n> "));
-        match read_line () with
-        | "1" -> key_array := "adwsx" |> explode
-        | "2" -> key_array := "jlik," |> explode
-        | "3" -> key_array := "fhtgb" |> explode
-        | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
-          do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()
-      end; ()
-    | "No"  |"n" | "N" | "no" -> ()
-    | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
+                        3. fhtgb\n>"));
+          match read_int () with
+          | 1 -> key_array := "adwsx" |> explode
+          | 2 -> key_array := "jlik," |> explode
+          | 3 -> key_array := "fhtgb" |> explode
+          | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
+            do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()
+        end; ()
+      | "No"  |"n" | "N" | "no" -> ()
+      | _ -> ANSITerminal.(print_string [blue] "invalid input\n"); 
+    end with
+    |_ ->ANSITerminal.(print_string [blue] "invalid input\n");
       do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ()  in
   do_key_settings (pp_array (fun x -> Char.escaped x) !key_array) ();
 
@@ -406,7 +409,10 @@ let erase_shape shape =
   |> erase_each_tile
 
 
-
+let display_holding () = 
+  Graphics.set_color 0;
+  Graphics.moveto (right () + scale) (lower () + (y_dim-4) * scale);
+  Graphics.draw_string "Holding:"
 
 let display_next_shape_words () = 
   Graphics.set_color 0;

@@ -59,13 +59,11 @@ val display_score : int -> unit
     [high_scores] on the board. *)
 val display_high_scores : int list -> unit
 
-(** [display_pause ()] displays a message letting the player know that the 
-    game is paused when it is paused. *)
-val display_pause : unit -> unit
-
-(** [erase_pause ()] erases the pause message. *)
-val erase_pause : unit -> unit
-
+(** [display_holding ()] writes "Holding: " to screen, as well as
+    contains the shape being 'held'. A held shape may be swapped 
+    out for the current one when the user presses the hold button, 
+    as designated by the control scheme.*)
+val display_holding: unit -> unit
 
 (** [display_tile tile bevel color] draws a tile on the game board at the 
     location contained in [tile] using the color [color]. If [bevel] is
@@ -81,8 +79,9 @@ val erase_tile : Tile.t -> unit
     and [y]. *)
 val erase_coords : int -> int -> unit
 
+val display_pause : unit -> unit
 
-
+val erase_pause : unit -> unit
 (** [display_shape shape] draws [shape] on the game board at the locations 
     specified by the tiles in [shape]. *)
 val display_shape : Shapes.t -> unit

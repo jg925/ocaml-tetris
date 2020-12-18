@@ -146,6 +146,7 @@ let rec main () =
         Board.display_high_scores (Array.to_list Tilearray.high_scores);
         Board.display_controls ();
         Board.display_next_shape_words ();
+        Board.display_holding ();
         new_falling_shape ();
       | Tilearray.End -> raise Tilearray.End
     done
@@ -211,6 +212,7 @@ let rec start () =
   Board.display_high_scores (Array.to_list Tilearray.high_scores);
   Board.display_controls ();
   Board.display_next_shape_words ();
+  Board.display_holding ();
   main () 
 
 and wait_for_start () = 
